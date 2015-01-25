@@ -1,26 +1,37 @@
 package fr.jerome.climbinggymlog;
 
 import android.app.Activity;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.Date;
+
 import fr.jerome.climbinggymlog.model.Adresse;
+import fr.jerome.climbinggymlog.model.Client;
 
 
 public class MainActivity extends Activity {
 
+    private SQLiteDatabase db;
+    private DbHelper dbHelper;
+
+    private Client client;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Adresse adresse = new Adresse(0, 2, "église", 67000, "Strasbourg");
+        client = new Client(0, "GULLY", "Jérome", 27, 20484851, new Date(), 0);
 
-        Log.v("adresse", adresse.toString());
+        dbHelper = new DbHelper(this, null, null, 0);
+        dbHelper.addClient(client);
+
+        db = dbHelper.getWritableDatabase();
     }
 
 

@@ -17,10 +17,6 @@ public class MainActivity extends Activity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        Adresse adresse = new Adresse(0, 2, "église", 67000, "Strasbourg");
-
-        Log.v("adresse", adresse.toString());
     }
 
 

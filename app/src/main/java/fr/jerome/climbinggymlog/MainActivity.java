@@ -3,8 +3,11 @@ package fr.jerome.climbinggymlog;
 import android.app.Activity;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import fr.jerome.climbinggymlog.model.Adresse;
 
 
 public class MainActivity extends Activity {
@@ -14,6 +17,10 @@ public class MainActivity extends Activity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Adresse adresse = new Adresse(0, 2, "église", 67000, "Strasbourg");
+
+        Log.v("adresse", adresse.toString());
     }
 
 

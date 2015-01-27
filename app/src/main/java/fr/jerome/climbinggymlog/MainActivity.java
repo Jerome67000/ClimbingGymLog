@@ -1,23 +1,15 @@
 package fr.jerome.climbinggymlog;
 
 import android.app.Activity;
-import android.database.sqlite.SQLiteDatabase;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import java.util.Date;
 
-import fr.jerome.climbinggymlog.model.Adresse;
+import fr.jerome.climbinggymlog.database.ClientDB;
 import fr.jerome.climbinggymlog.model.Client;
 
 
 public class MainActivity extends Activity {
-
-    private SQLiteDatabase db;
-    private DbHelper dbHelper;
 
     private Client client;
 
@@ -28,12 +20,8 @@ public class MainActivity extends Activity {
 
         client = new Client(0, "GULLY", "Jérome", 27, 20484851, new Date(), 0);
 
-        dbHelper = new DbHelper(this, null, null, 0);
-        dbHelper.addClient(client);
-
-        db = dbHelper.getWritableDatabase();
+        new ClientDB(this).ajouterClient(client);
     }
-
 
 //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {

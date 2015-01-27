@@ -29,6 +29,4 @@ public class Cotation {
 //    Then to use the enum, you would do something like this:
 //
 //    Gender me = Gender.MALE
-
-
 }

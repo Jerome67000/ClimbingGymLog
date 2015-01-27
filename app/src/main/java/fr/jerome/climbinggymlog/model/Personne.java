@@ -3,7 +3,7 @@ package fr.jerome.climbinggymlog.model;
 /**
  * Created by jerome on 25/01/15.
  */
-public class Personne {
+public abstract class Personne {
 
     protected int id;
     protected String nom;

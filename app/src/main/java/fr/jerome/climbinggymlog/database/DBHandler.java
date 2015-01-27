@@ -11,35 +11,42 @@ import android.util.Log;
  */
 public abstract class DBHandler {
 
-    protected DBHelper DBHelper = null;
-    protected SQLiteDatabase db = null;
+    protected DBHelper dBHelper = null;
+    protected SQLiteDatabase database = null;
 
     public DBHandler(Context context) {
 
-        this.DBHelper = new DBHelper(context, DBHelper.DB_NAME, null, DBHelper.DB_VERSION);
-        db = DBHelper.getWritableDatabase();
+        this.dBHelper = new DBHelper(context, DBHelper.DB_NAME, null, DBHelper.DB_VERSION);
+        database = dBHelper.getWritableDatabase();
     }
 
-    public SQLiteDatabase reOpen() {
+    public void reOpen() {
 
-        db = DBHelper.getWritableDatabase();
-        return db;
+        database = dBHelper.getWritableDatabase();
     }
 
     public void close() {
 
-        db.close();
+        database.close();
     }
 
     /** Classe interne gérant la création et la mise à jour de la BDD */
     private static class DBHelper extends SQLiteOpenHelper {
 
-        public static final String DB_NAME = "climbingGymLog.sqlite";
+        public static final String DB_NAME = "climbingGymLog.db";
         public static final int DB_VERSION = 1;
 
         public DBHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
 
             super(context, name, factory, version);
+        }
+
+        @Override
+        public void onOpen(SQLiteDatabase db) {
+
+            db.execSQL(ClientDB.DROP_TABLE);
+
+            db.execSQL(ClientDB.CREATE_TABLE);
         }
 
         @Override

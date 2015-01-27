@@ -2,6 +2,7 @@ package fr.jerome.climbinggymlog;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
 
 import java.util.Date;
 
@@ -11,16 +12,22 @@ import fr.jerome.climbinggymlog.model.Client;
 
 public class MainActivity extends Activity {
 
-    private Client client;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        client = new Client(0, "GULLY", "Jérome", 27, 20484851, new Date(), 0);
+        ClientDB clientDB = new ClientDB(this);
 
-        new ClientDB(this).ajouterClient(client);
+        Client client1 = new Client(0, "GULLY", "Jérome", 27, 20484851, new Date(), 0);
+        Client client2 = new Client(1, "TAT2", "TAT", 27, 80484851, new Date(), 0);
+        Client client3 = new Client(2, "CAM", "CAM", 28, 90484851, new Date(), 0);
+
+        clientDB.insert(client1);
+        clientDB.insert(client2);
+        clientDB.insert(client3);
+
+        clientDB.delete(client2);
     }
 
 //    @Override

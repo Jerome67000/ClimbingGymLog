@@ -2,6 +2,7 @@ package fr.jerome.climbinggymlog.database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.util.Log;
 
 import fr.jerome.climbinggymlog.model.Client;
 
@@ -37,9 +38,9 @@ public class ClientDB extends DBHandler {
     }
 
     /**
-     * @param client le client à ajouter à la base
+     * @param client le client à insert à la base
      */
-    public void ajouterClient(Client client) {
+    public void insert(Client client) {
 
         ContentValues value = new ContentValues();
 
@@ -50,27 +51,34 @@ public class ClientDB extends DBHandler {
         value.put(DATE_AJ_U, client.getDateAjout().toString());
         value.put(SALLE_U, client.getIdSalle());
 
-        db.insert(TABLE_NAME, null, value);
-    }
+        database.insert(TABLE_NAME, null, value);
 
-    /**
-     * @param id l'identifiant du client à supprimer
-     */
-    public void supprimer(long id) {
-
-    }
-
-    /**
-     * @param client le client modifié
-     */
-    public void modifier(Client client) {
-
+        Log.d("SQL", "Ajout du client " + client.getNom() + " id : " +client.getId() + " à la table Client");
     }
 
     /**
      * @param id l'identifiant du métier à récupérer
      */
-    public Client selectionner(long id) {
+    public Client select(long id) {
         return null;
+    }
+
+    /**
+     * @param client le client modifié
+     */
+    public void update(Client client) {
+
+    }
+
+    /**
+     * @param client client à delete
+     */
+    public void delete(Client client) {
+
+        int id = client.getId();
+        System.out.println("Comment deleted with id: " + id);
+        database.delete(TABLE_NAME, ID_U  + " = " + id, null);
+
+        Log.d("SQL", "suppression du client " + client.getNom() + " id : " +client.getId() + " de la table Client");
     }
 }

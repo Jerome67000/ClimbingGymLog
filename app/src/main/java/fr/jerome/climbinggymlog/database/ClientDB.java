@@ -38,7 +38,7 @@ public class ClientDB extends DBHandler {
     }
 
     /**
-     * @param client le client à insert à la base
+     * @param client le client à inserer dans la base
      */
     public void insert(Client client) {
 
@@ -57,7 +57,7 @@ public class ClientDB extends DBHandler {
     }
 
     /**
-     * @param id l'identifiant du métier à récupérer
+     * @param id l'identifiant du client à récupérer
      */
     public Client select(long id) {
         return null;
@@ -71,12 +71,12 @@ public class ClientDB extends DBHandler {
     }
 
     /**
-     * @param client client à delete
+     * @param client client à supprimer
      */
     public void delete(Client client) {
 
         int id = client.getId();
-        System.out.println("Comment deleted with id: " + id);
+        System.out.println("Client supprimé avec l'id: " + id);
         database.delete(TABLE_NAME, ID_U  + " = " + id, null);
 
         Log.d("SQL", "suppression du client " + client.getNom() + " id : " +client.getId() + " de la table Client");

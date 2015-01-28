@@ -10,16 +10,18 @@ public class Seance {
 
     private int id;
     private String nom;
+    private Date dateSeance;
     private Date dateAjout;
     private String nomSalle;
     private String note;
     private int idClient;
     private ArrayList<Voie> voies;
 
-    public Seance(int id, String nom, Date dateAjout, String nomSalle, String note, int idClient) {
+    public Seance(int id, String nom, Date dateSeance, Date dateAjout, String nomSalle, String note, int idClient) {
 
         this.id = id;
         this.nom = nom;
+        this.dateSeance = dateSeance;
         this.dateAjout = dateAjout;
         this.nomSalle = nomSalle;
         this.note = note;
@@ -55,6 +57,16 @@ public class Seance {
     public Date getDateAjout() {
 
         return dateAjout;
+    }
+
+    public Date getDateSeance() {
+
+        return dateSeance;
+    }
+
+    public void setDateSeance(Date dateSeance) {
+
+        this.dateSeance = dateSeance;
     }
 
     public void setDateAjout(Date dateAjout) {

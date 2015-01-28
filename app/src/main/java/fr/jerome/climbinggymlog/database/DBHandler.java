@@ -45,8 +45,12 @@ public abstract class DBHandler {
         public void onOpen(SQLiteDatabase db) {
 
             db.execSQL(ClientDB.DROP_TABLE);
+            db.execSQL(SeanceDB.DROP_TABLE);
+            db.execSQL(VoieDB.DROP_TABLE);
 
             db.execSQL(ClientDB.CREATE_TABLE);
+            db.execSQL(SeanceDB.CREATE_TABLE);
+            db.execSQL(VoieDB.CREATE_TABLE);
         }
 
         @Override
@@ -54,6 +58,8 @@ public abstract class DBHandler {
 
             try {
                 db.execSQL(ClientDB.CREATE_TABLE);
+                db.execSQL(SeanceDB.CREATE_TABLE);
+                db.execSQL(VoieDB.CREATE_TABLE);
             }
             catch (SQLiteException e) {
                 Log.e("SQL", "error on creating SQL DB", e);

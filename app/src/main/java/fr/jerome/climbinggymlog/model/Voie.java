@@ -32,6 +32,106 @@ public class Voie {
         this.photo = photo;
     }
 
+    public int getId() {
+
+        return id;
+    }
+
+    public void setId(int id) {
+
+        this.id = id;
+    }
+
+    public int getIdSeance() {
+
+        return idSeance;
+    }
+
+    public void setIdSeance(int idSeance) {
+
+        this.idSeance = idSeance;
+    }
+
+    public String getNom() {
+
+        return nom;
+    }
+
+    public void setNom(String nom) {
+
+        this.nom = nom;
+    }
+
+    public String getCotation() {
+
+        return cotation;
+    }
+
+    public void setCotation(String cotation) {
+
+        this.cotation = cotation;
+    }
+
+    public String getTypeEscalade() {
+
+        return typeEscalade;
+    }
+
+    public void setTypeEscalade(String typeEscalade) {
+
+        this.typeEscalade = typeEscalade;
+    }
+
+    public String getStyleVoie() {
+
+        return styleVoie;
+    }
+
+    public void setStyleVoie(String styleVoie) {
+
+        this.styleVoie = styleVoie;
+    }
+
+    public boolean isReussi() {
+
+        return reussi;
+    }
+
+    public void setReussi(boolean reussi) {
+
+        this.reussi = reussi;
+    }
+
+    public boolean isAVue() {
+
+        return aVue;
+    }
+
+    public void setaVue(boolean aVue) {
+
+        this.aVue = aVue;
+    }
+
+    public String getNote() {
+
+        return note;
+    }
+
+    public void setNote(String note) {
+
+        this.note = note;
+    }
+
+    public Bitmap getPhoto() {
+
+        return photo;
+    }
+
+    public void setPhoto(Bitmap photo) {
+
+        this.photo = photo;
+    }
+
     @Override
     public String toString() {
 

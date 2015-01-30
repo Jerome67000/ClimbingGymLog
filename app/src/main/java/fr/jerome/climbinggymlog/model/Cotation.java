@@ -8,24 +8,9 @@ public class Cotation {
     private long id = 0;
     private String difficulte;
 
-    public Cotation(String difficulte) {
-
-        this.difficulte = difficulte;
-    }
-
-    public Cotation(int id, String difficulte) {
+    public Cotation(long id, String difficulte) {
 
         this.id = id;
-        this.difficulte = difficulte;
-    }
-
-    public String getDifficulte() {
-
-        return difficulte;
-    }
-
-    public void setDifficulte(String difficulte) {
-
         this.difficulte = difficulte;
     }
 
@@ -37,6 +22,16 @@ public class Cotation {
     public void setId(long id) {
 
         this.id = id;
+    }
+
+    public String getDifficulte() {
+
+        return difficulte;
+    }
+
+    public void setDifficulte(String difficulte) {
+
+        this.difficulte = difficulte;
     }
 
     @Override

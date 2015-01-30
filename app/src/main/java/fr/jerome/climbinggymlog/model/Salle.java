@@ -1,7 +1,7 @@
 package fr.jerome.climbinggymlog.model;
 
+import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Created by jerome on 25/01/15.
@@ -15,13 +15,13 @@ public class Salle {
     private Date dateAjout;
     private ArrayList<Client> clients;
 
-    public Salle(long id, String nom, String adresse, String nomGerant) {
+    public Salle(long id, String nom, String adresse, String nomGerant, Date dateAjout) {
 
         this.id = id;
         this.nom = nom;
         this.adresse = adresse;
         this.nomGerant = nomGerant;
-        this.dateAjout = new Date();
+        this.dateAjout = dateAjout;
         this.clients = new ArrayList<Client>();
     }
 

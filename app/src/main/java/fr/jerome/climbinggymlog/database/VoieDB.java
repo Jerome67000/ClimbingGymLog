@@ -46,12 +46,12 @@ public class VoieDB extends DBHandler {
     /**
      * @param voie la voie à inserer dans la table
      */
-    public void insert(Voie voie) {
+    public Voie insert(Voie voie) {
 
         ContentValues value = new ContentValues();
 
         value.put(NOM_VOIE, voie.getNom());
-        value.put(COTATION_VOIE, voie.getCotation());
+        value.put(COTATION_VOIE, voie.getCotation().getId());
         value.put(TYPE_ESCALADE_VOIE, voie.getTypeEscalade());
         value.put(STYLE_VOIE, voie.getStyle());
         value.put(VOIE_REUSSIE, voie.isReussi());
@@ -63,6 +63,8 @@ public class VoieDB extends DBHandler {
         long insertId =  database.insert(TABLE_NAME, null, value);
         voie.setId(insertId);
         Log.d("SQL", "Ajout de la voie " + voie.getNom() + " id : " + voie.getId() + " à la table Voie");
+
+        return voie;
     }
 
     /**

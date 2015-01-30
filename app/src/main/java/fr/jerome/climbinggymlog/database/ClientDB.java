@@ -50,8 +50,9 @@ public class ClientDB extends DBHandler {
         value.put(DATE_AJ_U, client.getDateAjout().toString());
         value.put(SALLE_U, client.getIdSalle());
 
-        database.insert(TABLE_NAME, null, value);
-
+        // récupération de l'id pour le setter dans l'objet
+        long insertId = database.insert(TABLE_NAME, null, value);
+        client.setId(insertId);
         Log.d("SQL", "Ajout du client " + client.getNom() + " id : " +client.getId() + " à la table Client");
     }
 

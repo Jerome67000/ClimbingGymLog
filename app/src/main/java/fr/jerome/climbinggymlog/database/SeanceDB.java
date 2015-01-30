@@ -5,8 +5,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.util.Log;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import fr.jerome.climbinggymlog.controller.AppManager;
@@ -57,7 +59,7 @@ public class SeanceDB extends DBHandler {
         value.put(NOTE_SEANCE, seance.getNote());
         value.put(USER_SEANCE, seance.getClient().getId());
 
-        // récupération de l'id pour le setter dans l'objet
+        // récupération de l'id pour le setter à l'objet
         long insertId = database.insert(TABLE_NAME, null, value);
         seance.setId(insertId);
         Log.d("SQL", "Ajout de la séance " + seance.getNom() + " id : " + seance.getId() + " à la table Seance");
@@ -97,13 +99,25 @@ public class SeanceDB extends DBHandler {
 
         List<Seance> seances = new ArrayList<Seance>();
 
-        Cursor c = database.query(SeanceDB.TABLE_NAME,
+        Cursor c = database.query(TABLE_NAME,
                 new String[]{ID_SEANCE, NOM_SEANCE, DATE_SEANCE, DATE_AJ_SEANCE, NOM_SALLE_SEANCE, NOTE_SEANCE, USER_SEANCE},
                 null, null, null, null, null);
 
         c.moveToFirst();
         while (!c.isAfterLast()) {
-            Seance seance = new Seance(c.getLong(0), c.getString(1), new Date(), new Date(), c.getString(4), c.getString(5), AppManager.client);
+
+            String textDate = c.getString(2);
+
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            java.util.Date date = null;
+            try {
+                date = df.parse(textDate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            assert date != null;
+            Seance seance = new Seance(c.getLong(0), c.getString(1), new java.sql.Date(date.getTime()), new java.sql.Date(date.getTime()), c.getString(4), c.getString(5), AppManager.client);
             seances.add(seance);
             c.moveToNext();
         }

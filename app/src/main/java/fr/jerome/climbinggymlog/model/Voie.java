@@ -13,7 +13,7 @@ public class Voie {
     private long id = 0;
     private long idSeance;
     private String nom;
-    private String cotation; //enum ?
+    private Cotation cotation;
     private String typeEscalade; //enum ?
     private String style; //enum ?
     private boolean reussi;
@@ -21,7 +21,7 @@ public class Voie {
     private String note;
     private Bitmap photo;
 
-    public Voie(long id, long idSeance, String nom, String cotation, String typeEscalade, String style, boolean reussi, boolean aVue, String note, Bitmap photo) {
+    public Voie(long id, long idSeance, String nom, Cotation cotation, String typeEscalade, String style, boolean reussi, boolean aVue, String note, Bitmap photo) {
 
         this.id = id;
         this.idSeance = idSeance;
@@ -35,7 +35,7 @@ public class Voie {
         this.photo = photo;
     }
 
-    public Voie(long idSeance, String nom, String cotation, String typeEscalade, String style, boolean reussi, boolean aVue, String note, Bitmap photo) {
+    public Voie(long idSeance, String nom, Cotation cotation, String typeEscalade, String style, boolean reussi, boolean aVue, String note, Bitmap photo) {
 
         this.idSeance = idSeance;
         this.nom = nom;
@@ -78,12 +78,12 @@ public class Voie {
         this.nom = nom;
     }
 
-    public String getCotation() {
+    public Cotation getCotation() {
 
         return cotation;
     }
 
-    public void setCotation(String cotation) {
+    public void setCotation(Cotation cotation) {
 
         this.cotation = cotation;
     }

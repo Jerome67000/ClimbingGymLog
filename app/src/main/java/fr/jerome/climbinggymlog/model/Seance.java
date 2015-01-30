@@ -1,7 +1,7 @@
 package fr.jerome.climbinggymlog.model;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 
 /**
  * Created by jerome on 25/01/15.
@@ -14,7 +14,6 @@ public class Seance {
     private Date dateAjout;
     private String nomSalle;
     private String note;
-    // FIXME Stocker directement le client en tant qu'objet
     private Client client;
     private ArrayList<Voie> voies;
 

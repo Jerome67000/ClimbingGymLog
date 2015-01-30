@@ -1,7 +1,7 @@
 package fr.jerome.climbinggymlog.model;
 
+import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Created by jerome on 25/01/15.
@@ -10,10 +10,10 @@ public class Client extends Personne {
 
     private int numClient;
     private Date dateAjout;
-    private int idSalle;
+    private long idSalle;
     private ArrayList<Seance> seances;
 
-    public Client(int id, String nom, String prenom, int age, int numClient, Date dateAjout, int idSalle) {
+    public Client(int id, String nom, String prenom, int age, int numClient, Date dateAjout, long idSalle) {
 
         super(id, nom, prenom, age);
         this.numClient = numClient;
@@ -55,12 +55,12 @@ public class Client extends Personne {
         this.dateAjout = dateAjout;
     }
 
-    public int getIdSalle() {
+    public long getIdSalle() {
 
         return idSalle;
     }
 
-    public void setIdSalle(int idSalle) {
+    public void setIdSalle(long idSalle) {
 
         this.idSalle = idSalle;
     }

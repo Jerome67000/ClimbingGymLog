@@ -58,12 +58,17 @@ public class DBHandler {
                 Log.e("SQLite", "erreur pendant la création des tables SQLite", e);
             }
 
-            // FIXME La DB est créée plusieurs fois
             Log.d("SQLite", "DB créée avec succès");
 
             addDataCotation(db);
             addDataTypeEsc(db);
             addDataStlyeVoie(db);
+        }
+
+        @Override
+        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
+            Log.d("SQLite", "Mise à jour de la BD avec onUpgrade()");
         }
 
         private void addDataCotation(SQLiteDatabase db) {
@@ -132,12 +137,6 @@ public class DBHandler {
             db.insert(StyleVoieDB.TABLE_NAME, null, value);
 
             Log.d("SQLite", "Style de voie ajoutées à la DB");
-        }
-
-        @Override
-        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
-            Log.d("SQLite", "Mise à jour de la BD avec onUpgrade()");
         }
     }
 }

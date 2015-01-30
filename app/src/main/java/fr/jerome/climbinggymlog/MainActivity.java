@@ -1,22 +1,19 @@
 package fr.jerome.climbinggymlog;
 
 import android.app.Activity;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import java.util.Date;
+import java.util.List;
 
+import fr.jerome.climbinggymlog.controller.AppManager;
 import fr.jerome.climbinggymlog.database.ClientDB;
-import fr.jerome.climbinggymlog.database.CotationDB;
 import fr.jerome.climbinggymlog.database.SeanceDB;
-import fr.jerome.climbinggymlog.database.VoieDB;
 import fr.jerome.climbinggymlog.model.Client;
-import fr.jerome.climbinggymlog.model.Cotation;
 import fr.jerome.climbinggymlog.model.Seance;
-import fr.jerome.climbinggymlog.model.Voie;
 
 
 public class MainActivity extends Activity {
@@ -29,26 +26,23 @@ public class MainActivity extends Activity {
         // DB Manager
         ClientDB clientDB = new ClientDB(this);
         SeanceDB seanceDB = new SeanceDB(this);
-        VoieDB voieDB = new VoieDB(this);
 
-        // Object
-        Client client = new Client("GULLY", "Jérome", 20484851, new Date(), 0);
+        Client client = AppManager.client;
 
-        Seance seance = new Seance("Séance #01", new Date(), new Date(), "Roc en stock", "séance plutot bonne", client.getId());
-        Seance seance2 = new Seance("Séance #02", new Date(), new Date(), "Roc en stock", "séance plutot mauvaise", client.getId());
-        Seance seance3 = new Seance("Séance #03", new Date(), new Date(), "Roc en stock", "séance plutot moyenne", client.getId());
+        Seance seance = new Seance("Séance #01", new Date(), new Date(), "Roc en stock", "séance plutot bonne", client);
+        Seance seance2 = new Seance("Séance #022", new Date(), new Date(), "Roc en stock", "séance plutot mauvaise", client);
+        Seance seance3 = new Seance("Séance #03", new Date(), new Date(), "Roc en stock", "séance plutot moyenne", client);
 
         clientDB.insert(client);
         seanceDB.insert(seance);
         seanceDB.insert(seance2);
         seanceDB.insert(seance3);
 
-        Cursor c = seanceDB.select(2);
-        c.moveToFirst();
-        Log.d("Cursor", String.valueOf(c.getInt(0)));
-        Log.d("Cursor", c.getString(1));
-        Log.d("Cursor", c.getString(5));
+        List<Seance> seances = seanceDB.getAllSeances();
 
+        for (Seance s : seances) {
+            Log.w("seance :", s.toString());
+        }
     }
 
     @Override

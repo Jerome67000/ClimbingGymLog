@@ -2,6 +2,7 @@ package fr.jerome.climbinggymlog.database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.util.Log;
 
 import fr.jerome.climbinggymlog.model.Seance;
@@ -58,16 +59,20 @@ public class VoieDB extends DBHandler {
         value.put(NOTE_VOIE, voie.getNote());
         value.put(ID_SEANCE_VOIE, voie.getIdSeance());
 
-        database.insert(TABLE_NAME, null, value);
-
+        // récupération de l'id pour le setter dans l'objet
+        long insertId =  database.insert(TABLE_NAME, null, value);
+        voie.setId(insertId);
         Log.d("SQL", "Ajout de la voie " + voie.getNom() + " id : " + voie.getId() + " à la table Voie");
     }
 
     /**
-     * @param id l'identifiant de la voie à récupérer
+     * @param voie la séance à récupérer dans la base
+     * @return The cursor of the seance
      */
-    public Seance select(long id) {
-        return null;
+    public Cursor select(Voie voie) {
+
+        long id = voie.getId();
+        return database.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE _id=?", new String[]{String.valueOf(id)});
     }
 
     /**
@@ -82,8 +87,7 @@ public class VoieDB extends DBHandler {
      */
     public void delete(Voie voie) {
 
-        int id = voie.getId();
-        System.out.println("Voie supprimé avec l'id: " + id);
+        long id = voie.getId();
         database.delete(TABLE_NAME, ID_VOIE  + " = " + id, null);
 
         Log.d("SQL", "suppression de la voie " + voie.getNom() + " id : " +voie.getId() + " de la table Voie");

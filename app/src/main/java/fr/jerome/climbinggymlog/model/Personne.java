@@ -5,12 +5,12 @@ package fr.jerome.climbinggymlog.model;
  */
 public abstract class Personne {
 
-    protected int id;
+    protected long id;
     protected String nom;
     protected String prenom;
     protected int age = 0;
 
-    public Personne(int id, String nom, String prenom, int age) {
+    public Personne(long id, String nom, String prenom, int age) {
 
         this.id = id;
         this.nom = nom;
@@ -24,12 +24,12 @@ public abstract class Personne {
         this.prenom = prenom;
     }
 
-    public int getId() {
+    public long getId() {
 
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
 
         this.id = id;
     }

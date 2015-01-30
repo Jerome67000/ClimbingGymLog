@@ -8,14 +8,14 @@ import java.util.Date;
  */
 public class Salle {
 
-    private int id;
+    private long id;
     private String nom;
     private String adresse;
     private String nomGerant;
     private Date dateAjout;
     private ArrayList<Client> clients;
 
-    public Salle(int id, String nom, String adresse, String nomGerant) {
+    public Salle(long id, String nom, String adresse, String nomGerant) {
 
         this.id = id;
         this.nom = nom;
@@ -25,12 +25,12 @@ public class Salle {
         this.clients = new ArrayList<Client>();
     }
 
-    public int getId() {
+    public long getId() {
 
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
 
         this.id = id;
     }

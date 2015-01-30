@@ -10,8 +10,8 @@ public class Voie {
     public static enum Style {Dalle, Verticale, LegerDevers, grosDevers, Toit, Bloc}
     public static enum TYPE_ESC {Dalle, Verticale, LegerDevers, grosDevers, Toit, Bloc}
 
-    private int id = 0;
-    private int idSeance;
+    private long id = 0;
+    private long idSeance;
     private String nom;
     private String cotation; //enum ?
     private String typeEscalade; //enum ?
@@ -21,7 +21,7 @@ public class Voie {
     private String note;
     private Bitmap photo;
 
-    public Voie(int id, int idSeance, String nom, String cotation, String typeEscalade, String style, boolean reussi, boolean aVue, String note, Bitmap photo) {
+    public Voie(long id, long idSeance, String nom, String cotation, String typeEscalade, String style, boolean reussi, boolean aVue, String note, Bitmap photo) {
 
         this.id = id;
         this.idSeance = idSeance;
@@ -35,7 +35,7 @@ public class Voie {
         this.photo = photo;
     }
 
-    public Voie(int idSeance, String nom, String cotation, String typeEscalade, String style, boolean reussi, boolean aVue, String note, Bitmap photo) {
+    public Voie(long idSeance, String nom, String cotation, String typeEscalade, String style, boolean reussi, boolean aVue, String note, Bitmap photo) {
 
         this.idSeance = idSeance;
         this.nom = nom;
@@ -48,22 +48,22 @@ public class Voie {
         this.photo = photo;
     }
 
-    public int getId() {
+    public long getId() {
 
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
 
         this.id = id;
     }
 
-    public int getIdSeance() {
+    public long getIdSeance() {
 
         return idSeance;
     }
 
-    public void setIdSeance(int idSeance) {
+    public void setIdSeance(long idSeance) {
 
         this.idSeance = idSeance;
     }

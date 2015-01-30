@@ -5,7 +5,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.util.Log;
 
-import fr.jerome.climbinggymlog.model.Client;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import fr.jerome.climbinggymlog.controller.AppManager;
 import fr.jerome.climbinggymlog.model.Seance;
 
 /**
@@ -51,21 +55,21 @@ public class SeanceDB extends DBHandler {
         value.put(DATE_AJ_SEANCE, seance.getDateAjout().toString());
         value.put(NOM_SALLE_SEANCE, seance.getNomSalle());
         value.put(NOTE_SEANCE, seance.getNote());
-        value.put(USER_SEANCE, seance.getIdClient());
+        value.put(USER_SEANCE, seance.getClient().getId());
 
-        database.insert(TABLE_NAME, null, value);
-
+        // récupération de l'id pour le setter dans l'objet
+        long insertId = database.insert(TABLE_NAME, null, value);
+        seance.setId(insertId);
         Log.d("SQL", "Ajout de la séance " + seance.getNom() + " id : " + seance.getId() + " à la table Seance");
     }
 
     /**
-     * @param id l'identifiant de la séance à récupérer
+     * @param seance la séance à récupérer dans la base
      */
-    public Cursor select(long id) {
+    public Cursor select(Seance seance) {
 
-//        Cursor c = database.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE _id=?", new String[]{String.valueOf(id)});
-        Cursor c = database.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE _id=" + id, null);
-        return c;
+        long id = seance.getId();
+        return database.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE _id=?", new String[]{String.valueOf(id)});
     }
 
     /**
@@ -80,9 +84,30 @@ public class SeanceDB extends DBHandler {
      */
     public void delete(Seance seance) {
 
-        int id = seance.getId();
+        long id = seance.getId();
         database.delete(TABLE_NAME, ID_SEANCE  + " = " + id, null);
 
-        Log.d("SQLite", "Suppression de la séance : " + seance.getNom() + "avec l'id : " +seance.getId() + " de la table Seance");
+        Log.d("SQLite", "Suppression de la séance : " + seance.getNom() + "avec l'id : " + seance.getId() + " de la table Seance");
+    }
+
+    /**
+     * @return  seances : Une liste contenant toutes les seances
+     */
+    public List<Seance> getAllSeances() {
+
+        List<Seance> seances = new ArrayList<Seance>();
+
+        Cursor c = database.query(SeanceDB.TABLE_NAME,
+                new String[]{ID_SEANCE, NOM_SEANCE, DATE_SEANCE, DATE_AJ_SEANCE, NOM_SALLE_SEANCE, NOTE_SEANCE, USER_SEANCE},
+                null, null, null, null, null);
+
+        c.moveToFirst();
+        while (!c.isAfterLast()) {
+            Seance seance = new Seance(c.getLong(0), c.getString(1), new Date(), new Date(), c.getString(4), c.getString(5), AppManager.client);
+            seances.add(seance);
+            c.moveToNext();
+        }
+        c.close();
+        return seances;
     }
 }

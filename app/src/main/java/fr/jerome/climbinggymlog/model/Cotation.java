@@ -5,7 +5,7 @@ package fr.jerome.climbinggymlog.model;
  */
 public class Cotation {
 
-    private int id = 0;
+    private long id = 0;
     private String difficulte;
 
     public Cotation(String difficulte) {
@@ -29,12 +29,12 @@ public class Cotation {
         this.difficulte = difficulte;
     }
 
-    public int getId() {
+    public long getId() {
 
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
 
         this.id = id;
     }

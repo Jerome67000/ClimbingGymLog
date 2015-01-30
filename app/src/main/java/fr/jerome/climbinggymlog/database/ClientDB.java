@@ -74,7 +74,7 @@ public class ClientDB extends DBHandler {
      */
     public void delete(Client client) {
 
-        int id = client.getId();
+        long id = client.getId();
         System.out.println("Client supprimé avec l'id: " + id);
         database.delete(TABLE_NAME, ID_U  + " = " + id, null);
 

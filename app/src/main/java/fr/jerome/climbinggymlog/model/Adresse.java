@@ -5,7 +5,7 @@ package fr.jerome.climbinggymlog.model;
  */
 public class Adresse {
 
-    private int id;
+    private long id;
     private int num;
     private String rue;
     private int cp;
@@ -14,7 +14,7 @@ public class Adresse {
     /**
      * Représente une adresse physique
      */
-    public Adresse(int id, int num, String rue, int cp, String ville) {
+    public Adresse(long id, int num, String rue, int cp, String ville) {
 
         this.id = id;
         this.num = num;
@@ -30,11 +30,11 @@ public class Adresse {
 
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(short id) {
+    public void setId(long id) {
         this.id = id;
     }
 

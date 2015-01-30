@@ -8,16 +8,17 @@ import java.util.Date;
  */
 public class Seance {
 
-    private int id = 0;
+    private long id = 0;
     private String nom;
     private Date dateSeance;
     private Date dateAjout;
     private String nomSalle;
     private String note;
-    private int idClient;
+    // FIXME Stocker directement le client en tant qu'objet
+    private Client client;
     private ArrayList<Voie> voies;
 
-    public Seance(int id, String nom, Date dateSeance, Date dateAjout, String nomSalle, String note, int idClient) {
+    public Seance(long id, String nom, Date dateSeance, Date dateAjout, String nomSalle, String note, Client client) {
 
         this.id = id;
         this.nom = nom;
@@ -25,18 +26,18 @@ public class Seance {
         this.dateAjout = dateAjout;
         this.nomSalle = nomSalle;
         this.note = note;
-        this.idClient = idClient;
+        this.client = client;
         this.voies = new ArrayList<Voie>();
     }
 
-    public Seance(String nom, Date dateSeance, Date dateAjout, String nomSalle, String note, int idClient) {
+    public Seance(String nom, Date dateSeance, Date dateAjout, String nomSalle, String note, Client client) {
 
         this.nom = nom;
         this.dateSeance = dateSeance;
         this.dateAjout = dateAjout;
         this.nomSalle = nomSalle;
         this.note = note;
-        this.idClient = idClient;
+        this.client = client;
         this.voies = new ArrayList<Voie>();
     }
 
@@ -45,12 +46,12 @@ public class Seance {
         voies.add(newVoie);
     }
 
-    public int getId() {
+    public long getId() {
 
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
 
         this.id = id;
     }
@@ -105,14 +106,14 @@ public class Seance {
         this.note = note;
     }
 
-    public int getIdClient() {
+    public Client getClient() {
 
-        return idClient;
+        return client;
     }
 
-    public void setIdClient(int idClient) {
+    public void setClient(Client client) {
 
-        this.idClient = idClient;
+        this.client = client;
     }
 
     public ArrayList<Voie> getVoies() {
@@ -128,6 +129,15 @@ public class Seance {
     @Override
     public String toString() {
 
-        return super.toString();
+        return "Seance{" +
+                "id=" + id +
+                ", nom='" + nom + '\'' +
+                ", dateSeance=" + dateSeance +
+                ", dateAjout=" + dateAjout +
+                ", nomSalle='" + nomSalle + '\'' +
+                ", note='" + note + '\'' +
+                ", client=" + client +
+                ", voies=" + voies +
+                '}';
     }
 }

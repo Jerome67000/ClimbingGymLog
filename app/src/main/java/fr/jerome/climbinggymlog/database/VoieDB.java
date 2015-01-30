@@ -24,8 +24,6 @@ public class VoieDB extends DBHandler {
     public static final String NOTE_VOIE = "note_voie";
     public static final String ID_SEANCE_VOIE = "id_seance";
 
-    public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
-
     public static final String  CREATE_TABLE =  "CREATE TABLE " + TABLE_NAME + "(" +
                                 ID_VOIE + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                                 NOM_VOIE + " TEXT, " +
@@ -36,6 +34,8 @@ public class VoieDB extends DBHandler {
                                 VOIE_A_VUE + " BOOL, " +
                                 NOTE_VOIE + " TEXT, " +
                                 ID_SEANCE_VOIE + " INTEGER);";
+
+    public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
 
     public VoieDB(Context context) {
 
@@ -49,11 +49,10 @@ public class VoieDB extends DBHandler {
 
         ContentValues value = new ContentValues();
 
-        value.put(ID_VOIE, voie.getId());
         value.put(NOM_VOIE, voie.getNom());
         value.put(COTATION_VOIE, voie.getCotation());
         value.put(TYPE_ESCALADE_VOIE, voie.getTypeEscalade());
-        value.put(STYLE_VOIE, voie.getStyleVoie());
+        value.put(STYLE_VOIE, voie.getStyle());
         value.put(VOIE_REUSSIE, voie.isReussi());
         value.put(VOIE_A_VUE, voie.isAVue());
         value.put(NOTE_VOIE, voie.getNote());

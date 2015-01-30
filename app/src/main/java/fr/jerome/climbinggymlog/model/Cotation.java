@@ -5,28 +5,46 @@ package fr.jerome.climbinggymlog.model;
  */
 public class Cotation {
 
-//    public enum Difficulte {
-//        A2,
-//        TEST2}
-//
-//    public enum Gender {
-//        MALE("Male", 0),
-//        FEMALE("Female", 1);
-//
-//        private String stringValue;
-//        private int intValue;
-//        private Gender(String toString, int value) {
-//            stringValue = toString;
-//            intValue = value;
-//        }
-//
-//        @Override
-//        public String toString() {
-//            return stringValue;
-//        }
-//    }
-//
-//    Then to use the enum, you would do something like this:
-//
-//    Gender me = Gender.MALE
+    private int id = 0;
+    private String difficulte;
+
+    public Cotation(String difficulte) {
+
+        this.difficulte = difficulte;
+    }
+
+    public Cotation(int id, String difficulte) {
+
+        this.id = id;
+        this.difficulte = difficulte;
+    }
+
+    public String getDifficulte() {
+
+        return difficulte;
+    }
+
+    public void setDifficulte(String difficulte) {
+
+        this.difficulte = difficulte;
+    }
+
+    public int getId() {
+
+        return id;
+    }
+
+    public void setId(int id) {
+
+        this.id = id;
+    }
+
+    @Override
+    public String toString() {
+
+        return "Cotation{" +
+                "id=" + id +
+                ", difficulte='" + difficulte + '\'' +
+                '}';
+    }
 }

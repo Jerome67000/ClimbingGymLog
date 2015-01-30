@@ -44,7 +44,6 @@ public class ClientDB extends DBHandler {
 
         ContentValues value = new ContentValues();
 
-        value.put(ID_U, client.getId());
         value.put(NOM_U, client.getNom());
         value.put(PRENOM_U, client.getPrenom());
         value.put(NUM_U, client.getNumClient());

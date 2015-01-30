@@ -8,7 +8,7 @@ import java.util.Date;
  */
 public class Seance {
 
-    private int id;
+    private int id = 0;
     private String nom;
     private Date dateSeance;
     private Date dateAjout;
@@ -20,6 +20,17 @@ public class Seance {
     public Seance(int id, String nom, Date dateSeance, Date dateAjout, String nomSalle, String note, int idClient) {
 
         this.id = id;
+        this.nom = nom;
+        this.dateSeance = dateSeance;
+        this.dateAjout = dateAjout;
+        this.nomSalle = nomSalle;
+        this.note = note;
+        this.idClient = idClient;
+        this.voies = new ArrayList<Voie>();
+    }
+
+    public Seance(String nom, Date dateSeance, Date dateAjout, String nomSalle, String note, int idClient) {
+
         this.nom = nom;
         this.dateSeance = dateSeance;
         this.dateAjout = dateAjout;

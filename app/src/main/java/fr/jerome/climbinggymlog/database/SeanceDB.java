@@ -2,6 +2,7 @@ package fr.jerome.climbinggymlog.database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.util.Log;
 
 import fr.jerome.climbinggymlog.model.Client;
@@ -45,7 +46,6 @@ public class SeanceDB extends DBHandler {
 
         ContentValues value = new ContentValues();
 
-        value.put(ID_SEANCE, seance.getId());
         value.put(NOM_SEANCE, seance.getNom());
         value.put(DATE_SEANCE, seance.getDateSeance().toString());
         value.put(DATE_AJ_SEANCE, seance.getDateAjout().toString());
@@ -61,8 +61,11 @@ public class SeanceDB extends DBHandler {
     /**
      * @param id l'identifiant de la séance à récupérer
      */
-    public Seance select(long id) {
-        return null;
+    public Cursor select(long id) {
+
+//        Cursor c = database.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE _id=?", new String[]{String.valueOf(id)});
+        Cursor c = database.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE _id=" + id, null);
+        return c;
     }
 
     /**
@@ -78,9 +81,8 @@ public class SeanceDB extends DBHandler {
     public void delete(Seance seance) {
 
         int id = seance.getId();
-        System.out.println("Comment deleted with id: " + id);
         database.delete(TABLE_NAME, ID_SEANCE  + " = " + id, null);
 
-        Log.d("SQL", "suppression de la séance " + seance.getNom() + " id : " +seance.getId() + " de la table Seance");
+        Log.d("SQLite", "Suppression de la séance : " + seance.getNom() + "avec l'id : " +seance.getId() + " de la table Seance");
     }
 }

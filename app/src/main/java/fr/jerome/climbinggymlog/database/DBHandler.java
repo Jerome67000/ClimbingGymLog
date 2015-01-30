@@ -1,5 +1,6 @@
 package fr.jerome.climbinggymlog.database;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
@@ -9,7 +10,7 @@ import android.util.Log;
 /**
  * Created by jerome on 27/01/15.
  */
-public abstract class DBHandler {
+public class DBHandler {
 
     protected DBHelper dBHelper = null;
     protected SQLiteDatabase database = null;
@@ -30,27 +31,17 @@ public abstract class DBHandler {
         database.close();
     }
 
-    /** Classe interne gérant la création et la mise à jour de la BDD */
+    /**
+     * Classe interne gérant la création et la mise à jour de la BDD
+     */
     private static class DBHelper extends SQLiteOpenHelper {
 
-        public static final String DB_NAME = "climbingGymLog.db";
+        public static final String DB_NAME = "climbingGymLog.sqlite3";
         public static final int DB_VERSION = 1;
 
         public DBHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
 
             super(context, name, factory, version);
-        }
-
-        @Override
-        public void onOpen(SQLiteDatabase db) {
-
-            db.execSQL(ClientDB.DROP_TABLE);
-            db.execSQL(SeanceDB.DROP_TABLE);
-            db.execSQL(VoieDB.DROP_TABLE);
-
-            db.execSQL(ClientDB.CREATE_TABLE);
-            db.execSQL(SeanceDB.CREATE_TABLE);
-            db.execSQL(VoieDB.CREATE_TABLE);
         }
 
         @Override
@@ -60,18 +51,93 @@ public abstract class DBHandler {
                 db.execSQL(ClientDB.CREATE_TABLE);
                 db.execSQL(SeanceDB.CREATE_TABLE);
                 db.execSQL(VoieDB.CREATE_TABLE);
-            }
-            catch (SQLiteException e) {
-                Log.e("SQL", "error on creating SQL DB", e);
+                db.execSQL(CotationDB.CREATE_TABLE);
+                db.execSQL(TypeEscDB.CREATE_TABLE);
+                db.execSQL(StyleVoieDB.CREATE_TABLE);
+            } catch (SQLiteException e) {
+                Log.e("SQLite", "erreur pendant la création des tables SQLite", e);
             }
 
-            Log.d("SQL", "BD créée avec succès");
+            // FIXME La DB est créée plusieurs fois
+            Log.d("SQLite", "DB créée avec succès");
+
+            addDataCotation(db);
+            addDataTypeEsc(db);
+            addDataStlyeVoie(db);
+        }
+
+        private void addDataCotation(SQLiteDatabase db) {
+
+            ContentValues value = new ContentValues();
+            int num = 2;
+            String lettre;
+            String lettreA = "a";
+            String lettreB = "b";
+            String lettreC = "c";
+
+            while (num < 10) {
+
+                lettre = lettreA;
+                value.put(CotationDB.DIFF_COT, num + lettre);
+                db.insert(CotationDB.TABLE_NAME, null, value);
+                value.put(CotationDB.DIFF_COT, num + lettre + "+");
+                db.insert(CotationDB.TABLE_NAME, null, value);
+
+                lettre = lettreB;
+                value.put(CotationDB.DIFF_COT, num + lettre);
+                db.insert(CotationDB.TABLE_NAME, null, value);
+                value.put(CotationDB.DIFF_COT, num + lettre + "+");
+                db.insert(CotationDB.TABLE_NAME, null, value);
+
+                lettre = lettreC;
+                value.put(CotationDB.DIFF_COT, num + lettre);
+                db.insert(CotationDB.TABLE_NAME, null, value);
+                value.put(CotationDB.DIFF_COT, num + lettre + "+");
+                db.insert(CotationDB.TABLE_NAME, null, value);
+
+                num++;
+            }
+
+            Log.d("SQLite", "Cotations ajoutées à la DB");
+        }
+
+        private void addDataTypeEsc(SQLiteDatabase db) {
+
+            ContentValues value = new ContentValues();
+
+            value.put(TypeEscDB.NOM_TYPE_ESC, "En tete");
+            db.insert(TypeEscDB.TABLE_NAME, null, value);
+            value.put(TypeEscDB.NOM_TYPE_ESC, "Moulinette");
+            db.insert(TypeEscDB.TABLE_NAME, null, value);
+            value.put(TypeEscDB.NOM_TYPE_ESC, "Solo");
+            db.insert(TypeEscDB.TABLE_NAME, null, value);
+
+            Log.d("SQLite", "Type d'escalade ajoutées à la DB");
+        }
+
+        private void addDataStlyeVoie(SQLiteDatabase db) {
+
+            ContentValues value = new ContentValues();
+            value.put(StyleVoieDB.NOM_STYLE_VOIE, "Dalle");
+            db.insert(StyleVoieDB.TABLE_NAME, null, value);
+            value.put(StyleVoieDB.NOM_STYLE_VOIE, "Verticale");
+            db.insert(StyleVoieDB.TABLE_NAME, null, value);
+            value.put(StyleVoieDB.NOM_STYLE_VOIE, "Léger dévers");
+            db.insert(StyleVoieDB.TABLE_NAME, null, value);
+            value.put(StyleVoieDB.NOM_STYLE_VOIE, "Gros dévers");
+            db.insert(StyleVoieDB.TABLE_NAME, null, value);
+            value.put(StyleVoieDB.NOM_STYLE_VOIE, "Toit");
+            db.insert(StyleVoieDB.TABLE_NAME, null, value);
+            value.put(StyleVoieDB.NOM_STYLE_VOIE, "Bloc");
+            db.insert(StyleVoieDB.TABLE_NAME, null, value);
+
+            Log.d("SQLite", "Style de voie ajoutées à la DB");
         }
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
-            Log.d("SQL", "Mise à jour de la BD avec onUpgrade()");
+            Log.d("SQLite", "Mise à jour de la BD avec onUpgrade()");
         }
     }
 }

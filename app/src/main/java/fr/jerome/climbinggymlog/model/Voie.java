@@ -7,25 +7,41 @@ import android.graphics.Bitmap;
  */
 public class Voie {
 
-    private int id;
+    public static enum Style {Dalle, Verticale, LegerDevers, grosDevers, Toit, Bloc}
+    public static enum TYPE_ESC {Dalle, Verticale, LegerDevers, grosDevers, Toit, Bloc}
+
+    private int id = 0;
     private int idSeance;
     private String nom;
     private String cotation; //enum ?
     private String typeEscalade; //enum ?
-    private String styleVoie; //enum ?
+    private String style; //enum ?
     private boolean reussi;
     private boolean aVue;
     private String note;
     private Bitmap photo;
 
-    public Voie(int id, int idSeance, String nom, String cotation, String typeEscalade, String styleVoie, boolean reussi, boolean aVue, String note, Bitmap photo) {
+    public Voie(int id, int idSeance, String nom, String cotation, String typeEscalade, String style, boolean reussi, boolean aVue, String note, Bitmap photo) {
 
         this.id = id;
         this.idSeance = idSeance;
         this.nom = nom;
         this.cotation = cotation;
         this.typeEscalade = typeEscalade;
-        this.styleVoie = styleVoie;
+        this.style = style;
+        this.reussi = reussi;
+        this.aVue = aVue;
+        this.note = note;
+        this.photo = photo;
+    }
+
+    public Voie(int idSeance, String nom, String cotation, String typeEscalade, String style, boolean reussi, boolean aVue, String note, Bitmap photo) {
+
+        this.idSeance = idSeance;
+        this.nom = nom;
+        this.cotation = cotation;
+        this.typeEscalade = typeEscalade;
+        this.style = style;
         this.reussi = reussi;
         this.aVue = aVue;
         this.note = note;
@@ -82,14 +98,14 @@ public class Voie {
         this.typeEscalade = typeEscalade;
     }
 
-    public String getStyleVoie() {
+    public String getStyle() {
 
-        return styleVoie;
+        return style;
     }
 
-    public void setStyleVoie(String styleVoie) {
+    public void setStyle(String style) {
 
-        this.styleVoie = styleVoie;
+        this.style = style;
     }
 
     public boolean isReussi() {
@@ -140,7 +156,7 @@ public class Voie {
                 "nom : " + nom + "\n" +
                 "cotation : " + cotation + "\n" +
                 "type d'escalade : " + typeEscalade + "\n" +
-                "style voie : " + styleVoie+ "\n" +
+                "style voie : " + style + "\n" +
                 "réussi ? " + reussi + "\n" +
                 "à vue ? " + aVue + "\n" +
                 "note : " + note + "\n";

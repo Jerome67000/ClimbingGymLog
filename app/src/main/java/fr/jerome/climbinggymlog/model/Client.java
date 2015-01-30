@@ -22,9 +22,9 @@ public class Client extends Personne {
         this.seances = new ArrayList<Seance>();
     }
 
-    public Client(int id, String nom, String prenom, int numClient, Date dateAjout, int idSalle) {
+    public Client(String nom, String prenom, int numClient, Date dateAjout, int idSalle) {
 
-        super(id, nom, prenom);
+        super(-1, nom, prenom);
         this.numClient = numClient;
         this.dateAjout = dateAjout;
         this.idSalle = idSalle;

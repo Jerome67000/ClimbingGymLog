@@ -12,9 +12,13 @@ import fr.jerome.climbinggymlog.controller.AppManager;
 import fr.jerome.climbinggymlog.database.ClientDB;
 import fr.jerome.climbinggymlog.database.CotationDB;
 import fr.jerome.climbinggymlog.database.SeanceDB;
+import fr.jerome.climbinggymlog.database.StyleVoieDB;
+import fr.jerome.climbinggymlog.database.TypeEscDB;
 import fr.jerome.climbinggymlog.database.VoieDB;
 import fr.jerome.climbinggymlog.model.Client;
 import fr.jerome.climbinggymlog.model.Seance;
+import fr.jerome.climbinggymlog.model.StyleVoie;
+import fr.jerome.climbinggymlog.model.TypeEsc;
 import fr.jerome.climbinggymlog.model.Voie;
 
 
@@ -30,6 +34,8 @@ public class MainActivity extends Activity {
         /**  AppManager pour les objets statiques  */
         AppManager.setClient(new Client("GULLY", "Jérome", 20484851, new Date(sysTime), 0));
         AppManager.setCotations(new CotationDB(this).getAllCotations());
+        AppManager.setTypeEsc(new TypeEscDB(this).getAllTypes());
+        AppManager.setStyleVoie(new StyleVoieDB(this).getAllStyles());
 
         /**  DBHandlers pour manipuler la DB  */
         ClientDB clientDB = new ClientDB(this);
@@ -48,9 +54,6 @@ public class MainActivity extends Activity {
         seanceDB.insert(seance3);
 
         Voie voie = voieDB.insert(new Voie(seance2.getId(), "5c #02", AppManager.cotations.get(10), "Moulinette", "Dalle", true, true, "voie cool", null));
-
-        Log.v("voie : ", String.valueOf(voie.getId()));
-
     }
 
     @Override

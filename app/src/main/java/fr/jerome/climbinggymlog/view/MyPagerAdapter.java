@@ -15,7 +15,7 @@ public class MyPagerAdapter extends FragmentPagerAdapter {
 
     public static final String UI_TAB_RESUME = "RESUME";
     public static final String UI_TAB_SEANCES = "SEANCES";
-    public static final String UI_TAB_STATS = "STATISTIQUES";
+    public static final String UI_TAB_STATS = "STATS";
     public static final String UI_TAB_EVENEMENTS = "EVENEmENTS";
 
     public MyPagerAdapter(FragmentManager fm, ArrayList<Fragment> fragments){

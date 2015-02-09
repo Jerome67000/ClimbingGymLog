@@ -7,8 +7,17 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.sql.Date;
 import java.util.ArrayList;
 
+import fr.jerome.climbinggymlog.controller.AppManager;
+import fr.jerome.climbinggymlog.database.ClientDB;
+import fr.jerome.climbinggymlog.database.CotationDB;
+import fr.jerome.climbinggymlog.database.SeanceDB;
+import fr.jerome.climbinggymlog.database.VoieDB;
+import fr.jerome.climbinggymlog.model.Client;
+import fr.jerome.climbinggymlog.model.Seance;
+import fr.jerome.climbinggymlog.model.Voie;
 import fr.jerome.climbinggymlog.view.MyPagerAdapter;
 import fr.jerome.climbinggymlog.view.fragments.EvenementsFragment;
 import fr.jerome.climbinggymlog.view.fragments.ResumeFragment;
@@ -29,6 +38,12 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        long sysTime = System.currentTimeMillis();
+
+        /**  AppManager pour les objets statiques  */
+        AppManager.setClient(new Client("GULLY", "Jérome", 20484851, new Date(sysTime), 0));
+        AppManager.setCotations(new CotationDB(this).getAllCotations());
+
         slidingTabLayout = (SlidingTabLayout) findViewById(R.id.tab);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
 
@@ -43,37 +58,25 @@ public class MainActivity extends ActionBarActivity {
         // and ViewPager (different pages of fragment) together.
         myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager(),  fragments);
         viewPager.setAdapter(myPagerAdapter);
-
-        // make sure the tabs are equally spaced.
-//        slidingTabLayout.setDistributeEvenly(true);
         slidingTabLayout.setViewPager(viewPager);
 
-//        long sysTime = System.currentTimeMillis();
-//
-//        /**  AppManager pour les objets statiques  */
-//        AppManager.setClient(new Client("GULLY", "Jérome", 20484851, new Date(sysTime), 0));
-//        AppManager.setCotations(new CotationDB(this).getAllCotations());
-//
-//        /**  DBHandlers pour manipuler la DB  */
-//        ClientDB clientDB = new ClientDB(this);
-//        SeanceDB seanceDB = new SeanceDB(this);
-//        VoieDB voieDB = new VoieDB(this);
-//
-//        Client client = AppManager.client;
-//
-//        Seance seance = new Seance("Séance #01", new Date(sysTime), new Date(sysTime), "Roc en stock", "séance plutot bonne", client);
-//        Seance seance2 = new Seance("Séance #022", new Date(sysTime), new Date(sysTime), "Roc en stock", "séance plutot mauvaise", client);
-//        Seance seance3 = new Seance("Séance #03", new Date(sysTime), new Date(sysTime), "Roc en stock", "séance plutot moyenne", client);
-//
-//        clientDB.insert(client);
-//        seanceDB.insert(seance);
-//        seanceDB.insert(seance2);
-//        seanceDB.insert(seance3);
-//
-//        Voie voie = voieDB.insert(new Voie(seance2.getId(), "5c #02", AppManager.cotations.get(10), "Moulinette", "Dalle", true, true, "voie cool", null));
-//
-//        Log.v("voie : ", String.valueOf(voie.getId()));
+        /**  DBHandlers pour manipuler la DB  */
+        ClientDB clientDB = new ClientDB(this);
+        SeanceDB seanceDB = new SeanceDB(this);
+        VoieDB voieDB = new VoieDB(this);
 
+        Client client = AppManager.client;
+
+        Seance seance = new Seance("Séance #01", new Date(sysTime), new Date(sysTime), "Roc en stock", "séance plutot bonne", client);
+        Seance seance2 = new Seance("Séance #02", new Date(sysTime), new Date(sysTime), "Roc en stock", "séance plutot mauvaise", client);
+        Seance seance3 = new Seance("Séance #03", new Date(sysTime), new Date(sysTime), "Roc en stock", "séance plutot moyenne", client);
+
+        clientDB.insert(client);
+        seanceDB.insert(seance);
+        seanceDB.insert(seance2);
+        seanceDB.insert(seance3);
+
+        Voie voie = voieDB.insert(new Voie(seance2.getId(), "5c #02", AppManager.cotations.get(10), "Moulinette", "Dalle", true, true, "voie cool", null));
     }
 
     @Override

@@ -1,12 +1,14 @@
 package fr.jerome.climbinggymlog;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import java.sql.Date;
+import java.util.ArrayList;
 
 import fr.jerome.climbinggymlog.controller.AppManager;
 import fr.jerome.climbinggymlog.database.ClientDB;
@@ -20,9 +22,20 @@ import fr.jerome.climbinggymlog.model.Seance;
 import fr.jerome.climbinggymlog.model.StyleVoie;
 import fr.jerome.climbinggymlog.model.TypeEsc;
 import fr.jerome.climbinggymlog.model.Voie;
+import fr.jerome.climbinggymlog.view.MyPagerAdapter;
+import fr.jerome.climbinggymlog.view.fragments.EvenementsFragment;
+import fr.jerome.climbinggymlog.view.fragments.ResumeFragment;
+import fr.jerome.climbinggymlog.view.SlidingTabLayout;
+import fr.jerome.climbinggymlog.view.fragments.SeancesFragment;
+import fr.jerome.climbinggymlog.view.fragments.StatistiquesFragment;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends ActionBarActivity {
+
+    private SlidingTabLayout slidingTabLayout;
+    private ViewPager viewPager;
+    private ArrayList<Fragment> fragments;
+    private MyPagerAdapter myPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +50,22 @@ public class MainActivity extends Activity {
         AppManager.setTypeEsc(new TypeEscDB(this).getAllTypes());
         AppManager.setStyleVoie(new StyleVoieDB(this).getAllStyles());
 
+        slidingTabLayout = (SlidingTabLayout) findViewById(R.id.tab);
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+
+        // create a fragment list in order.
+        fragments = new ArrayList<Fragment>();
+        fragments.add(new ResumeFragment());
+        fragments.add(new SeancesFragment());
+        fragments.add(new StatistiquesFragment());
+        fragments.add(new EvenementsFragment());
+
+        // use FragmentPagerAdapter to bind the slidingTabLayout (tabs with different titles)
+        // and ViewPager (different pages of fragment) together.
+        myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager(),  fragments);
+        viewPager.setAdapter(myPagerAdapter);
+        slidingTabLayout.setViewPager(viewPager);
+
         /**  DBHandlers pour manipuler la DB  */
         ClientDB clientDB = new ClientDB(this);
         SeanceDB seanceDB = new SeanceDB(this);
@@ -45,7 +74,7 @@ public class MainActivity extends Activity {
         Client client = AppManager.client;
 
         Seance seance = new Seance("Séance #01", new Date(sysTime), new Date(sysTime), "Roc en stock", "séance plutot bonne", client);
-        Seance seance2 = new Seance("Séance #022", new Date(sysTime), new Date(sysTime), "Roc en stock", "séance plutot mauvaise", client);
+        Seance seance2 = new Seance("Séance #02", new Date(sysTime), new Date(sysTime), "Roc en stock", "séance plutot mauvaise", client);
         Seance seance3 = new Seance("Séance #03", new Date(sysTime), new Date(sysTime), "Roc en stock", "séance plutot moyenne", client);
 
         clientDB.insert(client);

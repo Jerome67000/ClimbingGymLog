@@ -1,9 +1,7 @@
-package fr.jerome.climbinggymlog.controller;
+package fr.jerome.climbinggymlog;
 
-import java.util.Date;
 import java.util.List;
 
-import fr.jerome.climbinggymlog.database.CotationDB;
 import fr.jerome.climbinggymlog.model.Client;
 import fr.jerome.climbinggymlog.model.Cotation;
 import fr.jerome.climbinggymlog.model.StyleVoie;

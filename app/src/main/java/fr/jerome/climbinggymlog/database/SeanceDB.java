@@ -11,7 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.jerome.climbinggymlog.controller.AppManager;
+import fr.jerome.climbinggymlog.AppManager;
 import fr.jerome.climbinggymlog.model.Seance;
 
 /**

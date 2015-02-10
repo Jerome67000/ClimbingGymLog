@@ -10,7 +10,6 @@ import android.view.MenuItem;
 import java.sql.Date;
 import java.util.ArrayList;
 
-import fr.jerome.climbinggymlog.controller.AppManager;
 import fr.jerome.climbinggymlog.database.ClientDB;
 import fr.jerome.climbinggymlog.database.CotationDB;
 import fr.jerome.climbinggymlog.database.SeanceDB;
@@ -19,8 +18,6 @@ import fr.jerome.climbinggymlog.database.TypeEscDB;
 import fr.jerome.climbinggymlog.database.VoieDB;
 import fr.jerome.climbinggymlog.model.Client;
 import fr.jerome.climbinggymlog.model.Seance;
-import fr.jerome.climbinggymlog.model.StyleVoie;
-import fr.jerome.climbinggymlog.model.TypeEsc;
 import fr.jerome.climbinggymlog.model.Voie;
 import fr.jerome.climbinggymlog.view.MyPagerAdapter;
 import fr.jerome.climbinggymlog.view.fragments.EvenementsFragment;

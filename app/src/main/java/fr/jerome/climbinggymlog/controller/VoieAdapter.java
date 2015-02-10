@@ -11,36 +11,35 @@ import java.util.List;
 
 import fr.jerome.climbinggymlog.R;
 import fr.jerome.climbinggymlog.model.Seance;
+import fr.jerome.climbinggymlog.model.Voie;
 
 
 /**
  * Created by rcdsm06 on 09/02/2015.
  */
-public class SeanceAdapter extends ArrayAdapter {
+public class VoieAdapter extends ArrayAdapter {
 
     private Context context;
-    private List<Seance> seances;
+    private List<Voie> voies;
 
-    public SeanceAdapter(Context context, int resource, List<Seance> seances) {
+    public VoieAdapter(Context context, int resource, List<Voie> voies) {
 
-        super(context, resource, seances);
+        super(context, resource, voies);
         this.context = context;
-        this.seances = seances;
+        this.voies = voies;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        Seance seance = seances.get(position);
+        Voie voie = voies.get(position);
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View rowView = inflater.inflate(R.layout.seance_row, parent, false);
+        View rowView = inflater.inflate(R.layout.voies_row, parent, false);
 
-        TextView txTitre = (TextView) rowView.findViewById(R.id.titre_seance);
-        TextView txDateAj = (TextView) rowView.findViewById(R.id.date_seance);
+        TextView txTitre = (TextView) rowView.findViewById(R.id.titre_voie);
 
-        txTitre.setText(seance.getNom());
-        txDateAj.setText(seance.getDateAjout().toString());
+        txTitre.setText(voie.getCotation().getDifficulte() + " " + voie.getNom());
 
         return rowView;
     }

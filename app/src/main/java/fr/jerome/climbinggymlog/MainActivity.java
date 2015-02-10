@@ -22,7 +22,7 @@ import fr.jerome.climbinggymlog.model.Voie;
 import fr.jerome.climbinggymlog.view.MyPagerAdapter;
 import fr.jerome.climbinggymlog.view.fragments.EvenementsFragment;
 import fr.jerome.climbinggymlog.view.fragments.ResumeFragment;
-import fr.jerome.climbinggymlog.view.SlidingTabLayout;
+import fr.jerome.climbinggymlog.view.googletools.SlidingTabLayout;
 import fr.jerome.climbinggymlog.view.fragments.SeancesFragment;
 import fr.jerome.climbinggymlog.view.fragments.StatistiquesFragment;
 

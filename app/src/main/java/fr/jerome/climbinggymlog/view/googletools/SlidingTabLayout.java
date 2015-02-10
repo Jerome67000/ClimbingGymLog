@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package fr.jerome.climbinggymlog.view;
+package fr.jerome.climbinggymlog.view.googletools;
 
 import android.content.Context;
 import android.graphics.Typeface;

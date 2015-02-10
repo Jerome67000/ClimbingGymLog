@@ -26,6 +26,7 @@ public class SeanceAdapter extends ArrayAdapter {
         super(context, resource, seances);
         this.context = context;
         this.seances = seances;
+
     }
 
     @Override

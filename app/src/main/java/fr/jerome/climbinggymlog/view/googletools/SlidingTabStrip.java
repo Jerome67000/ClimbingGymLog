@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package fr.jerome.climbinggymlog.view;
+package fr.jerome.climbinggymlog.view.googletools;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -25,7 +25,9 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.LinearLayout;
 
-class SlidingTabStrip extends LinearLayout {
+import fr.jerome.climbinggymlog.view.googletools.SlidingTabLayout;
+
+public class SlidingTabStrip extends LinearLayout {
 
     private static final int DEFAULT_BOTTOM_BORDER_THICKNESS_DIPS = 2;
     private static final byte DEFAULT_BOTTOM_BORDER_COLOR_ALPHA = 0x26;

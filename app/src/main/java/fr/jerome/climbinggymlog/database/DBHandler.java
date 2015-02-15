@@ -83,21 +83,21 @@ public class DBHandler {
             while (num < 10) {
 
                 lettre = lettreA;
-                value.put(CotationDB.DIFF_COT, num + lettre);
+                value.put(CotationDB.DIFF, num + lettre);
                 db.insert(CotationDB.TABLE_NAME, null, value);
-                value.put(CotationDB.DIFF_COT, num + lettre + "+");
+                value.put(CotationDB.DIFF, num + lettre + "+");
                 db.insert(CotationDB.TABLE_NAME, null, value);
 
                 lettre = lettreB;
-                value.put(CotationDB.DIFF_COT, num + lettre);
+                value.put(CotationDB.DIFF, num + lettre);
                 db.insert(CotationDB.TABLE_NAME, null, value);
-                value.put(CotationDB.DIFF_COT, num + lettre + "+");
+                value.put(CotationDB.DIFF, num + lettre + "+");
                 db.insert(CotationDB.TABLE_NAME, null, value);
 
                 lettre = lettreC;
-                value.put(CotationDB.DIFF_COT, num + lettre);
+                value.put(CotationDB.DIFF, num + lettre);
                 db.insert(CotationDB.TABLE_NAME, null, value);
-                value.put(CotationDB.DIFF_COT, num + lettre + "+");
+                value.put(CotationDB.DIFF, num + lettre + "+");
                 db.insert(CotationDB.TABLE_NAME, null, value);
 
                 num++;
@@ -110,11 +110,11 @@ public class DBHandler {
 
             ContentValues value = new ContentValues();
 
-            value.put(TypeEscDB.NOM_TYPE_ESC, "En tete");
+            value.put(TypeEscDB.NOM, "En tete");
             db.insert(TypeEscDB.TABLE_NAME, null, value);
-            value.put(TypeEscDB.NOM_TYPE_ESC, "Moulinette");
+            value.put(TypeEscDB.NOM, "Moulinette");
             db.insert(TypeEscDB.TABLE_NAME, null, value);
-            value.put(TypeEscDB.NOM_TYPE_ESC, "Solo");
+            value.put(TypeEscDB.NOM, "Solo");
             db.insert(TypeEscDB.TABLE_NAME, null, value);
 
             Log.d("SQLite", "Type d'escalade ajoutées à la DB");
@@ -123,17 +123,17 @@ public class DBHandler {
         private void addDataStlyeVoie(SQLiteDatabase db) {
 
             ContentValues value = new ContentValues();
-            value.put(StyleVoieDB.NOM_STYLE_VOIE, "Dalle");
+            value.put(StyleVoieDB.NOM, "Dalle");
             db.insert(StyleVoieDB.TABLE_NAME, null, value);
-            value.put(StyleVoieDB.NOM_STYLE_VOIE, "Verticale");
+            value.put(StyleVoieDB.NOM, "Verticale");
             db.insert(StyleVoieDB.TABLE_NAME, null, value);
-            value.put(StyleVoieDB.NOM_STYLE_VOIE, "Léger dévers");
+            value.put(StyleVoieDB.NOM, "Léger dévers");
             db.insert(StyleVoieDB.TABLE_NAME, null, value);
-            value.put(StyleVoieDB.NOM_STYLE_VOIE, "Gros dévers");
+            value.put(StyleVoieDB.NOM, "Gros dévers");
             db.insert(StyleVoieDB.TABLE_NAME, null, value);
-            value.put(StyleVoieDB.NOM_STYLE_VOIE, "Toit");
+            value.put(StyleVoieDB.NOM, "Toit");
             db.insert(StyleVoieDB.TABLE_NAME, null, value);
-            value.put(StyleVoieDB.NOM_STYLE_VOIE, "Bloc");
+            value.put(StyleVoieDB.NOM, "Bloc");
             db.insert(StyleVoieDB.TABLE_NAME, null, value);
 
             Log.d("SQLite", "Style de voie ajoutées à la DB");

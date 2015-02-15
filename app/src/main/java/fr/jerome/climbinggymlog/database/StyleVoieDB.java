@@ -15,12 +15,12 @@ public class StyleVoieDB extends DBHandler {
 
     public static final String TABLE_NAME = "Style_voie";
 
-    public static final String ID_STYLE_VOIE = "_id";
-    public static final String NOM_STYLE_VOIE = "nom_style_voie";
+    public static final String ID = "_id";
+    public static final String NOM = "nom_style_voie";
 
     public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "(" +
-            ID_STYLE_VOIE + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            NOM_STYLE_VOIE + " TEXT);";
+            ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            NOM + " TEXT);";
 
     public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
 
@@ -37,7 +37,7 @@ public class StyleVoieDB extends DBHandler {
         List<StyleVoie> styles = new ArrayList<StyleVoie>();
 
         Cursor cur = database.query(TABLE_NAME,
-                new String[]{ID_STYLE_VOIE, NOM_STYLE_VOIE},
+                new String[]{ID, NOM},
                 null, null, null, null, null);
 
         cur.moveToFirst();

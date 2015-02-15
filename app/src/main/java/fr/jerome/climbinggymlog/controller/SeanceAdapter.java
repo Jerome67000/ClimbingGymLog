@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -42,6 +43,14 @@ public class SeanceAdapter extends ArrayAdapter {
 
         txTitre.setText(seance.getNom());
         txDateAj.setText(seance.getDateAjout().toString());
+
+        rowView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Toast.makeText(context, "Test", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         return rowView;
     }

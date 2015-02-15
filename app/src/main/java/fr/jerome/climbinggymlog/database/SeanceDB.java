@@ -21,22 +21,22 @@ public class SeanceDB extends DBHandler {
 
     public static final String TABLE_NAME = "Seance";
 
-    public static final String ID_SEANCE = "_id";
-    public static final String NOM_SEANCE = "nom_seance";
-    public static final String DATE_SEANCE = "date_seance";
-    public static final String DATE_AJ_SEANCE = "date_aj_seance";
-    public static final String NOM_SALLE_SEANCE = "nom_salle_seance";
-    public static final String NOTE_SEANCE = "note_seance";
-    public static final String USER_SEANCE = "user_seance";
+    public static final String ID = "_id";
+    public static final String NOM = "nom_seance";
+    public static final String DATE = "date_seance";
+    public static final String DATE_AJ = "date_aj_seance";
+    public static final String NOM_SALLE = "nom_salle_seance";
+    public static final String NOTE = "note_seance";
+    public static final String USER = "user_seance";
 
     public static final String   CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "(" +
-                                 ID_SEANCE + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                                 NOM_SEANCE + " TEXT, " +
-                                 DATE_SEANCE + " DATE, " +
-                                 DATE_AJ_SEANCE + " DATE, " +
-                                 NOM_SALLE_SEANCE + " TEXT, " +
-                                 NOTE_SEANCE + " TEXT, " +
-                                 USER_SEANCE + " INTEGER);";
+            ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            NOM + " TEXT, " +
+            DATE + " DATE, " +
+            DATE_AJ + " DATE, " +
+            NOM_SALLE + " TEXT, " +
+            NOTE + " TEXT, " +
+            USER + " INTEGER);";
 
     public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
 
@@ -52,12 +52,12 @@ public class SeanceDB extends DBHandler {
 
         ContentValues value = new ContentValues();
 
-        value.put(NOM_SEANCE, seance.getNom());
-        value.put(DATE_SEANCE, seance.getDateSeance().toString());
-        value.put(DATE_AJ_SEANCE, seance.getDateAjout().toString());
-        value.put(NOM_SALLE_SEANCE, seance.getNomSalle());
-        value.put(NOTE_SEANCE, seance.getNote());
-        value.put(USER_SEANCE, seance.getClient().getId());
+        value.put(NOM, seance.getNom());
+        value.put(DATE, seance.getDateSeance().toString());
+        value.put(DATE_AJ, seance.getDateAjout().toString());
+        value.put(NOM_SALLE, seance.getNomSalle());
+        value.put(NOTE, seance.getNote());
+        value.put(USER, seance.getClient().getId());
 
         // récupération de l'id pour le setter à l'objet
         long insertId = database.insert(TABLE_NAME, null, value);
@@ -87,7 +87,7 @@ public class SeanceDB extends DBHandler {
     public void delete(Seance seance) {
 
         long id = seance.getId();
-        database.delete(TABLE_NAME, ID_SEANCE  + " = " + id, null);
+        database.delete(TABLE_NAME, ID + " = " + id, null);
 
         Log.d("SQLite", "Suppression de la séance : " + seance.getNom() + "avec l'id : " + seance.getId() + " de la table Seance");
     }
@@ -100,7 +100,7 @@ public class SeanceDB extends DBHandler {
         List<Seance> seances = new ArrayList<Seance>();
 
         Cursor c = database.query(TABLE_NAME,
-                new String[]{ID_SEANCE, NOM_SEANCE, DATE_SEANCE, DATE_AJ_SEANCE, NOM_SALLE_SEANCE, NOTE_SEANCE, USER_SEANCE},
+                new String[]{ID, NOM, DATE, DATE_AJ, NOM_SALLE, NOTE, USER},
                 null, null, null, null, null);
 
         c.moveToFirst();

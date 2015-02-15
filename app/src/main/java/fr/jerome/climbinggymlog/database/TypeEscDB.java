@@ -15,12 +15,12 @@ public class TypeEscDB extends DBHandler {
 
     public static final String TABLE_NAME = "Type_esc";
 
-    public static final String ID_TYPE_ESC = "_id";
-    public static final String NOM_TYPE_ESC = "nom_type_esc";
+    public static final String ID = "_id";
+    public static final String NOM = "nom_type_esc";
 
     public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "(" +
-            ID_TYPE_ESC + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            NOM_TYPE_ESC + " TEXT);";
+            ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            NOM + " TEXT);";
 
     public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
 
@@ -37,7 +37,7 @@ public class TypeEscDB extends DBHandler {
         List<TypeEsc> types = new ArrayList<TypeEsc>();
 
         Cursor cur = database.query(TABLE_NAME,
-                new String[]{ID_TYPE_ESC, NOM_TYPE_ESC},
+                new String[]{ID, NOM},
                 null, null, null, null, null);
 
         cur.moveToFirst();

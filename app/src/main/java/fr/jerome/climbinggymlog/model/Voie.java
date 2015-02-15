@@ -21,6 +21,10 @@ public class Voie {
     private String note;
     private Bitmap photo;
 
+    public Voie() {
+
+    }
+
     public Voie(long id, long idSeance, String nom, Cotation cotation, String typeEscalade, String style, boolean reussi, boolean aVue, String note, Bitmap photo) {
 
         this.id = id;

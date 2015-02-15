@@ -5,6 +5,14 @@ import android.content.Context;
 import android.database.Cursor;
 import android.util.Log;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+
+import fr.jerome.climbinggymlog.AppManager;
+import fr.jerome.climbinggymlog.model.Cotation;
 import fr.jerome.climbinggymlog.model.Seance;
 import fr.jerome.climbinggymlog.model.Voie;
 

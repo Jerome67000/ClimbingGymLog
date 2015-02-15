@@ -15,12 +15,12 @@ public class CotationDB extends DBHandler{
 
     public static final String TABLE_NAME = "Cot_fr";
 
-    public static final String ID_COT = "_id";
-    public static final String DIFF_COT = "diff_cot";
+    public static final String ID = "_id";
+    public static final String DIFF = "diff_cot";
 
     public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "(" +
-            ID_COT + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            DIFF_COT + " TEXT);";
+            ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            DIFF + " TEXT);";
 
     public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
 
@@ -37,7 +37,7 @@ public class CotationDB extends DBHandler{
         List<Cotation> cotations = new ArrayList<Cotation>();
 
         Cursor cur = database.query(TABLE_NAME,
-                new String[]{ID_COT, DIFF_COT},
+                new String[]{ID, DIFF},
                 null, null, null, null, null);
 
         cur.moveToFirst();

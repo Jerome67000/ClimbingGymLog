@@ -3,6 +3,8 @@ package fr.jerome.climbinggymlog.model;
 import java.sql.Date;
 import java.util.ArrayList;
 
+import fr.jerome.climbinggymlog.database.ClientDB;
+
 /**
  * Created by jerome on 25/01/15.
  */
@@ -11,6 +13,7 @@ public class Client extends Personne {
     private String numClient;
     private Date dateAjout;
     private long idSalle;
+    private String nomSalle;
     private ArrayList<Seance> seances;
 
     /**

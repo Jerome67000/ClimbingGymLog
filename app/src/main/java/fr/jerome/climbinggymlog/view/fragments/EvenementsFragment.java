@@ -16,6 +16,6 @@ public class EvenementsFragment extends Fragment {
 
     @Nullable @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.evenements_fragment, container, false);
+        return inflater.inflate(R.layout.fragment_evenement, container, false);
     }
 }

@@ -9,9 +9,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-import fr.jerome.climbinggymlog.AppManager;
 import fr.jerome.climbinggymlog.model.Client;
-import fr.jerome.climbinggymlog.model.Seance;
 
 /**
  * Created by jerome on 27/01/15.
@@ -25,7 +23,7 @@ public class ClientDB extends DBHandler {
     public static final String PRENOM = "prenom_u";
     public static final String NUM = "num_u";
     public static final String EMAIL = "email_u";
-    public static final String SALLE = "salle_u";
+    public static final String SALLE_ID = "salle_u";
     public static final String DATE_AJ = "date_aj_u";
 
     public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "(" +
@@ -34,7 +32,7 @@ public class ClientDB extends DBHandler {
                                 PRENOM + " TEXT, " +
                                 NUM + " INTEGER, " +
                                 EMAIL + " TEXT, " +
-                                SALLE + " INTEGER, " +
+                                SALLE_ID + " INTEGER, " +
                                 DATE_AJ + " DATE);";
 
     public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
@@ -55,7 +53,7 @@ public class ClientDB extends DBHandler {
         value.put(PRENOM, client.getPrenom());
         value.put(NUM, client.getNumClient());
         value.put(DATE_AJ, client.getDateAjout().toString());
-        value.put(SALLE, client.getIdSalle());
+        value.put(SALLE_ID, client.getIdSalle());
 
         // récupération de l'id pour le setter dans l'objet
         long insertId = database.insert(TABLE_NAME, null, value);
@@ -76,7 +74,7 @@ public class ClientDB extends DBHandler {
     public Client select(long id) {
 
         Cursor c = database.query(TABLE_NAME,
-                new String[]{ID, NOM, PRENOM, NUM, EMAIL, SALLE, DATE_AJ},
+                new String[]{ID, NOM, PRENOM, NUM, EMAIL, SALLE_ID, DATE_AJ},
                 null, null, null, null, null);
 
         c.moveToFirst();

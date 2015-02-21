@@ -22,40 +22,38 @@ import fr.jerome.climbinggymlog.view.dialog.AddSeanceDialog;
  */
 public class SeancesFragment extends Fragment {
 
-    View rootView;
-    Context context;
-
     @Nullable @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        rootView = inflater.inflate(R.layout.fragment_seance_vide, container, false);
-        context = rootView.getContext();
-        SeanceDB seanceDB = new SeanceDB(rootView.getContext());
+        View rootView;
 
-        // Si liste séance non vide, on affiche une listView
+        SeanceDB seanceDB = new SeanceDB(getActivity().getBaseContext());
+
+        // FIXME quand clic sur séance, ouvrir la liste des voies de la séance
+        // Si liste séance non vide, on affiche une listView, sinon vue vide
         if(!seanceDB.getAllSeances().isEmpty()) {
 
             rootView = inflater.inflate(R.layout.fragment_seances, container, false);
-            context = rootView.getContext();
 
-            SeanceAdapter adapter = new SeanceAdapter(context, R.layout.row_seance, seanceDB.getAllSeances());
-
+            SeanceAdapter adapter = new SeanceAdapter(getActivity(), R.layout.row_seance, seanceDB.getAllSeances());
             ListView listView = (ListView) rootView.findViewById(R.id.seances_listview);
             listView.setAdapter(adapter);
+            seanceDB.close();
+        }
+        else {
+            rootView = inflater.inflate(R.layout.fragment_seance_vide, container, false);
         }
 
-        /** Ajout du bouton Add */
+        /** Ajout du fap nouvelle séance */
         FloatingActionButton fap = (FloatingActionButton) rootView.findViewById(R.id.fap_add_seance);
         fap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Toast.makeText(context, "Ajout", Toast.LENGTH_SHORT).show();
                 new AddSeanceDialog().show(getFragmentManager(), "0");
             }
         });
 
-        seanceDB.close();
 
         return rootView;
     }

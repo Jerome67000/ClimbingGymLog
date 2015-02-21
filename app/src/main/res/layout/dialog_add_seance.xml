@@ -22,7 +22,7 @@
         android:layout_alignParentStart="true"/>
 
     <EditText
-        android:id="@+id/note_new_seance"
+        android:id="@+id/note_new_voie"
         android:inputType="text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

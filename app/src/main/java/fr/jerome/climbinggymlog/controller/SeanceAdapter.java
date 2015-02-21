@@ -1,26 +1,34 @@
 package fr.jerome.climbinggymlog.controller;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
 
 import fr.jerome.climbinggymlog.R;
+import fr.jerome.climbinggymlog.VoieActivity;
 import fr.jerome.climbinggymlog.model.Seance;
+import fr.jerome.climbinggymlog.view.dialog.AddSeanceDialog;
 
 
 /**
  * Created by rcdsm06 on 09/02/2015.
  */
-public class SeanceAdapter extends ArrayAdapter {
+public class SeanceAdapter extends ArrayAdapter implements AdapterView.OnItemClickListener {
 
     private Context context;
     private List<Seance> seances;
+    private int positionSeance;
 
     public SeanceAdapter(Context context, int resource, List<Seance> seances) {
 
@@ -33,6 +41,9 @@ public class SeanceAdapter extends ArrayAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
+        ((ListView) parent).setOnItemClickListener(this);
+
+        positionSeance = position;
         Seance seance = seances.get(position);
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -44,14 +55,20 @@ public class SeanceAdapter extends ArrayAdapter {
         txTitre.setText(seance.getNom());
         txDateAj.setText(seance.getDateAjout().toString());
 
-        rowView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Toast.makeText(context, "Test", Toast.LENGTH_SHORT).show();
-            }
-        });
-
         return rowView;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        Log.d("position ", String.valueOf(position));
+        Log.d("id ", String.valueOf(id));
+
+        // Ouverture de la liste des voies concernant cette séance
+        Intent i = new Intent(context, VoieActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putLong(AddSeanceDialog.EXTRA_SEANCE_ID, position+1);
+        i.putExtras(bundle);
+        context.startActivity(i);
     }
 }

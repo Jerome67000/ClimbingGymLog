@@ -14,8 +14,8 @@ public class Voie {
     private long idSeance;
     private String nom;
     private Cotation cotation;
-    private String typeEscalade; //enum ?
-    private String style; //enum ?
+    private TypeEsc typeEscalade; //enum ?
+    private StyleVoie style; //enum ?
     private boolean reussi;
     private boolean aVue;
     private String note;
@@ -25,7 +25,7 @@ public class Voie {
 
     }
 
-    public Voie(long id, long idSeance, String nom, Cotation cotation, String typeEscalade, String style, boolean reussi, boolean aVue, String note, Bitmap photo) {
+    public Voie(long id, long idSeance, String nom, Cotation cotation, TypeEsc typeEscalade, StyleVoie style, boolean reussi, boolean aVue, String note, Bitmap photo) {
 
         this.id = id;
         this.idSeance = idSeance;
@@ -39,7 +39,7 @@ public class Voie {
         this.photo = photo;
     }
 
-    public Voie(long idSeance, String nom, Cotation cotation, String typeEscalade, String style, boolean reussi, boolean aVue, String note, Bitmap photo) {
+    public Voie(long idSeance, String nom, Cotation cotation, TypeEsc typeEscalade, StyleVoie style, boolean reussi, boolean aVue, String note, Bitmap photo) {
 
         this.idSeance = idSeance;
         this.nom = nom;
@@ -92,22 +92,22 @@ public class Voie {
         this.cotation = cotation;
     }
 
-    public String getTypeEscalade() {
+    public TypeEsc getTypeEscalade() {
 
         return typeEscalade;
     }
 
-    public void setTypeEscalade(String typeEscalade) {
+    public void setTypeEscalade(TypeEsc typeEscalade) {
 
         this.typeEscalade = typeEscalade;
     }
 
-    public String getStyle() {
+    public StyleVoie getStyle() {
 
         return style;
     }
 
-    public void setStyle(String style) {
+    public void setStyle(StyleVoie style) {
 
         this.style = style;
     }

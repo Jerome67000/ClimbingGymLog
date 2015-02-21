@@ -3,7 +3,9 @@ package fr.jerome.climbinggymlog.view.dialog;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +18,7 @@ import java.util.ArrayList;
 
 import fr.jerome.climbinggymlog.AppManager;
 import fr.jerome.climbinggymlog.R;
+import fr.jerome.climbinggymlog.VoieActivity;
 import fr.jerome.climbinggymlog.database.SeanceDB;
 import fr.jerome.climbinggymlog.model.Seance;
 
@@ -24,9 +27,12 @@ import fr.jerome.climbinggymlog.model.Seance;
  */
 public class AddSeanceDialog extends DialogFragment {
 
-    SeanceDB seanceDB;
+    private SeanceDB seanceDB;
+    private long seanceId;
+    public static final String EXTRA_SEANCE_ID = "EXTRA_SEANCE_ID";
 
 
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
@@ -49,6 +55,7 @@ public class AddSeanceDialog extends DialogFragment {
 
         seanceDB.close();
 
+        /** OK */
         builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
 
@@ -56,9 +63,15 @@ public class AddSeanceDialog extends DialogFragment {
                 createNewSeance(dialogView);
 
                 // Ouverture de la liste des voies concernant cette séance
+                Intent i = new Intent(getActivity(), VoieActivity.class);
+                i.putExtra(EXTRA_SEANCE_ID, seanceId);
+                Log.d("séance id putExtra", String.valueOf(seanceId));
+                startActivity(i);
+
             }
         });
 
+        /** CANCEL */
         builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // La Dialog se ferme, on retourne sur la liste des séances
@@ -79,7 +92,7 @@ public class AddSeanceDialog extends DialogFragment {
             titre = newTitre.getText().toString();
 
         String salle = ((EditText) dialogView.findViewById(R.id.lieu_new_seance)).getText().toString();
-        String note = ((EditText) dialogView.findViewById(R.id.note_new_seance)).getText().toString();
+        String note = ((EditText) dialogView.findViewById(R.id.note_new_voie)).getText().toString();
 
         int dateSelected = ((NumberPicker) dialogView.findViewById(R.id.date_seance_picker)).getValue();
         long date = 0;
@@ -93,7 +106,7 @@ public class AddSeanceDialog extends DialogFragment {
 
         seanceDB = new SeanceDB(dialogView.getContext());
         Seance newSeance = new Seance(titre, new Date(AppManager.sysTime - date), new Date(AppManager.sysTime), salle, note, AppManager.client);
-        seanceDB.insert(newSeance);
+        seanceId = seanceDB.insert(newSeance);
         seanceDB.close();
     }
 

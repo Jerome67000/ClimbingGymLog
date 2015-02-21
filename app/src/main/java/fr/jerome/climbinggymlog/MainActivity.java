@@ -65,10 +65,6 @@ public class MainActivity extends ActionBarActivity {
         myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager(),  fragments);
         viewPager.setAdapter(myPagerAdapter);
         slidingTabLayout.setViewPager(viewPager);
-
-//        /**  DBHandlers pour manipuler la DB  */
-//        VoieDB voieDB = new VoieDB(this);
-//        Voie voie = voieDB.insert(new Voie(seance2.getId(), "5c #02", AppManager.cotations.get(10), "Moulinette", "Dalle", true, true, "voie cool", null));
     }
 
     @Override

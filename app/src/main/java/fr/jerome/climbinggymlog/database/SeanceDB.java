@@ -48,7 +48,7 @@ public class SeanceDB extends DBHandler {
     /**
      * @param seance la séance à inserer dans la table
      */
-    public void insert(Seance seance) {
+    public long insert(Seance seance) {
 
         ContentValues value = new ContentValues();
 
@@ -63,6 +63,8 @@ public class SeanceDB extends DBHandler {
         long insertId = database.insert(TABLE_NAME, null, value);
         seance.setId(insertId);
         Log.d("SQL", "Ajout de la séance " + seance.getNom() + " id : " + seance.getId() + " à la table Seance");
+
+        return insertId;
     }
 
     /**

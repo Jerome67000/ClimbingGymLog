@@ -42,4 +42,6 @@ public class VoieAdapter extends ArrayAdapter {
 
         return rowView;
     }
+
+
 }

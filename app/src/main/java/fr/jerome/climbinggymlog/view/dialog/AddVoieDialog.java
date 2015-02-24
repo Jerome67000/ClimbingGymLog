@@ -6,23 +6,17 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.ToggleButton;
 
-import java.sql.Date;
 import java.util.ArrayList;
-import java.util.List;
 
 import fr.jerome.climbinggymlog.AppManager;
 import fr.jerome.climbinggymlog.R;
-import fr.jerome.climbinggymlog.database.SeanceDB;
 import fr.jerome.climbinggymlog.database.VoieDB;
 import fr.jerome.climbinggymlog.model.Cotation;
-import fr.jerome.climbinggymlog.model.Seance;
 import fr.jerome.climbinggymlog.model.StyleVoie;
 import fr.jerome.climbinggymlog.model.TypeEsc;
 import fr.jerome.climbinggymlog.model.Voie;
@@ -32,49 +26,65 @@ import fr.jerome.climbinggymlog.model.Voie;
  */
 public class AddVoieDialog extends DialogFragment {
 
+    public static final String KEY_PREFIX = "fr.jerome.climbinggymlog.view.dialog.AddVoieDialog.";
+    public static final String ARG_IDSEANCE_KEY = KEY_PREFIX + "idseance-key";
+    public static final String ARG_BVOIES_KEY = KEY_PREFIX + "nbvoies-key";
+
+    private View dialogView;
     private NumberPicker cotationPicker;
     private NumberPicker typeEscPicker;
     private NumberPicker styleVoiePicker;
 
-    private long idSeance;
+    private int seanceId;
+    private int nextVoieNumber;
+    private Voie newVoie;
 
-    public AddVoieDialog(long idSeance) {
+    public interface AddVoieDialogListener {
+        void onFinishAddVoieDialog(Voie newVoie);
+    }
 
-        this.idSeance = idSeance;
+    public static AddVoieDialog newInstance(int seanceId, int nbVoies) {
+        AddVoieDialog fragment = new AddVoieDialog();
+        Bundle args = new Bundle();
+        args.putInt(ARG_IDSEANCE_KEY, seanceId);
+        args.putInt(ARG_BVOIES_KEY, nbVoies);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        seanceId = getArguments().getInt(ARG_IDSEANCE_KEY, -1);
+        nextVoieNumber = getArguments().getInt(ARG_BVOIES_KEY, 0) + 1;
     }
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-        // Use the Builder class
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-        // Get the layout inflater
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-
         // Inflate and set the layout for the dialog
-        final View dialogView = inflater.inflate(R.layout.dialog_add_voie, null);
-
+        dialogView = getActivity().getLayoutInflater().inflate(R.layout.dialog_add_voie, null);
+        // Create Dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage("Nouvelle voie");
         builder.setView(dialogView);
 
-        initPickers(dialogView);
-//        initEditText(dialogView);
+        initPickers();
 
         builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-
                 // Insertion de la séance dans la BDD
-                createNewVoie(dialogView);
-
-                // Ouverture de la liste des voies concernant cette séance
+                createNewVoie();
+                // refrech listview
+                AddVoieDialogListener listener = (AddVoieDialogListener) getActivity();
+                listener.onFinishAddVoieDialog(newVoie);
             }
         });
 
         builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                // La Dialog se ferme, on retourne sur la liste des séances
+                dialog.dismiss();
             }
         });
 
@@ -82,15 +92,13 @@ public class AddVoieDialog extends DialogFragment {
     }
 
     /**
-     * Initialisation du custom date picker
-     * @param dialogView la View représentant la Dialog
+     * Initialisation des NumberPicker
      */
-    private void initPickers(View dialogView) {
+    private void initPickers() {
 
         /** Cotations Picker */
         cotationPicker = (NumberPicker) dialogView.findViewById(R.id.cotation_picker);
         ArrayList<Cotation> cotations = (ArrayList<Cotation>) AppManager.cotations;
-
         String[] cotationValues = new String[cotations.size()];
 
         for (Cotation c : cotations) {
@@ -105,11 +113,9 @@ public class AddVoieDialog extends DialogFragment {
         cotationPicker.setValue(30);
         cotationPicker.setWrapSelectorWheel(false);
 
-
         /** Type escalade Picker */
         typeEscPicker = (NumberPicker) dialogView.findViewById(R.id.type_escalade_picker);
         ArrayList<TypeEsc> typesEsc = (ArrayList<TypeEsc>) AppManager.typesEsc;
-
         String[] typeEscValues = new String[typesEsc.size()];
 
         for (TypeEsc t : typesEsc) {
@@ -127,7 +133,6 @@ public class AddVoieDialog extends DialogFragment {
         /** Type escalade Picker */
         styleVoiePicker = (NumberPicker) dialogView.findViewById(R.id.style_voie_picker);
         ArrayList<StyleVoie> stylesVoie = (ArrayList<StyleVoie>) AppManager.styleVoies;
-
         String[] styleVoieValues = new String[stylesVoie.size()];
 
         for (StyleVoie s : stylesVoie) {
@@ -144,9 +149,8 @@ public class AddVoieDialog extends DialogFragment {
 
     /**
      * Récupère les info de la Dialog pour créer un objet Voie et l'inserer dans la DB
-     * @param dialogView
      */
-    private void createNewVoie(View dialogView) {
+    private void createNewVoie() {
 
         VoieDB voieDB = new VoieDB(dialogView.getContext());
 
@@ -157,14 +161,10 @@ public class AddVoieDialog extends DialogFragment {
         ToggleButton tgVoieReussi = (ToggleButton) dialogView.findViewById(R.id.voie_reussi);
         ToggleButton tgVoieAVue= (ToggleButton) dialogView.findViewById(R.id.voie_a_vue);
 
-        // FIXME numéro de voie
-        String titre = cotation.getDifficulte() + " #01 "+ styleVoie.getStyle();
-
-
+        String titre = cotation.getDifficulte() + " #" + nextVoieNumber + " " + styleVoie.getStyle();
         String note = ((EditText) dialogView.findViewById(R.id.note_new_voie)).getText().toString();
 
-        // FIXME passer le numéro de séance dans l'intent
-        Voie newVoie = new Voie(idSeance, titre, cotation, typeEsc, styleVoie, tgVoieReussi.isChecked(), tgVoieAVue.isChecked(), note, null);
+        newVoie = new Voie(seanceId, titre, cotation, typeEsc, styleVoie, tgVoieReussi.isChecked(), tgVoieAVue.isChecked(), note, null);
         voieDB.insert(newVoie);
         voieDB.close();
     }

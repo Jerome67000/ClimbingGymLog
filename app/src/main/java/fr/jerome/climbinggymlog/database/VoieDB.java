@@ -3,6 +3,7 @@ package fr.jerome.climbinggymlog.database;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.util.Log;
 
 import java.text.DateFormat;
@@ -58,10 +59,6 @@ public class VoieDB extends DBHandler {
 
         List<Voie> voies = new ArrayList<Voie>();
 
-//        Cursor c = database.query(TABLE_NAME,
-//                new String[]{ID, ID_SEANCE_VOIE, NOM_VOIE, COTATION, TYPE_ESCALADE, STYLE, REUSSIE, A_VUE, NOTE},
-//                null, null, null, null, null);
-
         Cursor c = database.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + ID_SEANCE_VOIE + "=?", new String[]{String.valueOf(id)});
 
         c.moveToFirst();
@@ -76,7 +73,8 @@ public class VoieDB extends DBHandler {
             if (c.getInt(6) < 0)
                 isAVue = true;
 
-            Cotation cot = AppManager.cotations.get(c.getInt(2));
+            // l'id de la cotation - 1 car l'index d'une list commence à zéro
+            Cotation cot = AppManager.cotations.get(c.getInt(2)-1);
 
             Voie voie = new Voie(c.getLong(0), c.getString(1), cot,
                         AppManager.typesEsc.get(c.getInt(3)), AppManager.styleVoies.get(c.getInt(4)), isReussi, isAVue, c.getString(7), null);
@@ -87,11 +85,14 @@ public class VoieDB extends DBHandler {
         return voies;
     }
 
-    public boolean isNoVoieFromSeanceId(long id) {
+    public boolean isVoiesFromSeanceId(long id) {
 
         Cursor c = database.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + ID_SEANCE_VOIE + "=?", new String[]{String.valueOf(id)});
 
-        return c.getCount() == 0;
+        Log.d("id", String.valueOf(id));
+        Log.d("c.getCount", String.valueOf(c.getCount()));
+
+        return c.getCount() > 0;
     }
 
     /**

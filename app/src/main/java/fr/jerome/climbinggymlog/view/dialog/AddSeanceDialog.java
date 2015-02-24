@@ -21,16 +21,39 @@ import fr.jerome.climbinggymlog.R;
 import fr.jerome.climbinggymlog.VoieActivity;
 import fr.jerome.climbinggymlog.database.SeanceDB;
 import fr.jerome.climbinggymlog.model.Seance;
+import fr.jerome.climbinggymlog.view.fragments.SeancesFragment;
 
 /**
  * Created by jerome on 10/02/15.
  */
 public class AddSeanceDialog extends DialogFragment {
 
-    private SeanceDB seanceDB;
-    private long seanceId;
-    public static final String EXTRA_SEANCE_ID = "EXTRA_SEANCE_ID";
+    public static final String KEY_PREFIX = "fr.jerome.climbinggymlog.view.dialog.AddSeanceDialog.";
+    public static final String ARG_IDSEANCE_KEY = KEY_PREFIX + "idseance-key";
 
+    private int seanceId;
+    private SeanceDB seanceDB;
+
+    private Seance newSeance;
+
+
+    public interface AddSeanceDialogListener {
+        void onFinishAddSeanceDialog(Seance newSeance);
+    }
+
+    public static AddSeanceDialog newInstance(int seanceId) {
+        AddSeanceDialog fragment = new AddSeanceDialog();
+        Bundle args = new Bundle();
+        args.putInt(ARG_IDSEANCE_KEY, seanceId);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        seanceId = getArguments().getInt(ARG_IDSEANCE_KEY, -1);
+    }
 
     @NonNull
     @Override
@@ -62,19 +85,23 @@ public class AddSeanceDialog extends DialogFragment {
                 // Insertion de la séance dans la BDD
                 createNewSeance(dialogView);
 
-                // Ouverture de la liste des voies concernant cette séance
-                Intent i = new Intent(getActivity(), VoieActivity.class);
-                i.putExtra(EXTRA_SEANCE_ID, seanceId);
-                Log.d("séance id putExtra", String.valueOf(seanceId));
-                startActivity(i);
+                // refrech listview
+//                SeancesFragment instanceFragment = (SeancesFragment)getFragmentManager().findFragmentById(R.id.fragment_seances);
+//                Log.d("test", instanceFragment.toString());
+//                AddSeanceDialogListener listener = (AddSeanceDialogListener) instanceFragment;
+//                listener.onFinishAddSeanceDialog(newSeance);
 
+                // Ouverture de la liste des voies concernant cette séance
+                Intent intent = new Intent(getActivity(), VoieActivity.class);
+                intent.putExtra(ARG_IDSEANCE_KEY, seanceId);
+                startActivity(intent);
             }
         });
 
         /** CANCEL */
         builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                // La Dialog se ferme, on retourne sur la liste des séances
+                dialog.dismiss();
             }
         });
 
@@ -105,8 +132,8 @@ public class AddSeanceDialog extends DialogFragment {
         }
 
         seanceDB = new SeanceDB(dialogView.getContext());
-        Seance newSeance = new Seance(titre, new Date(AppManager.sysTime - date), new Date(AppManager.sysTime), salle, note, AppManager.client);
-        seanceId = seanceDB.insert(newSeance);
+        newSeance = new Seance(titre, new Date(AppManager.sysTime - date), new Date(AppManager.sysTime), salle, note, AppManager.client);
+        seanceDB.insert(newSeance);
         seanceDB.close();
     }
 

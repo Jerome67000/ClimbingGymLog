@@ -28,14 +28,12 @@ public class SeanceAdapter extends ArrayAdapter implements AdapterView.OnItemCli
 
     private Context context;
     private List<Seance> seances;
-    private int positionSeance;
 
     public SeanceAdapter(Context context, int resource, List<Seance> seances) {
 
         super(context, resource, seances);
         this.context = context;
         this.seances = seances;
-
     }
 
     @Override
@@ -43,7 +41,6 @@ public class SeanceAdapter extends ArrayAdapter implements AdapterView.OnItemCli
 
         ((ListView) parent).setOnItemClickListener(this);
 
-        positionSeance = position;
         Seance seance = seances.get(position);
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -67,7 +64,7 @@ public class SeanceAdapter extends ArrayAdapter implements AdapterView.OnItemCli
         // Ouverture de la liste des voies concernant cette séance
         Intent i = new Intent(context, VoieActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putLong(AddSeanceDialog.EXTRA_SEANCE_ID, position+1);
+        bundle.putInt(AddSeanceDialog.ARG_IDSEANCE_KEY, position+1);
         i.putExtras(bundle);
         context.startActivity(i);
     }

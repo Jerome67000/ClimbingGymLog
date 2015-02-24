@@ -6,7 +6,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/voies_listview"
-        android:layout_gravity="center_vertical"
+        android:layout_gravity="start"
         android:layout_weight="1"/>
 
     <com.shamanland.fab.FloatingActionButton

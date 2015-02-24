@@ -47,6 +47,7 @@ public class CotationDB extends DBHandler{
             cur.moveToNext();
         }
         cur.close();
+
         return cotations;
     }
 }

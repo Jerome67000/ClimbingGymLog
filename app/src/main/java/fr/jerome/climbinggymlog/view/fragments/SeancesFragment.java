@@ -30,9 +30,8 @@ public class SeancesFragment extends Fragment {
 
         SeanceDB seanceDB = new SeanceDB(getActivity().getBaseContext());
 
-        // FIXME quand clic sur séance, ouvrir la liste des voies de la séance
         // Si liste séance non vide, on affiche une listView, sinon vue vide
-        if(!seanceDB.getAllSeances().isEmpty()) {
+//        if(!seanceDB.getAllSeances().isEmpty()) {
 
             rootView = inflater.inflate(R.layout.fragment_seances, container, false);
 
@@ -40,10 +39,10 @@ public class SeancesFragment extends Fragment {
             ListView listView = (ListView) rootView.findViewById(R.id.seances_listview);
             listView.setAdapter(seanceAdapter);
             seanceDB.close();
-        }
-        else {
-            rootView = inflater.inflate(R.layout.fragment_seance_vide, container, false);
-        }
+//        }
+//        else {
+//            rootView = inflater.inflate(R.layout.fragment_seance_vide, container, false);
+//        }
 
         /** Ajout du fap nouvelle séance */
         FloatingActionButton fap = (FloatingActionButton) rootView.findViewById(R.id.fap_add_seance);
@@ -58,8 +57,8 @@ public class SeancesFragment extends Fragment {
 
     private void showAddSeanceDialog() {
         FragmentManager fm = getActivity().getSupportFragmentManager();
-        AddSeanceDialog addVoieDialog = AddSeanceDialog.newInstance(seanceAdapter.getCount()+1);
-        addVoieDialog.show(fm, AddSeanceDialog.KEY_PREFIX);
+        AddSeanceDialog addSeanceDialog = AddSeanceDialog.newInstance(seanceAdapter.getCount() + 1);
+        addSeanceDialog.show(fm, AddSeanceDialog.KEY_PREFIX);
     }
 
 //    @Override

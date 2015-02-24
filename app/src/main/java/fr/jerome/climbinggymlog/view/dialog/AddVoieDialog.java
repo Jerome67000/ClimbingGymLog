@@ -28,7 +28,7 @@ public class AddVoieDialog extends DialogFragment {
 
     public static final String KEY_PREFIX = "fr.jerome.climbinggymlog.view.dialog.AddVoieDialog.";
     public static final String ARG_IDSEANCE_KEY = KEY_PREFIX + "idseance-key";
-    public static final String ARG_BVOIES_KEY = KEY_PREFIX + "nbvoies-key";
+    public static final String ARG_NBVOIES_KEY = KEY_PREFIX + "nbvoies-key";
 
     private View dialogView;
     private NumberPicker cotationPicker;
@@ -47,7 +47,7 @@ public class AddVoieDialog extends DialogFragment {
         AddVoieDialog fragment = new AddVoieDialog();
         Bundle args = new Bundle();
         args.putInt(ARG_IDSEANCE_KEY, seanceId);
-        args.putInt(ARG_BVOIES_KEY, nbVoies);
+        args.putInt(ARG_NBVOIES_KEY, nbVoies);
         fragment.setArguments(args);
         return fragment;
     }
@@ -56,7 +56,7 @@ public class AddVoieDialog extends DialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         seanceId = getArguments().getInt(ARG_IDSEANCE_KEY, -1);
-        nextVoieNumber = getArguments().getInt(ARG_BVOIES_KEY, 0) + 1;
+        nextVoieNumber = getArguments().getInt(ARG_NBVOIES_KEY, 0) + 1;
     }
 
     @NonNull
@@ -104,7 +104,7 @@ public class AddVoieDialog extends DialogFragment {
         for (Cotation c : cotations) {
 
             int index = (int) (c.getId() - 1);
-            cotationValues[index] = c.getDifficulte();
+            cotationValues[index] = c.getNom();
         }
 
         cotationPicker.setMaxValue(cotationValues.length - 1);
@@ -161,7 +161,7 @@ public class AddVoieDialog extends DialogFragment {
         ToggleButton tgVoieReussi = (ToggleButton) dialogView.findViewById(R.id.voie_reussi);
         ToggleButton tgVoieAVue= (ToggleButton) dialogView.findViewById(R.id.voie_a_vue);
 
-        String titre = cotation.getDifficulte() + " #" + nextVoieNumber + " " + styleVoie.getStyle();
+        String titre = cotation.getNom() + " #" + nextVoieNumber + " " + styleVoie.getStyle();
         String note = ((EditText) dialogView.findViewById(R.id.note_new_voie)).getText().toString();
 
         newVoie = new Voie(seanceId, titre, cotation, typeEsc, styleVoie, tgVoieReussi.isChecked(), tgVoieAVue.isChecked(), note, null);

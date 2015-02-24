@@ -16,11 +16,17 @@ public class CotationDB extends DBHandler{
     public static final String TABLE_NAME = "Cot_fr";
 
     public static final String ID = "_id";
-    public static final String DIFF = "diff_cot";
+    public static final String NAME = "name_cot";
+    public static final String NUMBER_COT = "number_cot";
+    public static final String LETTER_COT = "letter_cot";
+    public static final String PLUS_COT = "plus_cot";
 
     public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "(" +
             ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            DIFF + " TEXT);";
+            NAME + " TEXT, " +
+            NUMBER_COT + " INT, " +
+            LETTER_COT + " TEXT, " +
+            PLUS_COT + " BOOL);";
 
     public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
 
@@ -36,17 +42,18 @@ public class CotationDB extends DBHandler{
 
         List<Cotation> cotations = new ArrayList<Cotation>();
 
-        Cursor cur = database.query(TABLE_NAME,
-                new String[]{ID, DIFF},
+        Cursor c = database.query(TABLE_NAME,
+                new String[]{ID, NAME, NUMBER_COT, LETTER_COT, PLUS_COT},
                 null, null, null, null, null);
 
-        cur.moveToFirst();
-        while (!cur.isAfterLast()) {
-            Cotation cotation = new Cotation(cur.getLong(0), cur.getString(1));
+        c.moveToFirst();
+        while (!c.isAfterLast()) {
+            boolean isPlus = c.getInt(4) != 0;
+            Cotation cotation = new Cotation(c.getLong(0), c.getString(1), c.getInt(2), c.getString(3), isPlus);
             cotations.add(cotation);
-            cur.moveToNext();
+            c.moveToNext();
         }
-        cur.close();
+        c.close();
 
         return cotations;
     }

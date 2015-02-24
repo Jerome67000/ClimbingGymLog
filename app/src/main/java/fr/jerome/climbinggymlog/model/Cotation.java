@@ -1,23 +1,27 @@
 package fr.jerome.climbinggymlog.model;
 
+import android.graphics.Color;
+
 /**
  * Représente une Cotation
  * Created by jerome on 26/01/15.
  */
 public class Cotation {
 
-    private long id = 0;
-    private String difficulte;
+    private long id;
+    private String nom;
+    private int  numDiff;
+    private String charDiff;
+    private boolean plus;
+    private int couleur = Color.BLUE;
 
-    /**
-     * Constructor
-     * @param id
-     * @param difficulte
-     */
-    public Cotation(long id, String difficulte) {
+    public Cotation(long id, String nom, int numDiff, String charDiff, boolean plus) {
 
         this.id = id;
-        this.difficulte = difficulte;
+        this.nom = nom;
+        this.numDiff = numDiff;
+        this.charDiff = charDiff;
+        this.plus = plus;
     }
 
     /**
@@ -37,14 +41,54 @@ public class Cotation {
         this.id = id;
     }
 
-    public String getDifficulte() {
+    public String getNom() {
 
-        return difficulte;
+        return nom;
     }
 
-    public void setDifficulte(String difficulte) {
+    public void setNom(String nom) {
 
-        this.difficulte = difficulte;
+        this.nom = nom;
+    }
+
+    public int getNumDiff() {
+
+        return numDiff;
+    }
+
+    public void setNumDiff(int numDiff) {
+
+        this.numDiff = numDiff;
+    }
+
+    public String getCharDiff() {
+
+        return charDiff;
+    }
+
+    public void setCharDiff(String charDiff) {
+
+        this.charDiff = charDiff;
+    }
+
+    public boolean isPlus() {
+
+        return plus;
+    }
+
+    public void setPlus(boolean plus) {
+
+        this.plus = plus;
+    }
+
+    public int getCouleur() {
+
+        return couleur;
+    }
+
+    public void setCouleur(int couleur) {
+
+        this.couleur = couleur;
     }
 
     @Override
@@ -52,7 +96,11 @@ public class Cotation {
 
         return "Cotation{" +
                 "id=" + id +
-                ", difficulte='" + difficulte + '\'' +
+                ", nom='" + nom + '\'' +
+                ", numDiff=" + numDiff +
+                ", charDiff='" + charDiff + '\'' +
+                ", plus=" + plus +
+                ", couleur=" + couleur +
                 '}';
     }
 }

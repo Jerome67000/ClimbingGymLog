@@ -71,38 +71,69 @@ public class DBHandler {
             Log.d("SQLite", "Mise à jour de la BD avec onUpgrade()");
         }
 
+//        private void addDataCotation(SQLiteDatabase db) {
+//
+//            ContentValues value = new ContentValues();
+//            int num = 2;
+//            String lettre;
+//            String lettreA = "a";
+//            String lettreB = "b";
+//            String lettreC = "c";
+//
+//            while (num < 10) {
+//
+//                lettre = lettreA;
+//                value.put(CotationDB.NAME, num + lettre);
+//                db.insert(CotationDB.TABLE_NAME, null, value);
+//                value.put(CotationDB.NAME, num + lettre + "+");
+//                db.insert(CotationDB.TABLE_NAME, null, value);
+//
+//                lettre = lettreB;
+//                value.put(CotationDB.NAME, num + lettre);
+//                db.insert(CotationDB.TABLE_NAME, null, value);
+//                value.put(CotationDB.NAME, num + lettre + "+");
+//                db.insert(CotationDB.TABLE_NAME, null, value);
+//
+//                lettre = lettreC;
+//                value.put(CotationDB.NAME, num + lettre);
+//                db.insert(CotationDB.TABLE_NAME, null, value);
+//                value.put(CotationDB.NAME, num + lettre + "+");
+//                db.insert(CotationDB.TABLE_NAME, null, value);
+//
+//                num++;
+//            }
+//
+//            Log.d("SQLite", "Cotations ajoutées à la DB");
+//        }
+
         private void addDataCotation(SQLiteDatabase db) {
 
+            int numberStart = 3;
+            String plus;
+
             ContentValues value = new ContentValues();
-            int num = 2;
-            String lettre;
-            String lettreA = "a";
-            String lettreB = "b";
-            String lettreC = "c";
+            while (numberStart < 10) {
 
-            while (num < 10) {
+                int lettre = (int) 'a';
+                while (lettre < (int) 'd') {
 
-                lettre = lettreA;
-                value.put(CotationDB.DIFF, num + lettre);
-                db.insert(CotationDB.TABLE_NAME, null, value);
-                value.put(CotationDB.DIFF, num + lettre + "+");
-                db.insert(CotationDB.TABLE_NAME, null, value);
+                    plus = "";
+                    value.put(CotationDB.NUMBER_COT, numberStart);
+                    value.put(CotationDB.LETTER_COT, String.valueOf((char)lettre));
+                    value.put(CotationDB.PLUS_COT, plus.equals("") ? 0 : 1);
+                    value.put(CotationDB.NAME, numberStart + String.valueOf((char)lettre) + plus);
+                    db.insert(CotationDB.TABLE_NAME, null, value);
 
-                lettre = lettreB;
-                value.put(CotationDB.DIFF, num + lettre);
-                db.insert(CotationDB.TABLE_NAME, null, value);
-                value.put(CotationDB.DIFF, num + lettre + "+");
-                db.insert(CotationDB.TABLE_NAME, null, value);
-
-                lettre = lettreC;
-                value.put(CotationDB.DIFF, num + lettre);
-                db.insert(CotationDB.TABLE_NAME, null, value);
-                value.put(CotationDB.DIFF, num + lettre + "+");
-                db.insert(CotationDB.TABLE_NAME, null, value);
-
-                num++;
+                    plus = "+";
+                    value.put(CotationDB.NUMBER_COT, numberStart);
+                    value.put(CotationDB.LETTER_COT, String.valueOf((char)lettre));
+                    value.put(CotationDB.PLUS_COT, plus.equals("") ? 0 : 1);
+                    value.put(CotationDB.NAME, numberStart + String.valueOf((char)lettre) + plus);
+                    db.insert(CotationDB.TABLE_NAME, null, value);
+                    lettre++;
+                }
+                numberStart++;
             }
-
             Log.d("SQLite", "Cotations ajoutées à la DB");
         }
 

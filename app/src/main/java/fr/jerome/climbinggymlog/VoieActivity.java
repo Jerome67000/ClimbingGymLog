@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import fr.jerome.climbinggymlog.controller.VoieAdapter;
 import fr.jerome.climbinggymlog.database.VoieDB;
+import fr.jerome.climbinggymlog.model.Cotation;
 import fr.jerome.climbinggymlog.model.Voie;
 import fr.jerome.climbinggymlog.view.dialog.AddSeanceDialog;
 import fr.jerome.climbinggymlog.view.dialog.AddVoieDialog;
@@ -33,8 +34,6 @@ public class VoieActivity extends ActionBarActivity implements AddVoieDialog.Add
         seanceId = bundle.getInt(AddSeanceDialog.ARG_IDSEANCE_KEY, -1);
 
         VoieDB voieDB = new VoieDB(this);
-
-        Log.d("séance id pour voies :", String.valueOf(seanceId));
 
         // FIXME layout différent si aucune voies
         /** Si liste voie de la séance non vide, on affiche une listView */

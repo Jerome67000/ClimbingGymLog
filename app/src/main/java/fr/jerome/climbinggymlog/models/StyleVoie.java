@@ -1,4 +1,4 @@
-package fr.jerome.climbinggymlog.model;
+package fr.jerome.climbinggymlog.models;
 
 /**
  * Created by jerome on 30/01/15.

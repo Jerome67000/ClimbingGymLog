@@ -1,9 +1,8 @@
-package fr.jerome.climbinggymlog;
+package fr.jerome.climbinggymlog.activities;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
@@ -11,10 +10,10 @@ import com.shamanland.fab.FloatingActionButton;
 
 import java.util.ArrayList;
 
-import fr.jerome.climbinggymlog.controller.VoieAdapter;
-import fr.jerome.climbinggymlog.database.VoieDB;
-import fr.jerome.climbinggymlog.model.Cotation;
-import fr.jerome.climbinggymlog.model.Voie;
+import fr.jerome.climbinggymlog.R;
+import fr.jerome.climbinggymlog.adapters.VoieAdapter;
+import fr.jerome.climbinggymlog.data.VoieDB;
+import fr.jerome.climbinggymlog.models.Voie;
 import fr.jerome.climbinggymlog.view.dialog.AddSeanceDialog;
 import fr.jerome.climbinggymlog.view.dialog.AddVoieDialog;
 
@@ -40,7 +39,7 @@ public class VoieActivity extends ActionBarActivity implements AddVoieDialog.Add
 //        if(voieDB.isVoiesFromSeanceId(seanceId)) {
         setContentView(R.layout.fragment_voies);
         ArrayList<Voie> voies = (ArrayList<Voie>) voieDB.getAllVoiesFromSeanceId(seanceId);
-        voieAdapter = new VoieAdapter(this, R.layout.row_seance, voies);
+        voieAdapter = new VoieAdapter(this, R.layout.adapter_seance, voies);
         ListView listView = (ListView) findViewById(R.id.voies_listview);
         listView.setAdapter(voieAdapter);
 //        }

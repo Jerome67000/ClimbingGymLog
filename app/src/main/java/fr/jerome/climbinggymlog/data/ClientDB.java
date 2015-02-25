@@ -1,4 +1,4 @@
-package fr.jerome.climbinggymlog.database;
+package fr.jerome.climbinggymlog.data;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -9,7 +9,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-import fr.jerome.climbinggymlog.model.Client;
+import fr.jerome.climbinggymlog.models.Client;
 
 /**
  * Created by jerome on 27/01/15.

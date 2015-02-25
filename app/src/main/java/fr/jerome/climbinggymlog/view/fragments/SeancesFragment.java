@@ -12,8 +12,8 @@ import android.widget.ListView;
 import com.shamanland.fab.FloatingActionButton;
 
 import fr.jerome.climbinggymlog.R;
-import fr.jerome.climbinggymlog.controller.SeanceAdapter;
-import fr.jerome.climbinggymlog.database.SeanceDB;
+import fr.jerome.climbinggymlog.adapters.SeanceAdapter;
+import fr.jerome.climbinggymlog.data.SeanceDB;
 import fr.jerome.climbinggymlog.view.dialog.AddSeanceDialog;
 
 /**
@@ -35,7 +35,7 @@ public class SeancesFragment extends Fragment {
 
             rootView = inflater.inflate(R.layout.fragment_seances, container, false);
 
-            seanceAdapter = new SeanceAdapter(getActivity(), R.layout.row_seance, seanceDB.getAllSeances());
+            seanceAdapter = new SeanceAdapter(getActivity(), R.layout.adapter_seance, seanceDB.getAllSeances());
             ListView listView = (ListView) rootView.findViewById(R.id.seances_listview);
             listView.setAdapter(seanceAdapter);
             seanceDB.close();

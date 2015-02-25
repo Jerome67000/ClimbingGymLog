@@ -1,9 +1,7 @@
-package fr.jerome.climbinggymlog.model;
+package fr.jerome.climbinggymlog.models;
 
 import java.sql.Date;
 import java.util.ArrayList;
-
-import fr.jerome.climbinggymlog.database.ClientDB;
 
 /**
  * Created by jerome on 25/01/15.

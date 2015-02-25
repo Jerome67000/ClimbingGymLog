@@ -1,4 +1,4 @@
-package fr.jerome.climbinggymlog;
+package fr.jerome.climbinggymlog.activities;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,17 +8,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import java.sql.Date;
 import java.util.ArrayList;
 
-import fr.jerome.climbinggymlog.database.ClientDB;
-import fr.jerome.climbinggymlog.database.CotationDB;
-import fr.jerome.climbinggymlog.database.SeanceDB;
-import fr.jerome.climbinggymlog.database.StyleVoieDB;
-import fr.jerome.climbinggymlog.database.TypeEscDB;
-import fr.jerome.climbinggymlog.database.VoieDB;
-import fr.jerome.climbinggymlog.model.Client;
-import fr.jerome.climbinggymlog.model.Seance;
+import fr.jerome.climbinggymlog.helpers.AppManager;
+import fr.jerome.climbinggymlog.R;
+import fr.jerome.climbinggymlog.data.CotationDB;
+import fr.jerome.climbinggymlog.data.StyleVoieDB;
+import fr.jerome.climbinggymlog.data.TypeEscDB;
 import fr.jerome.climbinggymlog.view.MyPagerAdapter;
 import fr.jerome.climbinggymlog.view.fragments.EvenementsFragment;
 import fr.jerome.climbinggymlog.view.fragments.ResumeFragment;

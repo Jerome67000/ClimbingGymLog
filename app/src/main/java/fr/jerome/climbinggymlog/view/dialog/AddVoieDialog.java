@@ -13,13 +13,13 @@ import android.widget.ToggleButton;
 
 import java.util.ArrayList;
 
-import fr.jerome.climbinggymlog.AppManager;
+import fr.jerome.climbinggymlog.helpers.AppManager;
 import fr.jerome.climbinggymlog.R;
-import fr.jerome.climbinggymlog.database.VoieDB;
-import fr.jerome.climbinggymlog.model.Cotation;
-import fr.jerome.climbinggymlog.model.StyleVoie;
-import fr.jerome.climbinggymlog.model.TypeEsc;
-import fr.jerome.climbinggymlog.model.Voie;
+import fr.jerome.climbinggymlog.data.VoieDB;
+import fr.jerome.climbinggymlog.models.Cotation;
+import fr.jerome.climbinggymlog.models.StyleVoie;
+import fr.jerome.climbinggymlog.models.TypeEsc;
+import fr.jerome.climbinggymlog.models.Voie;
 
 /**
  * Created by jerome on 17/02/15.

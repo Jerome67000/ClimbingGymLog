@@ -1,9 +1,8 @@
-package fr.jerome.climbinggymlog.controller;
+package fr.jerome.climbinggymlog.adapters;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,13 +10,12 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
 import fr.jerome.climbinggymlog.R;
-import fr.jerome.climbinggymlog.VoieActivity;
-import fr.jerome.climbinggymlog.model.Seance;
+import fr.jerome.climbinggymlog.activities.VoieActivity;
+import fr.jerome.climbinggymlog.models.Seance;
 import fr.jerome.climbinggymlog.view.dialog.AddSeanceDialog;
 
 
@@ -39,12 +37,12 @@ public class SeanceAdapter extends ArrayAdapter implements AdapterView.OnItemCli
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        ((ListView) parent).setOnItemClickListener(this);
+        ((ListView)parent).setOnItemClickListener(this);
 
         Seance seance = seances.get(position);
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View rowView = inflater.inflate(R.layout.row_seance, parent, false);
+        View rowView = inflater.inflate(R.layout.adapter_seance, parent, false);
 
         TextView txTitre = (TextView) rowView.findViewById(R.id.titre_seance);
         TextView txDateAj = (TextView) rowView.findViewById(R.id.date_seance);

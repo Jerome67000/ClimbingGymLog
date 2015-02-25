@@ -1,4 +1,4 @@
-package fr.jerome.climbinggymlog.model;
+package fr.jerome.climbinggymlog.models;
 
 import java.util.ArrayList;
 import java.sql.Date;

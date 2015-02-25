@@ -16,12 +16,11 @@ import android.widget.NumberPicker;
 import java.sql.Date;
 import java.util.ArrayList;
 
-import fr.jerome.climbinggymlog.AppManager;
+import fr.jerome.climbinggymlog.helpers.AppManager;
 import fr.jerome.climbinggymlog.R;
-import fr.jerome.climbinggymlog.VoieActivity;
-import fr.jerome.climbinggymlog.database.SeanceDB;
-import fr.jerome.climbinggymlog.model.Seance;
-import fr.jerome.climbinggymlog.view.fragments.SeancesFragment;
+import fr.jerome.climbinggymlog.activities.VoieActivity;
+import fr.jerome.climbinggymlog.data.SeanceDB;
+import fr.jerome.climbinggymlog.models.Seance;
 
 /**
  * Created by jerome on 10/02/15.

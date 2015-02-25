@@ -1,21 +1,16 @@
-package fr.jerome.climbinggymlog.database;
+package fr.jerome.climbinggymlog.data;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.DatabaseUtils;
 import android.util.Log;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.jerome.climbinggymlog.AppManager;
-import fr.jerome.climbinggymlog.model.Cotation;
-import fr.jerome.climbinggymlog.model.Seance;
-import fr.jerome.climbinggymlog.model.Voie;
+import fr.jerome.climbinggymlog.helpers.AppManager;
+import fr.jerome.climbinggymlog.models.Cotation;
+import fr.jerome.climbinggymlog.models.Voie;
 
 /**
  * Created by jerome on 28/01/15.

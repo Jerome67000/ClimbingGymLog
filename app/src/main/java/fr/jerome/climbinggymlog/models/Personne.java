@@ -1,4 +1,4 @@
-package fr.jerome.climbinggymlog.model;
+package fr.jerome.climbinggymlog.models;
 
 /**
  * Classe représentant une Personne

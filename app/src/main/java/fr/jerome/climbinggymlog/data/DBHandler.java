@@ -1,4 +1,4 @@
-package fr.jerome.climbinggymlog.database;
+package fr.jerome.climbinggymlog.data;
 
 import android.content.ContentValues;
 import android.content.Context;

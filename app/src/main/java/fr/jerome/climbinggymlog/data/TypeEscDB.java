@@ -1,4 +1,4 @@
-package fr.jerome.climbinggymlog.database;
+package fr.jerome.climbinggymlog.data;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -6,7 +6,7 @@ import android.database.Cursor;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.jerome.climbinggymlog.model.TypeEsc;
+import fr.jerome.climbinggymlog.models.TypeEsc;
 
 /**
  * Created by jerome on 28/01/15.

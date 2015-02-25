@@ -64,20 +64,14 @@ public class VoieDB extends DBHandler {
         c.moveToFirst();
         while (!c.isAfterLast()) {
 
-            boolean isReussi = false;
-            boolean isAVue = false;
-
-            if (c.getInt(5) < 0)
-                isReussi = true;
-
-            if (c.getInt(6) < 0)
-                isAVue = true;
+            boolean isReussi = c.getInt(5) > 0;
+            boolean isAVue = c.getInt(6) > 0;
 
             // l'id de la cotation - 1 car l'index d'une list commence à zéro
             Cotation cot = AppManager.cotations.get(c.getInt(2)-1);
 
-            Voie voie = new Voie(c.getLong(0), c.getString(1), cot,
-                        AppManager.typesEsc.get(c.getInt(3)), AppManager.styleVoies.get(c.getInt(4)), isReussi, isAVue, c.getString(7), null);
+            Voie voie = new Voie(c.getLong(0), c.getString(1), cot, AppManager.typesEsc.get(c.getInt(3)),
+                    AppManager.styleVoies.get(c.getInt(4)), isReussi, isAVue, c.getString(7), c.getLong(8));
             voies.add(voie);
             c.moveToNext();
         }
@@ -85,18 +79,18 @@ public class VoieDB extends DBHandler {
         return voies;
     }
 
-    public boolean isVoiesFromSeanceId(long id) {
-
-        Cursor c = database.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + ID_SEANCE_VOIE + "=?", new String[]{String.valueOf(id)});
-
-        Log.d("id", String.valueOf(id));
-        Log.d("c.getCount", String.valueOf(c.getCount()));
-
-        return c.getCount() > 0;
-    }
+//    public boolean isVoiesFromSeanceId(long id) {
+//
+//        Cursor c = database.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + ID_SEANCE_VOIE + "=?", new String[]{String.valueOf(id)});
+//
+//        Log.d("id", String.valueOf(id));
+//        Log.d("c.getCount", String.valueOf(c.getCount()));
+//
+//        return c.getCount() > 0;
+//    }
 
     /**
-     * @param voie la voie à inserer dans la table
+     * @param voie la voie inserée dans la table
      */
     public Voie insert(Voie voie) {
 

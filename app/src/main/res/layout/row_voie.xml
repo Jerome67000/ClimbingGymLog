@@ -1,25 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/voie_icon"
-        android:contentDescription="icon"
-        android:src="@drawable/ic_launcher"/>
+    <View
+        android:id="@+id/cotation_color_rect"
+        android:layout_width="5dp"
+        android:layout_height="48dp"
+        android:background="@drawable/cotation_color_rect"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceListItem"
         android:text="Titre"
+        android:paddingLeft="12dp"
         android:id="@+id/titre_voie"
-        android:layout_alignBottom="@+id/voie_icon"
-        android:layout_toRightOf="@+id/voie_icon"
-        android:layout_toEndOf="@+id/voie_icon"
-        android:layout_marginLeft="19dp"
-        android:layout_marginStart="19dp"/>
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/cotation_color_rect"
+        android:layout_toEndOf="@+id/cotation_color_rect"/>
+
+    <View
+        android:id="@+id/voie_reussi_rect"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/voie_reussi_rect"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"/>
 </RelativeLayout>

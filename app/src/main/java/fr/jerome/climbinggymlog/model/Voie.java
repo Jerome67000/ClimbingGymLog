@@ -7,28 +7,24 @@ import android.graphics.Bitmap;
  */
 public class Voie {
 
-    public static enum Style {Dalle, Verticale, LegerDevers, grosDevers, Toit, Bloc}
-    public static enum TYPE_ESC {Dalle, Verticale, LegerDevers, grosDevers, Toit, Bloc}
-
     private long id = 0;
-    private long idSeance;
     private String nom;
     private Cotation cotation;
-    private TypeEsc typeEscalade; //enum ?
-    private StyleVoie style; //enum ?
+    private TypeEsc typeEscalade;
+    private StyleVoie style;
     private boolean reussi;
     private boolean aVue;
     private String note;
+    private long idSeance;
     private Bitmap photo;
 
     public Voie() {
 
     }
 
-    public Voie(long id, long idSeance, String nom, Cotation cotation, TypeEsc typeEscalade, StyleVoie style, boolean reussi, boolean aVue, String note, Bitmap photo) {
+    public Voie(long id, String nom, Cotation cotation, TypeEsc typeEscalade, StyleVoie style, boolean reussi, boolean aVue, String note, long idSeance) {
 
         this.id = id;
-        this.idSeance = idSeance;
         this.nom = nom;
         this.cotation = cotation;
         this.typeEscalade = typeEscalade;
@@ -36,12 +32,11 @@ public class Voie {
         this.reussi = reussi;
         this.aVue = aVue;
         this.note = note;
-        this.photo = photo;
+        this.idSeance = idSeance;
     }
 
-    public Voie(long idSeance, String nom, Cotation cotation, TypeEsc typeEscalade, StyleVoie style, boolean reussi, boolean aVue, String note, Bitmap photo) {
+    public Voie(String nom, Cotation cotation, TypeEsc typeEscalade, StyleVoie style, boolean reussi, boolean aVue, String note, long idSeance) {
 
-        this.idSeance = idSeance;
         this.nom = nom;
         this.cotation = cotation;
         this.typeEscalade = typeEscalade;
@@ -49,7 +44,7 @@ public class Voie {
         this.reussi = reussi;
         this.aVue = aVue;
         this.note = note;
-        this.photo = photo;
+        this.idSeance = idSeance;
     }
 
     public long getId() {
@@ -155,14 +150,17 @@ public class Voie {
     @Override
     public String toString() {
 
-        return  "_id" + id + "\n" +
-                "id séance" + idSeance + "\n" +
-                "nom : " + nom + "\n" +
-                "cotation : " + cotation + "\n" +
-                "type d'escalade : " + typeEscalade + "\n" +
-                "style voie : " + style + "\n" +
-                "réussi ? " + reussi + "\n" +
-                "à vue ? " + aVue + "\n" +
-                "note : " + note + "\n";
+        return "Voie{" + '\'' +
+                "id=" + id +
+                ", nom='" + nom + '\'' +
+                ", cotation=" + cotation +
+                ", typeEscalade=" + typeEscalade +
+                ", style=" + style +
+                ", reussi=" + reussi +
+                ", aVue=" + aVue +
+                ", note='" + note + '\'' +
+                ", idSeance=" + idSeance +
+                ", photo=" + photo +
+                '}';
     }
 }

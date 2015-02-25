@@ -57,6 +57,7 @@ public class SeancesFragment extends Fragment {
 
     private void showAddSeanceDialog() {
         FragmentManager fm = getActivity().getSupportFragmentManager();
+        // FIXME lorsqu'on veut ajouter 2 séances à la suite, la vue n'est pas raffraichie et le getCount est faussé
         AddSeanceDialog addSeanceDialog = AddSeanceDialog.newInstance(seanceAdapter.getCount() + 1);
         addSeanceDialog.show(fm, AddSeanceDialog.KEY_PREFIX);
     }

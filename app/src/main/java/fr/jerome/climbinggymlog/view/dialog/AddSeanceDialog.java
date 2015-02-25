@@ -61,10 +61,8 @@ public class AddSeanceDialog extends DialogFragment {
 
         // Use the Builder class
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
         // Get the layout inflater
         LayoutInflater inflater = getActivity().getLayoutInflater();
-
         // Inflate and set the layout for the dialog
         final View dialogView = inflater.inflate(R.layout.dialog_add_seance, null);
 

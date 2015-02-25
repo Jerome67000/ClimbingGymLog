@@ -48,6 +48,10 @@ public class SeanceAdapter extends ArrayAdapter implements AdapterView.OnItemCli
 
         TextView txTitre = (TextView) rowView.findViewById(R.id.titre_seance);
         TextView txDateAj = (TextView) rowView.findViewById(R.id.date_seance);
+        View cotationRect = rowView.findViewById(R.id.cotation_color_rect);
+        // FIXME impl methode qui renvoie la cotation moyenne d'une séance
+        if (!seances.isEmpty() && !seance.getVoies().isEmpty())
+            cotationRect.setBackgroundColor(seance.getVoies().get(0).getCotation().getCouleur());
 
         txTitre.setText(seance.getNom());
         txDateAj.setText(seance.getDateAjout().toString());
@@ -57,9 +61,6 @@ public class SeanceAdapter extends ArrayAdapter implements AdapterView.OnItemCli
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-        Log.d("position ", String.valueOf(position));
-        Log.d("id ", String.valueOf(id));
 
         // Ouverture de la liste des voies concernant cette séance
         Intent i = new Intent(context, VoieActivity.class);

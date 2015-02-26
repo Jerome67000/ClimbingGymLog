@@ -16,7 +16,7 @@ public class CotationDB extends DBHandler{
     public static final String TABLE_NAME = "Cot_fr";
 
     public static final String ID = "_id";
-    public static final String NAME = "name_cot";
+    public static final String NAME = "nom";
     public static final String NUMBER_COT = "number_cot";
     public static final String LETTER_COT = "letter_cot";
     public static final String PLUS_COT = "plus_cot";

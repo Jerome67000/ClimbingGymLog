@@ -19,12 +19,12 @@ public class ClientDB extends DBHandler {
     public static final String TABLE_NAME = "User";
 
     public static final String ID = "_id";
-    public static final String NOM = "nom_u";
-    public static final String PRENOM = "prenom_u";
-    public static final String NUM = "num_u";
-    public static final String EMAIL = "email_u";
-    public static final String SALLE_ID = "salle_u";
-    public static final String DATE_AJ = "date_aj_u";
+    public static final String NOM = "nom";
+    public static final String PRENOM = "prenom";
+    public static final String NUM = "num";
+    public static final String EMAIL = "email";
+    public static final String SALLE_ID = "salle";
+    public static final String DATE_AJ = "date_aj";
 
     public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "(" +
                                 ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +

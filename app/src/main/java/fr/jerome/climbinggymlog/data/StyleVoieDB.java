@@ -16,7 +16,7 @@ public class StyleVoieDB extends DBHandler {
     public static final String TABLE_NAME = "Style_voie";
 
     public static final String ID = "_id";
-    public static final String NOM = "nom_style_voie";
+    public static final String NOM = "nom";
 
     public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "(" +
             ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +

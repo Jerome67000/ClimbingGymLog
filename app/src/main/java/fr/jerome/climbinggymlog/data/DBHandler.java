@@ -36,7 +36,7 @@ public class DBHandler {
      */
     private static class DBHelper extends SQLiteOpenHelper {
 
-        public static final String DB_NAME = "climbingGymLog.sqlite3";
+        public static final String DB_NAME = "climbingGymLog.sqlite";
         public static final int DB_VERSION = 1;
 
         public DBHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -70,41 +70,6 @@ public class DBHandler {
 
             Log.d("SQLite", "Mise à jour de la BD avec onUpgrade()");
         }
-
-//        private void addDataCotation(SQLiteDatabase db) {
-//
-//            ContentValues value = new ContentValues();
-//            int num = 2;
-//            String lettre;
-//            String lettreA = "a";
-//            String lettreB = "b";
-//            String lettreC = "c";
-//
-//            while (num < 10) {
-//
-//                lettre = lettreA;
-//                value.put(CotationDB.NAME, num + lettre);
-//                db.insert(CotationDB.TABLE_NAME, null, value);
-//                value.put(CotationDB.NAME, num + lettre + "+");
-//                db.insert(CotationDB.TABLE_NAME, null, value);
-//
-//                lettre = lettreB;
-//                value.put(CotationDB.NAME, num + lettre);
-//                db.insert(CotationDB.TABLE_NAME, null, value);
-//                value.put(CotationDB.NAME, num + lettre + "+");
-//                db.insert(CotationDB.TABLE_NAME, null, value);
-//
-//                lettre = lettreC;
-//                value.put(CotationDB.NAME, num + lettre);
-//                db.insert(CotationDB.TABLE_NAME, null, value);
-//                value.put(CotationDB.NAME, num + lettre + "+");
-//                db.insert(CotationDB.TABLE_NAME, null, value);
-//
-//                num++;
-//            }
-//
-//            Log.d("SQLite", "Cotations ajoutées à la DB");
-//        }
 
         private void addDataCotation(SQLiteDatabase db) {
 

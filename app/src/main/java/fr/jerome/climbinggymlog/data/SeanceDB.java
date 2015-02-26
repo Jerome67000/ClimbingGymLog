@@ -22,12 +22,12 @@ public class SeanceDB extends DBHandler {
     public static final String TABLE_NAME = "Seance";
 
     public static final String ID = "_id";
-    public static final String NOM = "nom_seance";
+    public static final String NOM = "nom";
     public static final String DATE = "date_seance";
-    public static final String DATE_AJ = "date_aj_seance";
-    public static final String NOM_SALLE = "nom_salle_seance";
-    public static final String NOTE = "note_seance";
-    public static final String USER = "user_seance";
+    public static final String DATE_AJ = "date_aj";
+    public static final String NOM_SALLE = "nom_salle";
+    public static final String NOTE = "note";
+    public static final String CLIENT_ID = "client_id";
 
     public static final String   CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "(" +
             ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -36,7 +36,7 @@ public class SeanceDB extends DBHandler {
             DATE_AJ + " DATE, " +
             NOM_SALLE + " TEXT, " +
             NOTE + " TEXT, " +
-            USER + " INTEGER);";
+            CLIENT_ID + " INTEGER);";
 
     public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
 
@@ -57,7 +57,7 @@ public class SeanceDB extends DBHandler {
         value.put(DATE_AJ, seance.getDateAjout().toString());
         value.put(NOM_SALLE, seance.getNomSalle());
         value.put(NOTE, seance.getNote());
-        value.put(USER, seance.getClient().getId());
+        value.put(CLIENT_ID, seance.getClient().getId());
 
         // récupération de l'id pour le setter à l'objet
         long insertId = database.insert(TABLE_NAME, null, value);
@@ -102,7 +102,7 @@ public class SeanceDB extends DBHandler {
         List<Seance> seances = new ArrayList<Seance>();
 
         Cursor c = database.query(TABLE_NAME,
-                new String[]{ID, NOM, DATE, DATE_AJ, NOM_SALLE, NOTE, USER},
+                new String[]{ID, NOM, DATE, DATE_AJ, NOM_SALLE, NOTE, CLIENT_ID},
                 null, null, null, null, null);
 
         c.moveToFirst();

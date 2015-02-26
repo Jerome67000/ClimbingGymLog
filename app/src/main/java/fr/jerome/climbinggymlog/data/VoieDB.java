@@ -20,25 +20,27 @@ public class VoieDB extends DBHandler {
     public static final String TABLE_NAME = "Voie";
 
     public static final String ID = "_id";
-    public static final String NOM_VOIE = "nom_voie";
-    public static final String COTATION = "cotation_voie";
-    public static final String TYPE_ESCALADE = "type_escalade_voie";
-    public static final String STYLE = "style_voie";
-    public static final String REUSSIE = "voie_reussie";
-    public static final String A_VUE = "voie_a_vue";
-    public static final String NOTE = "note_voie";
-    public static final String ID_SEANCE_VOIE = "id_seance";
+    public static final String NOM = "nom";
+    public static final String COTATION = "cotation_id";
+    public static final String TYPE_ESCALADE = "type_escalade_id";
+    public static final String STYLE = "style_voie_id";
+    public static final String REUSSIE = "reussie";
+    public static final String A_VUE = "a_vue";
+    public static final String NOTE = "note";
+    public static final String ID_SEANCE_VOIE = "seance_id";
+    public static final String PHOTO_NOM = "photo_nom";
 
     public static final String  CREATE_TABLE =  "CREATE TABLE " + TABLE_NAME + "(" +
                                 ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                                NOM_VOIE + " TEXT, " +
+            NOM + " TEXT, " +
                                 COTATION + " INTEGER, " +
                                 TYPE_ESCALADE + " INTEGER, " +
                                 STYLE + " INTEGER, " +
                                 REUSSIE + " BOOL, " +
                                 A_VUE + " BOOL, " +
                                 NOTE + " TEXT, " +
-                                ID_SEANCE_VOIE + " INTEGER);";
+                                ID_SEANCE_VOIE + " INTEGER" +
+                                PHOTO_NOM + " TEXT);";
 
     public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
 
@@ -91,7 +93,7 @@ public class VoieDB extends DBHandler {
 
         ContentValues value = new ContentValues();
 
-        value.put(NOM_VOIE, voie.getNom());
+        value.put(NOM, voie.getNom());
         value.put(COTATION, voie.getCotation().getId());
         value.put(TYPE_ESCALADE, voie.getTypeEscalade().getType());
         value.put(STYLE, voie.getStyle().getStyle());

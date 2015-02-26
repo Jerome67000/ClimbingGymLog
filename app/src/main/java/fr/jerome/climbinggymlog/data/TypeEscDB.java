@@ -16,7 +16,7 @@ public class TypeEscDB extends DBHandler {
     public static final String TABLE_NAME = "Type_esc";
 
     public static final String ID = "_id";
-    public static final String NOM = "nom_type_esc";
+    public static final String NOM = "nom";
 
     public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "(" +
             ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +

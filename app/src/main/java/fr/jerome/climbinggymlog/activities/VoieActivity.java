@@ -34,7 +34,7 @@ public class VoieActivity extends ActionBarActivity implements AddVoieDialog.Add
 
         VoieDB voieDB = new VoieDB(this);
 
-        // FIXME layout différent si aucune voies
+        // TODO layout différent si aucune voies
         /** Si liste voie de la séance non vide, on affiche une listView */
 //        if(voieDB.isVoiesFromSeanceId(seanceId)) {
         setContentView(R.layout.fragment_voies);

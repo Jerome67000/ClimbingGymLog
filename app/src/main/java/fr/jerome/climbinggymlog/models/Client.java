@@ -20,14 +20,13 @@ public class Client extends Personne {
      * @param id du client dans la DB
      * @param nom du client
      * @param prenom du client
-     * @param age du client
      * @param numClient du client (id du client dans la SAE)
      * @param dateAjout du client dans la DB
      * @param idSalle du client (salle associée au client)
      */
-    public Client(long id, String nom, String prenom, int age, String numClient, Date dateAjout, long idSalle) {
+    public Client(long id, String nom, String prenom, String numClient, Date dateAjout, long idSalle) {
 
-        super(id, nom, prenom, age);
+        super(id, nom, prenom, 0);
         this.numClient = numClient;
         this.dateAjout = dateAjout;
         this.idSalle = idSalle;

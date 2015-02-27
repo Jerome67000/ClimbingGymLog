@@ -34,8 +34,6 @@ public class VoieAdapter extends ArrayAdapter {
 
         Voie voie = voies.get(position);
 
-        Log.d("reussi ?", voie.toString());
-
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View rowView = inflater.inflate(R.layout.adapter_voie, parent, false);
 

@@ -8,13 +8,19 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.sql.Date;
 import java.util.ArrayList;
 
+import fr.jerome.climbinggymlog.data.SeanceDB;
+import fr.jerome.climbinggymlog.data.VoieDB;
 import fr.jerome.climbinggymlog.helpers.AppManager;
 import fr.jerome.climbinggymlog.R;
 import fr.jerome.climbinggymlog.data.CotationDB;
 import fr.jerome.climbinggymlog.data.StyleVoieDB;
 import fr.jerome.climbinggymlog.data.TypeEscDB;
+import fr.jerome.climbinggymlog.models.Cotation;
+import fr.jerome.climbinggymlog.models.Seance;
+import fr.jerome.climbinggymlog.models.Voie;
 import fr.jerome.climbinggymlog.view.MyPagerAdapter;
 import fr.jerome.climbinggymlog.view.fragments.EvenementsFragment;
 import fr.jerome.climbinggymlog.view.fragments.ResumeFragment;
@@ -61,6 +67,17 @@ public class MainActivity extends ActionBarActivity {
         myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager(),  fragments);
         viewPager.setAdapter(myPagerAdapter);
         slidingTabLayout.setViewPager(viewPager);
+
+        SeanceDB seanceDB = new SeanceDB(this);
+        Seance newSeance = new Seance("aa", new Date(AppManager.sysTime), new Date(AppManager.sysTime), "aa", "aa", AppManager.client);
+
+        seanceDB.insert(newSeance);
+        VoieDB voieDB = new VoieDB(this);
+
+        for (Cotation c : AppManager.cotations) {
+            if (!c.isPlus())
+                voieDB.insert(new Voie(0, c.getNom(), c, AppManager.typesEsc.get(0), AppManager.styleVoies.get(0), true, true, "nn", 1));
+        }
     }
 
     @Override

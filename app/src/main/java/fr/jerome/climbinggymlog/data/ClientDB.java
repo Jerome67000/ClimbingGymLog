@@ -88,14 +88,7 @@ public class ClientDB extends DBHandler {
         }
 
         assert date != null;
-        Client client = new Client();
-        //FIXME utiliser le constructeur
-        client.setId(c.getLong(0));
-        client.setNom(c.getString(1));
-        client.setPrenom(c.getString(2));
-        client.setNumClient(c.getString(3));
-        client.setIdSalle(c.getLong(5));
-        client.setDateAjout(new java.sql.Date(date.getTime()));
+        Client client = new Client(c.getLong(0), c.getString(1), c.getString(2), c.getString(3), new java.sql.Date(date.getTime()), c.getLong(5));
 
         return client;
     }

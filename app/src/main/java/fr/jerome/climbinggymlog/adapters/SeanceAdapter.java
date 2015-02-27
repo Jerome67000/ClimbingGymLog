@@ -47,7 +47,7 @@ public class SeanceAdapter extends ArrayAdapter implements AdapterView.OnItemCli
         TextView txTitre = (TextView) rowView.findViewById(R.id.titre_seance);
         TextView txDateAj = (TextView) rowView.findViewById(R.id.date_seance);
         View cotationRect = rowView.findViewById(R.id.cotation_color_rect);
-        // FIXME impl methode qui renvoie la cotation moyenne d'une séance
+        // TODO impl methode qui renvoie la cotation moyenne d'une séance
         if (!seances.isEmpty() && !seance.getVoies().isEmpty())
             cotationRect.setBackgroundColor(seance.getVoies().get(0).getCotation().getCouleur());
 

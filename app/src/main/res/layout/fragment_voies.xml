@@ -6,13 +6,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/voies_listview"
-        android:layout_gravity="start"
-        android:layout_weight="1"/>
+        android:layout_gravity="start"/>
 
     <com.shamanland.fab.FloatingActionButton
         android:id="@+id/fap_add_voie"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/fab_ic_add"
+        android:layout_marginBottom="@dimen/floating_action_button_margin_mini"
+        android:layout_marginRight="@dimen/floating_action_button_margin_mini"
         android:layout_gravity="right|bottom"/>
 </FrameLayout>

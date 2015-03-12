@@ -13,10 +13,9 @@ public class MyPagerAdapter extends FragmentPagerAdapter {
 
     private ArrayList<Fragment> fragments;
 
-    public static final String UI_TAB_RESUME = "RESUME";
     public static final String UI_TAB_SEANCES = "SEANCES";
     public static final String UI_TAB_STATS = "STATS";
-    public static final String UI_TAB_EVENEMENTS = "EVENEmENTS";
+    public static final String UI_TAB_EVENEMENTS = "EVENEMENTS";
 
     public MyPagerAdapter(FragmentManager fm, ArrayList<Fragment> fragments){
 
@@ -35,10 +34,9 @@ public class MyPagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
 
         switch (position) {
-            case 0 : return UI_TAB_RESUME;
-            case 1 : return UI_TAB_SEANCES;
-            case 2 : return UI_TAB_STATS;
-            case 3 : return UI_TAB_EVENEMENTS;
+            case 0 : return UI_TAB_SEANCES;
+            case 1 : return UI_TAB_STATS;
+            case 2 : return UI_TAB_EVENEMENTS;
         }
         return null;
     }

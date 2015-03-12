@@ -1,8 +1,13 @@
 package fr.jerome.climbinggymlog.activities;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 
@@ -28,6 +33,17 @@ public class VoieActivity extends ActionBarActivity implements AddVoieDialog.Add
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        /**
+         * ActionBar
+         **/
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            ActionBar actionBar = getSupportActionBar();
+            if (actionBar != null) {
+                actionBar.setDisplayHomeAsUpEnabled(true);
+                actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.main_color)));
+            }
+        }
 
         Bundle bundle = this.getIntent().getExtras();
         seanceId = bundle.getInt(AddSeanceDialog.ARG_IDSEANCE_KEY, -1);
@@ -55,6 +71,16 @@ public class VoieActivity extends ActionBarActivity implements AddVoieDialog.Add
                 showAddVoieDialog();
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void showAddVoieDialog() {

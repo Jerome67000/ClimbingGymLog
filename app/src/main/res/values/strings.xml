@@ -3,5 +3,8 @@
 
     <string name="app_name">Climbing Gym Log</string>
     <string name="action_settings">Paramètres</string>
+    <string name="title_activity_login">LoginActivity</string>
+
+    <string name="hello_world">Hello world!</string>
 
 </resources>

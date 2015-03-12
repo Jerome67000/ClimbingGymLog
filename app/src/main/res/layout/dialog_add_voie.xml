@@ -81,6 +81,7 @@
         android:layout_below="@+id/note_new_voie"
         android:layout_alignRight="@+id/voie_a_vue"
         android:layout_alignEnd="@+id/voie_a_vue"
-        android:src="@android:drawable/ic_menu_camera"/>
+        android:src="@android:drawable/ic_menu_camera"
+        android:background="#FF33B5E5"/>
 
 </RelativeLayout>

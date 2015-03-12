@@ -30,10 +30,10 @@ import fr.jerome.climbinggymlog.view.googletools.SlidingTabLayout;
 public class SlidingTabStrip extends LinearLayout {
 
     //FIXME Ajouter liserai bleu en bas des tabs
-    private static final int DEFAULT_BOTTOM_BORDER_THICKNESS_DIPS = 2;
-    private static final byte DEFAULT_BOTTOM_BORDER_COLOR_ALPHA = 0x26;
+    private static final int DEFAULT_BOTTOM_BORDER_THICKNESS_DIPS = 1;
+    private static final int DEFAULT_BOTTOM_BORDER_COLOR_ALPHA = 0xFF33B5E5;
     private static final int SELECTED_INDICATOR_THICKNESS_DIPS = 8;
-    private static final int DEFAULT_SELECTED_INDICATOR_COLOR = 0xFF33B5E5;
+    private static final int DEFAULT_SELECTED_INDICATOR_COLOR = DEFAULT_BOTTOM_BORDER_COLOR_ALPHA;
 
     private static final int DEFAULT_DIVIDER_THICKNESS_DIPS = 1;
     private static final byte DEFAULT_DIVIDER_COLOR_ALPHA = 0x20;
@@ -45,7 +45,7 @@ public class SlidingTabStrip extends LinearLayout {
     private final int mSelectedIndicatorThickness;
     private final Paint mSelectedIndicatorPaint;
 
-    private final int mDefaultBottomBorderColor;
+//    private final int mDefaultBottomBorderColor;
 
     private final Paint mDividerPaint;
     private final float mDividerHeight;
@@ -70,15 +70,13 @@ public class SlidingTabStrip extends LinearLayout {
         context.getTheme().resolveAttribute(android.R.attr.colorForeground, outValue, true);
         final int themeForegroundColor =  outValue.data;
 
-        mDefaultBottomBorderColor = setColorAlpha(themeForegroundColor, DEFAULT_BOTTOM_BORDER_COLOR_ALPHA);
-
         mDefaultTabColorizer = new SimpleTabColorizer();
         mDefaultTabColorizer.setIndicatorColors(DEFAULT_SELECTED_INDICATOR_COLOR);
         mDefaultTabColorizer.setDividerColors(setColorAlpha(themeForegroundColor, DEFAULT_DIVIDER_COLOR_ALPHA));
 
         mBottomBorderThickness = (int) (DEFAULT_BOTTOM_BORDER_THICKNESS_DIPS * density);
         mBottomBorderPaint = new Paint();
-        mBottomBorderPaint.setColor(mDefaultBottomBorderColor);
+        mBottomBorderPaint.setColor(DEFAULT_BOTTOM_BORDER_COLOR_ALPHA);
 
         mSelectedIndicatorThickness = (int) (SELECTED_INDICATOR_THICKNESS_DIPS * density);
         mSelectedIndicatorPaint = new Paint();

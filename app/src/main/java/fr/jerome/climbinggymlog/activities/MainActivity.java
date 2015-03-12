@@ -1,8 +1,12 @@
 package fr.jerome.climbinggymlog.activities;
 
+import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -23,7 +27,6 @@ import fr.jerome.climbinggymlog.models.Seance;
 import fr.jerome.climbinggymlog.models.Voie;
 import fr.jerome.climbinggymlog.view.MyPagerAdapter;
 import fr.jerome.climbinggymlog.view.fragments.EvenementsFragment;
-import fr.jerome.climbinggymlog.view.fragments.ResumeFragment;
 import fr.jerome.climbinggymlog.view.googletools.SlidingTabLayout;
 import fr.jerome.climbinggymlog.view.fragments.SeancesFragment;
 import fr.jerome.climbinggymlog.view.fragments.StatistiquesFragment;
@@ -42,6 +45,17 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         /**
+         * ActionBar
+         **/
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            ActionBar actionBar = getSupportActionBar();
+            if (actionBar != null) {
+                actionBar.setDisplayHomeAsUpEnabled(true);
+                actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.main_color)));
+            }
+        }
+
+        /**
          * AppManager pour les objets statiques
          **/
         AppManager.setClient(getBaseContext());
@@ -49,15 +63,17 @@ public class MainActivity extends ActionBarActivity {
         AppManager.setTypeEsc(new TypeEscDB(this).getAllTypes());
         AppManager.setStyleVoie(new StyleVoieDB(this).getAllStyles());
 
-        Log.d("sysTime value", String.valueOf(AppManager.sysTime));
-
+//        if (AppManager.client.getId() < 1) {
+//            Intent i = new Intent(this, LoginActivity.class);
+//            this.startActivity(i);
+//            AppManager.setClient(getBaseContext());
+//        }
 
         slidingTabLayout = (SlidingTabLayout) findViewById(R.id.tab);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
 
         // create a fragment list in order.
         fragments = new ArrayList<Fragment>();
-        fragments.add(new ResumeFragment());
         fragments.add(new SeancesFragment());
         fragments.add(new StatistiquesFragment());
         fragments.add(new EvenementsFragment());
@@ -69,14 +85,14 @@ public class MainActivity extends ActionBarActivity {
         slidingTabLayout.setViewPager(viewPager);
 
         SeanceDB seanceDB = new SeanceDB(this);
-        Seance newSeance = new Seance("aa", new Date(AppManager.sysTime), new Date(AppManager.sysTime), "aa", "aa", AppManager.client);
+        Seance newSeance = new Seance("Séance #01", new Date(AppManager.sysTime), new Date(AppManager.sysTime), "aa", "aa", AppManager.client);
 
         seanceDB.insert(newSeance);
         VoieDB voieDB = new VoieDB(this);
 
         for (Cotation c : AppManager.cotations) {
             if (!c.isPlus())
-                voieDB.insert(new Voie(0, c.getNom(), c, AppManager.typesEsc.get(0), AppManager.styleVoies.get(0), true, true, "nn", 1));
+                voieDB.insert(new Voie(c.getId(), c.getNom(), c, AppManager.typesEsc.get(0), AppManager.styleVoies.get(0), true, true, "nn", 1));
         }
     }
 

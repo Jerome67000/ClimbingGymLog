@@ -32,7 +32,6 @@ public class AddSeanceDialog extends DialogFragment {
 
     private int seanceId;
     private SeanceDB seanceDB;
-
     private Seance newSeance;
 
 
@@ -52,6 +51,12 @@ public class AddSeanceDialog extends DialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         seanceId = getArguments().getInt(ARG_IDSEANCE_KEY, -1);
+    }
+
+    private AddSeanceDialogListener listener;
+
+    public void setListener(AddSeanceDialogListener listener) {
+        this.listener = listener;
     }
 
     @NonNull
@@ -83,10 +88,7 @@ public class AddSeanceDialog extends DialogFragment {
                 createNewSeance(dialogView);
 
                 // refrech listview
-//                SeancesFragment instanceFragment = (SeancesFragment)getFragmentManager().findFragmentById(R.id.fragment_seances);
-//                Log.d("test", instanceFragment.toString());
-//                AddSeanceDialogListener listener = (AddSeanceDialogListener) instanceFragment;
-//                listener.onFinishAddSeanceDialog(newSeance);
+                listener.onFinishAddSeanceDialog(newSeance);
 
                 // Ouverture de la liste des voies concernant cette séance
                 Intent intent = new Intent(getActivity(), VoieActivity.class);

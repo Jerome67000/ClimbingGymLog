@@ -14,12 +14,13 @@ import com.shamanland.fab.FloatingActionButton;
 import fr.jerome.climbinggymlog.R;
 import fr.jerome.climbinggymlog.adapters.SeanceAdapter;
 import fr.jerome.climbinggymlog.data.SeanceDB;
+import fr.jerome.climbinggymlog.models.Seance;
 import fr.jerome.climbinggymlog.view.dialog.AddSeanceDialog;
 
 /**
  * Created by rcdsm06 on 09/02/2015.
  */
-public class SeancesFragment extends Fragment {
+public class SeancesFragment extends Fragment implements AddSeanceDialog.AddSeanceDialogListener {
 
     private SeanceAdapter seanceAdapter;
 
@@ -59,12 +60,13 @@ public class SeancesFragment extends Fragment {
         FragmentManager fm = getActivity().getSupportFragmentManager();
         // FIXME lorsqu'on veut ajouter 2 séances à la suite, la vue n'est pas raffraichie et le getCount est faussé
         AddSeanceDialog addSeanceDialog = AddSeanceDialog.newInstance(seanceAdapter.getCount() + 1);
+        addSeanceDialog.setListener(this);
         addSeanceDialog.show(fm, AddSeanceDialog.KEY_PREFIX);
     }
 
-//    @Override
-//    public void onFinishAddSeanceDialog(Seance newSeance) {
-//        seanceAdapter.add(newSeance);
-//        seanceAdapter.notifyDataSetChanged();
-//    }
+    @Override
+    public void onFinishAddSeanceDialog(Seance newSeance) {
+        seanceAdapter.add(newSeance);
+        seanceAdapter.notifyDataSetChanged();
+    }
 }

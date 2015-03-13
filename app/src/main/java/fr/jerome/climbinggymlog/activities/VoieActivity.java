@@ -1,5 +1,6 @@
 package fr.jerome.climbinggymlog.activities;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -29,6 +30,7 @@ public class VoieActivity extends ActionBarActivity implements AddVoieDialog.Add
 
     private VoieAdapter voieAdapter;
     private int seanceId;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

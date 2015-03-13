@@ -50,7 +50,7 @@ public class MainActivity extends ActionBarActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             ActionBar actionBar = getSupportActionBar();
             if (actionBar != null) {
-                actionBar.setDisplayHomeAsUpEnabled(true);
+                actionBar.setDisplayHomeAsUpEnabled(false);
                 actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.main_color)));
             }
         }
@@ -84,16 +84,16 @@ public class MainActivity extends ActionBarActivity {
         viewPager.setAdapter(myPagerAdapter);
         slidingTabLayout.setViewPager(viewPager);
 
-        SeanceDB seanceDB = new SeanceDB(this);
-        Seance newSeance = new Seance("Séance #01", new Date(AppManager.sysTime), new Date(AppManager.sysTime), "aa", "aa", AppManager.client);
+//        SeanceDB seanceDB = new SeanceDB(this);
+//        Seance newSeance = new Seance("Séance #01", new Date(AppManager.sysTime), new Date(AppManager.sysTime), "aa", "aa", AppManager.client);
+//
+//        seanceDB.insert(newSeance);
+//        VoieDB voieDB = new VoieDB(this);
 
-        seanceDB.insert(newSeance);
-        VoieDB voieDB = new VoieDB(this);
-
-        for (Cotation c : AppManager.cotations) {
-            if (!c.isPlus())
-                voieDB.insert(new Voie(c.getId(), c.getNom(), c, AppManager.typesEsc.get(0), AppManager.styleVoies.get(0), true, true, "nn", 1));
-        }
+//        for (Cotation c : AppManager.cotations) {
+//            if (!c.isPlus())
+//                voieDB.insert(new Voie(c.getId(), c.getNom(), c, AppManager.typesEsc.get(0), AppManager.styleVoies.get(0), true, true, "nn", 1));
+//        }
     }
 
     @Override

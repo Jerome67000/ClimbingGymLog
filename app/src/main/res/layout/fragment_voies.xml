@@ -1,19 +1,94 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:id="@+id/fragment_seances"
+              android:orientation="vertical">
 
-    <ListView
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/resume_seance"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/voies_listview"
-        android:layout_gravity="start"/>
+        android:background="@color/accent_material_light"
+        android:padding="10dp">
 
-    <com.shamanland.fab.FloatingActionButton
-        android:id="@+id/fap_add_voie"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/fab_ic_add"
-        android:layout_marginBottom="@dimen/floating_action_button_margin_mini"
-        android:layout_marginRight="@dimen/floating_action_button_margin_mini"
-        android:layout_gravity="right|bottom"/>
-</FrameLayout>
+        <TextView
+            android:id="@+id/text_voies_reussies"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Voies réussie"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"/>
+
+        <TextView
+            android:id="@+id/text_meilleure_voie"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Meilleure voie"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/text_voies_reussies"/>
+
+        <TextView
+            android:id="@+id/text_cot_moyenne"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Cotation moyenne"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/text_meilleure_voie"/>
+
+        <TextView
+            android:id="@+id/val_voies_reussies"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="0 sur 0"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"/>
+
+        <TextView
+            android:id="@+id/val_meilleure_voie"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="4a"
+            android:layout_below="@+id/val_voies_reussies"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"/>
+
+        <TextView
+            android:id="@+id/val_cot_moyenne"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="4a"
+            android:layout_below="@+id/val_meilleure_voie"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"/>
+    </RelativeLayout>
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent">
+
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/voies_listview"
+            android:layout_gravity="start"/>
+
+        <com.shamanland.fab.FloatingActionButton
+            android:id="@+id/fap_add_voie"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/fab_ic_add"
+            android:layout_marginBottom="@dimen/floating_action_button_margin_mini"
+            android:layout_marginRight="@dimen/floating_action_button_margin_mini"
+            android:layout_gravity="right|bottom"/>
+    </FrameLayout>
+</LinearLayout>

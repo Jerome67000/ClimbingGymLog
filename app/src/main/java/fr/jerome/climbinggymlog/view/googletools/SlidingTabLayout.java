@@ -22,11 +22,15 @@ import android.os.Build;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 /**
@@ -169,11 +173,20 @@ public class SlidingTabLayout extends HorizontalScrollView {
      * {@link #setCustomTabView(int, int)}.
      */
     protected TextView createDefaultTabView(Context context) {
-        TextView textView = new TextView(context);
+        final TextView textView = new TextView(context);
         textView.setGravity(Gravity.CENTER);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, TAB_VIEW_TEXT_SIZE_SP);
         textView.setTypeface(Typeface.DEFAULT_BOLD);
-
+        textView.post(new Runnable() {
+            @Override public void run() {
+                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) textView.getLayoutParams();
+                if(textView.getWidth() < ((View)textView.getParent().getParent()).getWidth()*0.33f) {
+                    params.width = 0;
+                    params.weight = 0.33f;
+                }
+                textView.requestLayout();
+            }
+        });
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             // If we're running on Honeycomb or newer, then we can use the Theme's
             // selectableItemBackground to ensure that the View has a pressed state

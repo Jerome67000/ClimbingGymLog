@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 import fr.jerome.climbinggymlog.helpers.AppManager;
 import fr.jerome.climbinggymlog.R;
-import fr.jerome.climbinggymlog.activities.VoieActivity;
+import fr.jerome.climbinggymlog.activities.SeanceDetailActivity;
 import fr.jerome.climbinggymlog.data.SeanceDB;
 import fr.jerome.climbinggymlog.models.Seance;
 
@@ -32,11 +32,12 @@ public class AddSeanceDialog extends DialogFragment {
 
     private int seanceId;
     private SeanceDB seanceDB;
+    private AddSeanceDialogListener listener;
     private Seance newSeance;
-
 
     public interface AddSeanceDialogListener {
         void onFinishAddSeanceDialog(Seance newSeance);
+
     }
 
     public static AddSeanceDialog newInstance(int seanceId) {
@@ -52,8 +53,6 @@ public class AddSeanceDialog extends DialogFragment {
         super.onCreate(savedInstanceState);
         seanceId = getArguments().getInt(ARG_IDSEANCE_KEY, -1);
     }
-
-    private AddSeanceDialogListener listener;
 
     public void setListener(AddSeanceDialogListener listener) {
         this.listener = listener;
@@ -91,7 +90,7 @@ public class AddSeanceDialog extends DialogFragment {
                 listener.onFinishAddSeanceDialog(newSeance);
 
                 // Ouverture de la liste des voies concernant cette séance
-                Intent intent = new Intent(getActivity(), VoieActivity.class);
+                Intent intent = new Intent(getActivity(), SeanceDetailActivity.class);
                 intent.putExtra(ARG_IDSEANCE_KEY, seanceId);
                 startActivity(intent);
             }

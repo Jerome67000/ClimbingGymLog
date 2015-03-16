@@ -31,19 +31,12 @@ public class SeancesFragment extends Fragment implements AddSeanceDialog.AddSean
 
         SeanceDB seanceDB = new SeanceDB(getActivity().getBaseContext());
 
-        // Si liste séance non vide, on affiche une listView, sinon vue vide
-//        if(!seanceDB.getAllSeances().isEmpty()) {
+        rootView = inflater.inflate(R.layout.fragment_seances, container, false);
 
-            rootView = inflater.inflate(R.layout.fragment_seances, container, false);
-
-            seanceAdapter = new SeanceAdapter(getActivity(), R.layout.adapter_seance, seanceDB.getAllSeances());
-            ListView listView = (ListView) rootView.findViewById(R.id.seances_listview);
-            listView.setAdapter(seanceAdapter);
-            seanceDB.close();
-//        }
-//        else {
-//            rootView = inflater.inflate(R.layout.fragment_seance_vide, container, false);
-//        }
+        seanceAdapter = new SeanceAdapter(getActivity(), R.layout.adapter_seance, seanceDB.getAllSeances());
+        ListView listView = (ListView) rootView.findViewById(R.id.seances_listview);
+        listView.setAdapter(seanceAdapter);
+        seanceDB.close();
 
         /** Ajout du fap nouvelle séance */
         FloatingActionButton fap = (FloatingActionButton) rootView.findViewById(R.id.fap_add_seance);

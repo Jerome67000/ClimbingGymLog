@@ -17,17 +17,19 @@ import fr.jerome.climbinggymlog.models.Voie;
 /**
  * Created by jerome on 19/02/15.
  */
-public class VoieAdapter extends ArrayAdapter {
+public class SeanceDetailAdapter extends ArrayAdapter {
 
     private Context context;
     private List<Voie> voies;
 
-    public VoieAdapter(Context context, int resource, List<Voie> voies) {
+    public SeanceDetailAdapter(Context context, int resource, List<Voie> voies) {
 
         super(context, resource, voies);
         this.context = context;
         this.voies = voies;
     }
+
+
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {

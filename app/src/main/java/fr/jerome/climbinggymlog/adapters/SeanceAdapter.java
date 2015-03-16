@@ -14,7 +14,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import fr.jerome.climbinggymlog.R;
-import fr.jerome.climbinggymlog.activities.VoieActivity;
+import fr.jerome.climbinggymlog.activities.SeanceDetailActivity;
 import fr.jerome.climbinggymlog.models.Seance;
 import fr.jerome.climbinggymlog.view.dialog.AddSeanceDialog;
 
@@ -61,7 +61,7 @@ public class SeanceAdapter extends ArrayAdapter implements AdapterView.OnItemCli
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
         // Ouverture de la liste des voies concernant cette séance
-        Intent i = new Intent(context, VoieActivity.class);
+        Intent i = new Intent(context, SeanceDetailActivity.class);
         Bundle bundle = new Bundle();
         bundle.putInt(AddSeanceDialog.ARG_IDSEANCE_KEY, position+1);
         i.putExtras(bundle);

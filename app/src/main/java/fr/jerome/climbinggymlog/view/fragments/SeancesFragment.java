@@ -28,10 +28,8 @@ public class SeancesFragment extends Fragment implements AddSeanceDialog.AddSean
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View rootView;
-
-        SeanceDB seanceDB = new SeanceDB(getActivity().getBaseContext());
-
         rootView = inflater.inflate(R.layout.fragment_seances, container, false);
+        SeanceDB seanceDB = new SeanceDB(getActivity().getBaseContext());
 
         seanceAdapter = new SeanceAdapter(getActivity(), R.layout.adapter_seance, seanceDB.getAllSeances());
         ListView listView = (ListView) rootView.findViewById(R.id.seances_listview);

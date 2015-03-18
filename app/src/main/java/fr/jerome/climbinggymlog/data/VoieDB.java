@@ -76,16 +76,6 @@ public class VoieDB extends DBHandler {
         return voies;
     }
 
-//    public boolean isVoiesFromSeanceId(long id) {
-//
-//        Cursor c = database.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + ID_SEANCE_VOIE + "=?", new String[]{String.valueOf(id)});
-//
-//        Log.d("id", String.valueOf(id));
-//        Log.d("c.getCount", String.valueOf(c.getCount()));
-//
-//        return c.getCount() > 0;
-//    }
-
     /**
      * @param voie la voie inserée dans la table
      */

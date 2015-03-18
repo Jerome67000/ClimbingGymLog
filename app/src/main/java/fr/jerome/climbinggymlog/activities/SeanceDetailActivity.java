@@ -18,6 +18,7 @@ import java.util.ArrayList;
 
 import fr.jerome.climbinggymlog.R;
 import fr.jerome.climbinggymlog.adapters.SeanceDetailAdapter;
+import fr.jerome.climbinggymlog.data.SeanceDB;
 import fr.jerome.climbinggymlog.data.VoieDB;
 import fr.jerome.climbinggymlog.models.Voie;
 import fr.jerome.climbinggymlog.view.dialog.AddSeanceDialog;
@@ -31,9 +32,7 @@ public class SeanceDetailActivity extends ActionBarActivity implements AddVoieDi
 
     private SeanceDetailAdapter seanceDetailAdapter;
     private int seanceId;
-    private TextView txNbVoiesReussies;
-    private TextView txMeilleureVoie;
-    private TextView txCotationMoyenne;
+    private ResumeSeanceFragment resumeSeanceFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,17 +55,12 @@ public class SeanceDetailActivity extends ActionBarActivity implements AddVoieDi
         VoieDB voieDB = new VoieDB(this);
 
         // TODO layout différent si aucune voies
-        /** Si liste voie de la séance non vide, on affiche une listView */
-//        if(voieDB.isVoiesFromSeanceId(seanceId)) {
         setContentView(R.layout.fragment_detail_seance);
 
         ArrayList<Voie> voies = (ArrayList<Voie>) voieDB.getAllVoiesFromSeanceId(seanceId);
         seanceDetailAdapter = new SeanceDetailAdapter(this, R.layout.adapter_seance, voies);
         ListView listView = (ListView) findViewById(R.id.voies_listview);
         listView.setAdapter(seanceDetailAdapter);
-
-//        if (seanceDetailAdapter.getCount() > 0)
-//            refreshResumeSeance();
 
         /** Ajout du fap nouvelle voie */
         FloatingActionButton fap = (FloatingActionButton) findViewById(R.id.fap_add_voie);
@@ -101,13 +95,14 @@ public class SeanceDetailActivity extends ActionBarActivity implements AddVoieDi
 
         seanceDetailAdapter.add(newVoie);
         seanceDetailAdapter.notifyDataSetChanged();
+        resumeSeanceFragment.refreshResumeSeance();
     }
 
     private void showResumeSeanceFragment() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ResumeSeanceFragment fragment = new ResumeSeanceFragment();
-        fragment.setSeanceDetailAdapter(seanceDetailAdapter);
-        ft.replace(R.id.fragment_resume_seance, fragment);
+        resumeSeanceFragment = new ResumeSeanceFragment();
+        resumeSeanceFragment.setSeanceId(seanceId);
+        ft.replace(R.id.fragment_resume_seance, resumeSeanceFragment);
         ft.commit();
     }
 }

@@ -3,6 +3,7 @@ package fr.jerome.climbinggymlog.data;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.util.Log;
 
 import java.text.DateFormat;
@@ -43,6 +44,13 @@ public class SeanceDB extends DBHandler {
     public SeanceDB(Context context) {
 
         super(context);
+    }
+
+    public int getLastSeanceId() {
+
+        Cursor c = database.rawQuery("SELECT max(_id) FROM " + TABLE_NAME, null);
+        c.moveToFirst();
+        return c.getInt(0);
     }
 
     /**

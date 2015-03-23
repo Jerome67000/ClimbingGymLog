@@ -1,14 +1,19 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="wrap_content"
-              android:layout_height="wrap_content">
+              android:layout_height="wrap_content"
+              android:padding="24dp">
 
     <EditText
         android:id="@+id/titre_new_seance"
         android:inputType="text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Seance #02" />
+        android:hint="Seance #02"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="12dp"/>
 
     <EditText
         android:id="@+id/lieu_new_seance"
@@ -19,28 +24,32 @@
         android:hint="Lieu"
         android:layout_below="@+id/titre_new_seance"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"/>
+        android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@+id/date_seance_picker"
+        android:layout_toStartOf="@+id/date_seance_picker"
+        android:layout_marginBottom="12dp"
+        android:layout_marginRight="24dp"/>
 
     <EditText
-        android:id="@+id/note_new_voie"
-        android:inputType="text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:id="@+id/note_new_voie"
         android:hint="Note"
+        android:layout_alignBottom="@+id/date_seance_picker"
+        android:layout_alignLeft="@+id/lieu_new_seance"
+        android:layout_alignStart="@+id/lieu_new_seance"
         android:layout_below="@+id/lieu_new_seance"
         android:layout_alignRight="@+id/lieu_new_seance"
-        android:layout_alignEnd="@+id/lieu_new_seance"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"/>
+        android:layout_alignEnd="@+id/lieu_new_seance"/>
 
     <NumberPicker
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/date_seance_picker"
-        android:layout_marginLeft="158dp"
-        android:layout_marginStart="158dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"/>
+        android:layout_below="@+id/titre_new_seance"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"/>
 
 </RelativeLayout>

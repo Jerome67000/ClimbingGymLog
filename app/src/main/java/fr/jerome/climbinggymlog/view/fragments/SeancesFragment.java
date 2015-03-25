@@ -14,6 +14,7 @@ import com.shamanland.fab.FloatingActionButton;
 import fr.jerome.climbinggymlog.R;
 import fr.jerome.climbinggymlog.adapters.SeanceAdapter;
 import fr.jerome.climbinggymlog.data.SeanceDB;
+import fr.jerome.climbinggymlog.helpers.AppManager;
 import fr.jerome.climbinggymlog.models.Seance;
 import fr.jerome.climbinggymlog.view.dialog.AddSeanceDialog;
 
@@ -59,5 +60,6 @@ public class SeancesFragment extends Fragment implements AddSeanceDialog.AddSean
     public void onFinishAddSeanceDialog(Seance newSeance) {
         seanceAdapter.add(newSeance);
         seanceAdapter.notifyDataSetChanged();
+        AppManager.updateLastSeanceId(getActivity());
     }
 }

@@ -35,10 +35,7 @@ public class StatistiquesFragment extends Fragment {
     private void showResumeSeanceFragment() {
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
         resumeSeanceFragment = new ResumeSeanceFragment();
-        SeanceDB seanceDB = new SeanceDB(getActivity());
-        resumeSeanceFragment.setSeanceId(seanceDB.getLastSeanceId());
         ft.replace(R.id.fragment_resume_seance, resumeSeanceFragment);
         ft.commit();
-        seanceDB.close();
     }
 }

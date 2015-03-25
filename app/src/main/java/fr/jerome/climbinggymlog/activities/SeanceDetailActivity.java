@@ -56,7 +56,7 @@ public class SeanceDetailActivity extends ActionBarActivity implements AddVoieDi
         VoieDB voieDB = new VoieDB(this);
 
         ArrayList<Voie> voies = (ArrayList<Voie>) voieDB.getAllVoiesFromSeanceId(seanceId);
-        seanceDetailAdapter = new SeanceDetailAdapter(this, R.layout.adapter_seance, voies);
+        seanceDetailAdapter = new SeanceDetailAdapter(this, R.layout.row_seance_adapter, voies);
         ListView listView = (ListView) findViewById(R.id.voies_listview);
         listView.setAdapter(seanceDetailAdapter);
 

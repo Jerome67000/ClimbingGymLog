@@ -42,7 +42,7 @@ public class SeanceAdapter extends ArrayAdapter implements AdapterView.OnItemCli
         Seance seance = seances.get(position);
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View rowView = inflater.inflate(R.layout.adapter_seance, parent, false);
+        View rowView = inflater.inflate(R.layout.row_seance_adapter, parent, false);
 
         TextView txTitre = (TextView) rowView.findViewById(R.id.titre_seance);
         TextView txDateAj = (TextView) rowView.findViewById(R.id.date_seance);

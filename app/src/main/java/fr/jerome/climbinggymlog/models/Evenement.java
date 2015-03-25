@@ -1,23 +1,22 @@
 package fr.jerome.climbinggymlog.models;
 
 import java.sql.Date;
-import java.sql.Time;
 
 /**
  * Created by jerome on 25/03/15.
  */
 public class Evenement {
 
-    private int _id;
+    private int id;
     private String titre;
     private String description;
     private Date date;
     private int heure;
     private int salleId;
 
-    public Evenement(int _id, String titre, String description, Date date, int heure, int salleId) {
+    public Evenement(int id, String titre, String description, Date date, int heure, int salleId) {
 
-        this._id = _id;
+        this.id = id;
         this.titre = titre;
         this.description = description;
         this.date = date;
@@ -29,14 +28,14 @@ public class Evenement {
 
     }
 
-    public int get_id() {
+    public int getId() {
 
-        return _id;
+        return id;
     }
 
-    public void set_id(int _id) {
+    public void setId(int id) {
 
-        this._id = _id;
+        this.id = id;
     }
 
     public String getTitre() {

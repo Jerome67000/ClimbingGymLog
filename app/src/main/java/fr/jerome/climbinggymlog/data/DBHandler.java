@@ -54,6 +54,7 @@ public class DBHandler {
                 db.execSQL(CotationDB.CREATE_TABLE);
                 db.execSQL(TypeEscDB.CREATE_TABLE);
                 db.execSQL(StyleVoieDB.CREATE_TABLE);
+                db.execSQL(EvenementDB.CREATE_TABLE);
             } catch (SQLiteException e) {
                 Log.e("SQLite", "erreur pendant la création des tables SQLite", e);
             }

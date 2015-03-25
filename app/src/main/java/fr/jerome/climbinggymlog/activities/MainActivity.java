@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import java.sql.Date;
 import java.util.ArrayList;
 
+import fr.jerome.climbinggymlog.data.EvenementDB;
 import fr.jerome.climbinggymlog.data.SeanceDB;
 import fr.jerome.climbinggymlog.data.VoieDB;
 import fr.jerome.climbinggymlog.helpers.AppManager;
@@ -23,6 +24,7 @@ import fr.jerome.climbinggymlog.data.CotationDB;
 import fr.jerome.climbinggymlog.data.StyleVoieDB;
 import fr.jerome.climbinggymlog.data.TypeEscDB;
 import fr.jerome.climbinggymlog.models.Cotation;
+import fr.jerome.climbinggymlog.models.Evenement;
 import fr.jerome.climbinggymlog.models.Seance;
 import fr.jerome.climbinggymlog.models.Voie;
 import fr.jerome.climbinggymlog.view.MyPagerAdapter;
@@ -80,6 +82,11 @@ public class MainActivity extends ActionBarActivity {
         myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager(), fragments);
         viewPager.setAdapter(myPagerAdapter);
         slidingTabLayout.setViewPager(viewPager);
+
+        EvenementDB evenementDB = new EvenementDB(this);
+        evenementDB.insert(new Evenement(1, "titreTest", "Description test", new Date(AppManager.sysTime), 19, 1));
+        evenementDB.insert(new Evenement(2, "titreTest2", "Description test2", new Date(AppManager.sysTime), 1730, 1));
+        evenementDB.insert(new Evenement(3, "titreTest3", "Description test3", new Date(AppManager.sysTime), 21, 1));
 
     }
 

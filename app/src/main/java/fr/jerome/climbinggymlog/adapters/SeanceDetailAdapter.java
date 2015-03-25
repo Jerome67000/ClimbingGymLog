@@ -46,6 +46,4 @@ public class SeanceDetailAdapter extends ArrayAdapter {
 
         return rowView;
     }
-
-
 }

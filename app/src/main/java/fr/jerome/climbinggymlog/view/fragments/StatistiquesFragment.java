@@ -21,7 +21,6 @@ import fr.jerome.climbinggymlog.models.Voie;
  */
 public class StatistiquesFragment extends Fragment {
 
-    private SeanceDetailAdapter seanceDetailAdapter;
     private ResumeSeanceFragment resumeSeanceFragment;
 
     @Nullable @Override
@@ -40,5 +39,6 @@ public class StatistiquesFragment extends Fragment {
         resumeSeanceFragment.setSeanceId(seanceDB.getLastSeanceId());
         ft.replace(R.id.fragment_resume_seance, resumeSeanceFragment);
         ft.commit();
+        seanceDB.close();
     }
 }

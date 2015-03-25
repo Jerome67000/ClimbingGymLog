@@ -10,7 +10,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.shamanland.fab.FloatingActionButton;
 
@@ -18,7 +17,6 @@ import java.util.ArrayList;
 
 import fr.jerome.climbinggymlog.R;
 import fr.jerome.climbinggymlog.adapters.SeanceDetailAdapter;
-import fr.jerome.climbinggymlog.data.SeanceDB;
 import fr.jerome.climbinggymlog.data.VoieDB;
 import fr.jerome.climbinggymlog.models.Voie;
 import fr.jerome.climbinggymlog.view.dialog.AddSeanceDialog;
@@ -52,10 +50,10 @@ public class SeanceDetailActivity extends ActionBarActivity implements AddVoieDi
         Bundle bundle = this.getIntent().getExtras();
         seanceId = bundle.getInt(AddSeanceDialog.ARG_IDSEANCE_KEY, -1);
 
-        VoieDB voieDB = new VoieDB(this);
-
         // TODO layout différent si aucune voies
         setContentView(R.layout.fragment_detail_seance);
+
+        VoieDB voieDB = new VoieDB(this);
 
         ArrayList<Voie> voies = (ArrayList<Voie>) voieDB.getAllVoiesFromSeanceId(seanceId);
         seanceDetailAdapter = new SeanceDetailAdapter(this, R.layout.adapter_seance, voies);
@@ -95,7 +93,8 @@ public class SeanceDetailActivity extends ActionBarActivity implements AddVoieDi
 
         seanceDetailAdapter.add(newVoie);
         seanceDetailAdapter.notifyDataSetChanged();
-        resumeSeanceFragment.refreshResumeSeance();
+
+        resumeSeanceFragment.refreshView();
     }
 
     private void showResumeSeanceFragment() {

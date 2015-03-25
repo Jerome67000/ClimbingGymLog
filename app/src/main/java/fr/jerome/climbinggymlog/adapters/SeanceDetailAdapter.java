@@ -29,8 +29,6 @@ public class SeanceDetailAdapter extends ArrayAdapter {
         this.voies = voies;
     }
 
-
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 

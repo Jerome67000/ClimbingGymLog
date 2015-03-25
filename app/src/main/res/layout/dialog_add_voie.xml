@@ -1,15 +1,17 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:orientation="vertical"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:padding="24dp">
 
+    <!--Picker pour la sélection de la cotation et style de voie-->
     <NumberPicker
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/cotation_picker"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"/>
+        style="@style/Base.TextAppearance.AppCompat.Small"/>
 
     <NumberPicker
         android:layout_width="wrap_content"
@@ -18,70 +20,75 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"/>
 
+
     <NumberPicker
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/style_voie_picker"
         android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_margin="8dp"/>
+        android:layout_alignParentRight="true"/>
 
+    <!--Boutons ON OFF-->
     <ToggleButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/cotation_plus"
-        android:layout_below="@+id/cotation_picker"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:checked="false"
         android:enabled="true"
         android:focusable="false"
         android:singleLine="false"
         android:textOn="+"
-        android:textOff="+"/>
+        android:textOff="+"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/cotation_picker"
+        android:layout_marginTop="12dp"/>
 
     <ToggleButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Réussi"
         android:id="@+id/voie_reussi"
-        android:layout_below="@+id/type_escalade_picker"
-        android:layout_centerHorizontal="true"
         android:checked="false"
         android:textOff="Réussi"
-        android:textOn="Réussi"/>
+        android:textOn="Réussi"
+        android:layout_alignTop="@+id/cotation_plus"
+        android:layout_centerHorizontal="true"/>
 
     <ToggleButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="A vue"
         android:id="@+id/voie_a_vue"
-        android:layout_below="@+id/style_voie_picker"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
         android:checked="false"
         android:textOff="A vue"
-        android:textOn="A vue"/>
+        android:textOn="A vue"
+        android:layout_alignTop="@+id/voie_reussi"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"/>
+
 
     <EditText
         android:id="@+id/note_new_voie"
         android:inputType="text"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_alignTop="@+id/voie_a_vue"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"/>
+        android:layout_alignParentStart="true"
+        android:hint="Note"
+        android:layout_below="@id/cotation_plus"
+        android:layout_marginTop="12dp"
+        android:layout_toLeftOf="@+id/photo_button"
+        android:layout_toStartOf="@+id/photo_button"
+        android:layout_alignBottom="@+id/photo_button"/>
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/photo_button"
-        android:layout_below="@+id/note_new_voie"
-        android:layout_alignRight="@+id/voie_a_vue"
-        android:layout_alignEnd="@+id/voie_a_vue"
         android:src="@android:drawable/ic_menu_camera"
-        android:background="#FF33B5E5"/>
+        android:layout_below="@+id/voie_a_vue"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="12dp"/>
 
 </RelativeLayout>

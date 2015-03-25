@@ -61,7 +61,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         String email = ((EditText) findViewById(R.id.login_email)).getText().toString();
     }
 
-    // AsyncTask to get the server response and refresh the EditText in the UI thread
+    // AsyncTask to get the server response and refreshView the EditText in the UI thread
     private class GetClients extends AsyncTask<String, Void, ArrayList<String>> {
         ArrayList<String> messages = new ArrayList<String>();
         @Override

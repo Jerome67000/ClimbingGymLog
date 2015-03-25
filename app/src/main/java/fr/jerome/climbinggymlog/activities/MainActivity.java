@@ -58,10 +58,7 @@ public class MainActivity extends ActionBarActivity {
         /**
          * AppManager pour les objets statiques
          **/
-        AppManager.setClient(getBaseContext());
-        AppManager.setCotations(new CotationDB(this).getAllCotations());
-        AppManager.setTypeEsc(new TypeEscDB(this).getAllTypes());
-        AppManager.setStyleVoie(new StyleVoieDB(this).getAllStyles());
+        AppManager.init(getBaseContext());
 
 //        if (AppManager.client.getId() < 1) {
 //            Intent i = new Intent(this, LoginActivity.class);
@@ -80,20 +77,10 @@ public class MainActivity extends ActionBarActivity {
 
         // use FragmentPagerAdapter to bind the slidingTabLayout (tabs with different titles)
         // and ViewPager (different pages of fragment) together.
-        myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager(),  fragments);
+        myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager(), fragments);
         viewPager.setAdapter(myPagerAdapter);
         slidingTabLayout.setViewPager(viewPager);
 
-//        SeanceDB seanceDB = new SeanceDB(this);
-//        Seance newSeance = new Seance("Séance #01", new Date(AppManager.sysTime), new Date(AppManager.sysTime), "aa", "aa", AppManager.client);
-//
-//        seanceDB.insert(newSeance);
-//        VoieDB voieDB = new VoieDB(this);
-
-//        for (Cotation c : AppManager.cotations) {
-//            if (!c.isPlus())
-//                voieDB.insert(new Voie(c.getId(), c.getNom(), c, AppManager.typesEsc.get(0), AppManager.styleVoies.get(0), true, true, "nn", 1));
-//        }
     }
 
     @Override

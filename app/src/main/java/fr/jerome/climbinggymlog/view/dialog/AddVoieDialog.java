@@ -128,7 +128,7 @@ public class AddVoieDialog extends DialogFragment {
         typeEscPicker.setMinValue(0);
         typeEscPicker.setDisplayedValues(typeEscValues);
         typeEscPicker.setWrapSelectorWheel(false);
-
+        typeEscPicker.setValue(1);
 
         /** Type escalade Picker */
         styleVoiePicker = (NumberPicker) dialogView.findViewById(R.id.style_voie_picker);
@@ -145,6 +145,7 @@ public class AddVoieDialog extends DialogFragment {
         styleVoiePicker.setMinValue(0);
         styleVoiePicker.setDisplayedValues(styleVoieValues);
         styleVoiePicker.setWrapSelectorWheel(false);
+        styleVoiePicker.setValue(1);
     }
 
     /**

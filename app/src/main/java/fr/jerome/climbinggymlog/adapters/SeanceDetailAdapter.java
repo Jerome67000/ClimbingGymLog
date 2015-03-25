@@ -2,7 +2,6 @@ package fr.jerome.climbinggymlog.adapters;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,15 +28,13 @@ public class SeanceDetailAdapter extends ArrayAdapter {
         this.voies = voies;
     }
 
-
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
         Voie voie = voies.get(position);
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View rowView = inflater.inflate(R.layout.adapter_voie, parent, false);
+        View rowView = inflater.inflate(R.layout.row_voie_adapter, parent, false);
 
         TextView txTitre = (TextView) rowView.findViewById(R.id.titre_voie);
         txTitre.setText(voie.getNom());

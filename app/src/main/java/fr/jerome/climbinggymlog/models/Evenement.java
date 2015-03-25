@@ -87,4 +87,17 @@ public class Evenement {
 
         this.salleId = salleId;
     }
+
+    @Override
+    public String toString() {
+
+        return "Evenement{" +
+                "id=" + id +
+                ", titre='" + titre + '\'' +
+                ", description='" + description + '\'' +
+                ", date=" + date +
+                ", heure=" + heure +
+                ", salleId=" + salleId +
+                '}';
+    }
 }

@@ -8,9 +8,13 @@ import android.util.Log;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
+import fr.jerome.climbinggymlog.helpers.AppManager;
 import fr.jerome.climbinggymlog.models.Client;
 import fr.jerome.climbinggymlog.models.Evenement;
+import fr.jerome.climbinggymlog.models.Seance;
 
 /**
  * Created by jerome on 25/03/15.
@@ -39,6 +43,39 @@ public class EvenementDB extends DBHandler {
     public EvenementDB(Context context) {
 
         super(context);
+    }
+
+    /**
+     * @return  evenements : Une liste contenant toutes les seances
+     */
+    public List<Evenement> getAllEvenements() {
+
+        List<Evenement> evenements = new ArrayList<Evenement>();
+
+        Cursor c = database.query(TABLE_NAME,
+                new String[]{ID, TITRE, DESCRIPTION, DATE, HEURE, SALLE_ID},
+                null, null, null, null, null);
+
+        c.moveToFirst();
+        while (!c.isAfterLast()) {
+
+            String textDate = c.getString(3);
+
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            java.util.Date date = null;
+            try {
+                date = df.parse(textDate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            assert date != null;
+            Evenement evenement = new Evenement(c.getInt(0), c.getString(1), c.getString(2), new java.sql.Date(date.getTime()), c.getInt(4), c.getInt(5));
+            evenements.add(evenement);
+            c.moveToNext();
+        }
+        c.close();
+
+        return evenements;
     }
 
     /**

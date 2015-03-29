@@ -22,7 +22,6 @@ public class SeanceDetailAdapter extends ArrayAdapter {
     private List<Voie> voies;
 
     public SeanceDetailAdapter(Context context, int resource, List<Voie> voies) {
-
         super(context, resource, voies);
         this.context = context;
         this.voies = voies;
@@ -46,6 +45,4 @@ public class SeanceDetailAdapter extends ArrayAdapter {
 
         return rowView;
     }
-
-
 }

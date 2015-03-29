@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import java.sql.Date;
 import java.util.ArrayList;
 
+import fr.jerome.climbinggymlog.data.EvenementDB;
 import fr.jerome.climbinggymlog.data.SeanceDB;
 import fr.jerome.climbinggymlog.data.VoieDB;
 import fr.jerome.climbinggymlog.helpers.AppManager;
@@ -23,6 +24,7 @@ import fr.jerome.climbinggymlog.data.CotationDB;
 import fr.jerome.climbinggymlog.data.StyleVoieDB;
 import fr.jerome.climbinggymlog.data.TypeEscDB;
 import fr.jerome.climbinggymlog.models.Cotation;
+import fr.jerome.climbinggymlog.models.Evenement;
 import fr.jerome.climbinggymlog.models.Seance;
 import fr.jerome.climbinggymlog.models.Voie;
 import fr.jerome.climbinggymlog.view.MyPagerAdapter;
@@ -80,7 +82,6 @@ public class MainActivity extends ActionBarActivity {
         myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager(), fragments);
         viewPager.setAdapter(myPagerAdapter);
         slidingTabLayout.setViewPager(viewPager);
-
     }
 
     @Override

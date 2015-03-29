@@ -21,14 +21,18 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.sql.Date;
 import java.util.ArrayList;
 
 import fr.jerome.climbinggymlog.R;
+import fr.jerome.climbinggymlog.data.ClientDB;
+import fr.jerome.climbinggymlog.helpers.AppManager;
 import fr.jerome.climbinggymlog.helpers.LoginHelper;
+import fr.jerome.climbinggymlog.models.Client;
 
 public class LoginActivity extends Activity implements View.OnClickListener {
 
-    public static final String URL_QUERY = "http://climbinggymstats.olympe.in/php/index.php";
+    public static final String URL_QUERY = "http://clymbinggym.vacau.com/php/getClients.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +67,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
     // AsyncTask to get the server response and refreshView the EditText in the UI thread
     private class GetClients extends AsyncTask<String, Void, ArrayList<String>> {
-        ArrayList<String> messages = new ArrayList<String>();
+        ArrayList<Client> clients = new ArrayList<Client>();
         @Override
         protected ArrayList<String> doInBackground(String... url) {
             StringBuilder stringBuilder = new StringBuilder();
@@ -95,21 +99,34 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                     }
             }
 
-            // Parse Json in a ArrayList
-//            try {
-//                JSONArray jsonArray = new JSONArray(stringBuilder.toString());
-//                for (int i = 0; i < jsonArray.length(); i++) {
-//                    JSONObject object = jsonArray.getJSONObject(i);
-//                    messages.add(object.getString("message"));
-//                }
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-            return messages;
+            // Parse Json in a ArrayList of Evenements objects
+            try {
+                JSONObject jObject = new JSONObject(stringBuilder.toString());
+                JSONArray jArray = jObject.getJSONArray("Clients");
+
+                for (int i = 0; i < jArray.length(); i++) {
+
+                    JSONObject jClient = jArray.getJSONObject(i);
+
+                    int id = jClient.getInt(ClientDB.ID);
+                    String nom = jClient.getString(ClientDB.NOM);
+                    String prenom = jClient.getString(ClientDB.PRENOM);
+                    String num = jClient.getString(ClientDB.NUM);
+                    String date = jClient.getString(ClientDB.DATE_AJ);
+                    int salleId = jClient.getInt("salle_id");
+
+                    clients.add(new Client(id, nom, prenom, num, new Date(AppManager.sysTime), salleId));
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
         }
         @Override protected void onPostExecute(ArrayList<String> s) {
 
-            Log.d("test", messages.toString());
+            for (Client c : clients)
+                Log.d("client ", c.toString());
         }
     }
 }

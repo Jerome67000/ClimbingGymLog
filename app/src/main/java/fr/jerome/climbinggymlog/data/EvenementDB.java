@@ -27,7 +27,7 @@ public class EvenementDB extends DBHandler {
     public static final String TITRE = "titre";
     public static final String DESCRIPTION = "description";
     public static final String DATE = "date";
-    public static final String HEURE = "heure";
+    public static final String HORAIRE = "horaire";
     public static final String SALLE_ID = "salle_id";
 
     public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "(" +
@@ -35,7 +35,7 @@ public class EvenementDB extends DBHandler {
             TITRE + " TEXT, " +
             DESCRIPTION + " TEXT, " +
             DATE + " DATE, " +
-            HEURE + " INTEGER, " +
+            HORAIRE + " INTEGER, " +
             SALLE_ID + " DATE);";
 
     public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
@@ -53,7 +53,7 @@ public class EvenementDB extends DBHandler {
         List<Evenement> evenements = new ArrayList<Evenement>();
 
         Cursor c = database.query(TABLE_NAME,
-                new String[]{ID, TITRE, DESCRIPTION, DATE, HEURE, SALLE_ID},
+                new String[]{ID, TITRE, DESCRIPTION, DATE, HORAIRE, SALLE_ID},
                 null, null, null, null, null);
 
         c.moveToFirst();
@@ -89,7 +89,7 @@ public class EvenementDB extends DBHandler {
         value.put(TITRE, evenement.getTitre());
         value.put(DESCRIPTION, evenement.getDescription());
         value.put(DATE, evenement.getDate().toString());
-        value.put(HEURE, evenement.getHeure());
+        value.put(HORAIRE, evenement.getHeure());
         value.put(SALLE_ID, evenement.getSalleId());
 
         database.insert(TABLE_NAME, null, value);

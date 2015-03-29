@@ -23,7 +23,7 @@ public class ClientDB extends DBHandler {
     public static final String PRENOM = "prenom";
     public static final String NUM = "num";
     public static final String EMAIL = "email";
-    public static final String SALLE_ID = "salle";
+    public static final String SALLE_ID = "salle_id";
     public static final String DATE_AJ = "date_aj";
 
     public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "(" +

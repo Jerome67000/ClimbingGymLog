@@ -82,12 +82,6 @@ public class MainActivity extends ActionBarActivity {
         myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager(), fragments);
         viewPager.setAdapter(myPagerAdapter);
         slidingTabLayout.setViewPager(viewPager);
-
-        EvenementDB evenementDB = new EvenementDB(this);
-        evenementDB.insert(new Evenement(1, "titreTest", "Description test", new Date(AppManager.sysTime), 19, 1));
-        evenementDB.insert(new Evenement(2, "titreTest2", "Description test2", new Date(AppManager.sysTime), 1730, 1));
-        evenementDB.insert(new Evenement(3, "titreTest3", "Description test3", new Date(AppManager.sysTime), 21, 1));
-
     }
 
     @Override

@@ -29,6 +29,7 @@ import fr.jerome.climbinggymlog.models.Seance;
 import fr.jerome.climbinggymlog.models.Voie;
 import fr.jerome.climbinggymlog.view.MyPagerAdapter;
 import fr.jerome.climbinggymlog.view.fragments.EvenementsFragment;
+import fr.jerome.climbinggymlog.view.fragments.ResumeSeanceFragment;
 import fr.jerome.climbinggymlog.view.googletools.SlidingTabLayout;
 import fr.jerome.climbinggymlog.view.fragments.SeancesFragment;
 import fr.jerome.climbinggymlog.view.fragments.StatistiquesFragment;
@@ -82,6 +83,29 @@ public class MainActivity extends ActionBarActivity {
         myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager(), fragments);
         viewPager.setAdapter(myPagerAdapter);
         slidingTabLayout.setViewPager(viewPager);
+        slidingTabLayout.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position == 1) {
+                    if (fragments.get(1) != null) {
+                        SeanceDB seanceDB = new SeanceDB(MainActivity.this);
+                        ResumeSeanceFragment resumeSeanceFragment = ((StatistiquesFragment) fragments.get(position)).getResumeSeanceFragment();
+                        resumeSeanceFragment.setSeanceId(seanceDB.getLastSeanceId());
+                        resumeSeanceFragment.refreshView();
+                    }
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     @Override

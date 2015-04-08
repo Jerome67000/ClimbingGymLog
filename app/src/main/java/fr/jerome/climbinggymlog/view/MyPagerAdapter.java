@@ -3,8 +3,11 @@ package fr.jerome.climbinggymlog.view;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.util.Log;
 
 import java.util.ArrayList;
+
+import fr.jerome.climbinggymlog.view.fragments.StatistiquesFragment;
 
 /**
  * Created by rcdsm06 on 09/02/2015.
@@ -23,14 +26,19 @@ public class MyPagerAdapter extends FragmentPagerAdapter {
         this.fragments = fragments;
     }
 
+
+
+    @Override
     public Fragment getItem(int pos){
         return fragments.get(pos);
     }
 
+    @Override
     public int getCount(){
         return fragments.size();
     }
 
+    @Override
     public CharSequence getPageTitle(int position) {
 
         switch (position) {

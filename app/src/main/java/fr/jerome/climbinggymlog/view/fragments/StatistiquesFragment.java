@@ -22,12 +22,17 @@ import fr.jerome.climbinggymlog.models.Voie;
 public class StatistiquesFragment extends Fragment {
 
     private ResumeSeanceFragment resumeSeanceFragment;
+    private SeanceDB seanceDB;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        seanceDB = new SeanceDB(getActivity());
+    }
 
     @Nullable @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_stats, container, false);
-
         showResumeSeanceFragment();
         return view;
     }
@@ -35,7 +40,12 @@ public class StatistiquesFragment extends Fragment {
     private void showResumeSeanceFragment() {
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
         resumeSeanceFragment = new ResumeSeanceFragment();
+        resumeSeanceFragment.setSeanceId(seanceDB.getLastSeanceId());
         ft.replace(R.id.fragment_resume_seance, resumeSeanceFragment);
         ft.commit();
+    }
+
+    public ResumeSeanceFragment getResumeSeanceFragment() {
+        return resumeSeanceFragment;
     }
 }

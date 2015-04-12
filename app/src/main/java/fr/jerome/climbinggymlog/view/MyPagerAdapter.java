@@ -15,7 +15,6 @@ import fr.jerome.climbinggymlog.view.fragments.StatistiquesFragment;
 public class MyPagerAdapter extends FragmentPagerAdapter {
 
     private ArrayList<Fragment> fragments;
-
     public static final String UI_TAB_SEANCES = "SEANCES";
     public static final String UI_TAB_STATS = "STATS";
     public static final String UI_TAB_EVENEMENTS = "EVENEMENTS";

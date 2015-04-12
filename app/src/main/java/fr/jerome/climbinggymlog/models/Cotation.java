@@ -31,6 +31,13 @@ public class Cotation {
 
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (((Cotation)o).getId() == this.getId())
+            return true;
+        return false;
+    }
+
     public long getId() {
 
         return id;

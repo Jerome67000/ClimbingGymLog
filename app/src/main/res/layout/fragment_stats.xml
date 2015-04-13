@@ -52,8 +52,8 @@
         android:layout_marginTop="8dp">
     </LinearLayout>
 
-    <com.github.mikephil.charting.charts.PieChart
-        android:id="@+id/pie_chart"
+    <fr.jerome.climbinggymlog.view.graphs.PieCotations
+        android:id="@+id/pie_cotations"
         android:layout_width="match_parent"
         android:layout_height="300dp" />
 

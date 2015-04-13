@@ -1,83 +1,89 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
-              android:layout_height="match_parent"
+              android:layout_height="wrap_content"
               android:id="@+id/fragment_seances"
               android:orientation="vertical"
               android:padding="12dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Nombre de voies grimpées : "
-        style="@style/Base.TextAppearance.AppCompat.Body1"
-        android:layout_gravity="center_horizontal"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Résumé de la dernière séance"
-        style="@style/Base.TextAppearance.AppCompat.Title"
-        android:textColor="@color/main_color"
-        android:paddingLeft="18dp"
-        android:layout_marginTop="12dp"/>
-
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@android:color/holo_blue_light"
-        android:layout_marginRight="100dp"
-        android:layout_marginTop="8dp">
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nombre de voies grimpées : "
+            style="@style/Base.TextAppearance.AppCompat.Body1"
+            android:layout_gravity="center_horizontal"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Résumé de la dernière séance"
+            style="@style/Base.TextAppearance.AppCompat.Title"
+            android:textColor="@color/main_color"
+            android:paddingLeft="18dp"
+            android:layout_marginTop="12dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@android:color/holo_blue_light"
+            android:layout_marginRight="100dp"
+            android:layout_marginTop="8dp">
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/fragment_resume_seance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </FrameLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Difficulté pratiquée"
+            style="@style/Base.TextAppearance.AppCompat.Title"
+            android:textColor="@color/main_color"
+            android:paddingLeft="18dp"
+            android:layout_marginTop="12dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@android:color/holo_blue_light"
+            android:layout_marginRight="100dp"
+            android:layout_marginTop="8dp">
+        </LinearLayout>
+
+        <fr.jerome.climbinggymlog.view.graphs.PieCotations
+            android:id="@+id/pie_cotations"
+            android:layout_width="match_parent"
+            android:layout_height="300dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Courbe de progression"
+            style="@style/Base.TextAppearance.AppCompat.Title"
+            android:textColor="@color/main_color"
+            android:paddingLeft="18dp"
+            android:layout_marginTop="12dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@android:color/holo_blue_light"
+            android:layout_marginRight="100dp"
+            android:layout_marginTop="8dp">
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/fragment_courbe_progression"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </FrameLayout>
+
     </LinearLayout>
-
-    <FrameLayout
-        android:id="@+id/fragment_resume_seance"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </FrameLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Difficulté pratiquée"
-        style="@style/Base.TextAppearance.AppCompat.Title"
-        android:textColor="@color/main_color"
-        android:paddingLeft="18dp"
-        android:layout_marginTop="12dp"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@android:color/holo_blue_light"
-        android:layout_marginRight="100dp"
-        android:layout_marginTop="8dp">
-    </LinearLayout>
-
-    <com.github.mikephil.charting.charts.PieChart
-        android:id="@+id/pie_chart"
-        android:layout_width="match_parent"
-        android:layout_height="300dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Courbe de progression"
-        style="@style/Base.TextAppearance.AppCompat.Title"
-        android:textColor="@color/main_color"
-        android:paddingLeft="18dp"
-        android:layout_marginTop="12dp"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@android:color/holo_blue_light"
-        android:layout_marginRight="100dp"
-        android:layout_marginTop="8dp">
-    </LinearLayout>
-
-    <FrameLayout
-        android:id="@+id/fragment_courbe_progression"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </FrameLayout>
-
-</LinearLayout>
+</ScrollView>

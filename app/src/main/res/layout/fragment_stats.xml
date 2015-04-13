@@ -11,6 +11,7 @@
         android:orientation="vertical" >
 
         <TextView
+            android:id="@+id/nb_voies_total"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Nombre de voies grimpées : "
@@ -18,13 +19,13 @@
             android:layout_gravity="center_horizontal"/>
 
         <TextView
+            android:text="Résumé de la dernière séance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Résumé de la dernière séance"
             style="@style/Base.TextAppearance.AppCompat.Title"
             android:textColor="@color/main_color"
             android:paddingLeft="18dp"
-            android:layout_marginTop="12dp"/>
+            android:layout_marginTop="22dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -47,7 +48,7 @@
             style="@style/Base.TextAppearance.AppCompat.Title"
             android:textColor="@color/main_color"
             android:paddingLeft="18dp"
-            android:layout_marginTop="12dp"/>
+            android:layout_marginTop="22dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -60,7 +61,8 @@
         <fr.jerome.climbinggymlog.view.graphs.PieCotations
             android:id="@+id/pie_cotations"
             android:layout_width="match_parent"
-            android:layout_height="300dp" />
+            android:layout_height="300dp"
+            android:layout_marginTop="16dp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -69,7 +71,7 @@
             style="@style/Base.TextAppearance.AppCompat.Title"
             android:textColor="@color/main_color"
             android:paddingLeft="18dp"
-            android:layout_marginTop="12dp"/>
+            android:layout_marginTop="22dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -79,11 +81,11 @@
             android:layout_marginTop="8dp">
         </LinearLayout>
 
-        <FrameLayout
-            android:id="@+id/fragment_courbe_progression"
+        <fr.jerome.climbinggymlog.view.graphs.LineChartProgress
+            android:id="@+id/linechart_evolution"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        </FrameLayout>
+            android:layout_height="220dp"
+            android:layout_marginTop="16dp"/>
 
     </LinearLayout>
 </ScrollView>

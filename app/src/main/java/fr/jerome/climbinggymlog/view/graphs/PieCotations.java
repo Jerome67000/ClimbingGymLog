@@ -9,6 +9,7 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -29,56 +30,60 @@ public class PieCotations extends PieChart {
     public PieCotations(Context context) {
         super(context);
         this.context = context;
+        setupGraph();
     }
 
     public PieCotations(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
+        setupGraph();
     }
 
     public PieCotations(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         this.context = context;
+        setupGraph();
     }
 
-    public void createPie() {
+    public void setupGraph() {
 
         HashMap<String, Integer> values = getValues();
 
-        this.setDrawCenterText(true);
-        this.setDrawHoleEnabled(true);
-        this.setUsePercentValues(true);
-        this.setTouchEnabled(false);
-
-        this.setCenterText("% Cotation");
-
-        ArrayList<String> xVals = new ArrayList<String>();
-
-        ArrayList<Entry> yVals1 = new ArrayList<Entry>();
-        Iterator<String> keySetIterator = values.keySet().iterator();
-        int i = 0;
-
-        while (keySetIterator.hasNext()) {
-            String key = keySetIterator.next();
-            int value = values.get(key);
-            xVals.add(key);
-            yVals1.add(new Entry((float) value, i));
-            i++;
+        if (values.isEmpty()) {
+            this.setNoDataText("Aucune voie effectuée");
+            this.setNoDataTextDescription("Créer votre première séance et ajouter des voies");
         }
-        PieDataSet dataSet = new PieDataSet(yVals1, "% Cotation");
-        dataSet.setSliceSpace(3f);
-        dataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
+        else {
+            this.setDrawCenterText(true);
+            this.setDrawHoleEnabled(true);
+            this.setUsePercentValues(true);
+            this.setTouchEnabled(false);
 
-        PieData data = new PieData(xVals, dataSet);
+            ArrayList<String> xVals = new ArrayList<String>();
 
-        this.setData(data);
+            ArrayList<Entry> yVals1 = new ArrayList<Entry>();
+            Iterator<String> keySetIterator = values.keySet().iterator();
+            int i = 0;
+            while (keySetIterator.hasNext()) {
+                String key = keySetIterator.next();
+                int value = values.get(key);
+                xVals.add(key);
+                yVals1.add(new Entry((float) value, i));
+                i++;
+            }
+            PieDataSet dataSet = new PieDataSet(yVals1, "% Cotation");
+            dataSet.setSliceSpace(3f);
+            dataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
+            PieData data = new PieData(xVals, dataSet);
+            this.setData(data);
+        }
     }
 
     public HashMap<String, Integer> getValues() {
 
         SeanceDB seanceDB = new SeanceDB(context);
         VoieDB voieDB = new VoieDB(context);
-        // R�cup�re toutes les s�ances
+        // Récupère toutes les séances
         ArrayList<Seance> seances = (ArrayList<Seance>) seanceDB.getAllSeances();
 
         HashMap<String, Integer> nombreCotations = new HashMap<String, Integer>();

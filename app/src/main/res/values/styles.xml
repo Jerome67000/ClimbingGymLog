@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <!-- Base application theme. -->
@@ -7,7 +8,7 @@
 
     <!-- FAP button theme -->
     <style name="AppTheme.Fab" parent="FloatingActionButton">
-        <item name="floatingActionButtonColor">@color/main_color</item>
+        <item name="floatingActionButtonColor">@drawable/fap_button</item>
     </style>
-
 </resources>
+

@@ -79,11 +79,13 @@ public class LineChartProgress extends LineChart {
             for (Seance s : seances) {
                 int score = 0;
                 List<Voie> voies = voieDB.getAllVoiesFromSeanceId(s.getId());
-                for (Voie v : voies) {
-                    score += v.getCotation().getId();
+                if (!voies.isEmpty()) {
+                    for (Voie v : voies) {
+                        score += v.getCotation().getId();
+                    }
+                    vals1.add(new Entry(score / voies.size(), (int) s.getId() - 1));
+                    xVals.add(s.getNom());
                 }
-                vals1.add(new Entry(score / voies.size(), (int) s.getId() - 1));
-                xVals.add(s.getNom());
             }
 
             // LineDataSet setup

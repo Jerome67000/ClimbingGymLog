@@ -15,7 +15,11 @@ import java.util.List;
 
 import fr.jerome.climbinggymlog.R;
 import fr.jerome.climbinggymlog.activities.SeanceDetailActivity;
+import fr.jerome.climbinggymlog.data.VoieDB;
+import fr.jerome.climbinggymlog.helpers.AppManager;
+import fr.jerome.climbinggymlog.models.Cotation;
 import fr.jerome.climbinggymlog.models.Seance;
+import fr.jerome.climbinggymlog.models.Voie;
 import fr.jerome.climbinggymlog.view.dialog.AddSeanceDialog;
 
 
@@ -47,12 +51,22 @@ public class SeanceAdapter extends ArrayAdapter implements AdapterView.OnItemCli
         TextView txTitre = (TextView) rowView.findViewById(R.id.titre_seance);
         TextView txDateAj = (TextView) rowView.findViewById(R.id.date_seance);
         View cotationRect = rowView.findViewById(R.id.cotation_color_rect);
-        // TODO impl methode qui renvoie la cotation moyenne d'une séance
-        if (!seances.isEmpty() && !seance.getVoies().isEmpty())
-            cotationRect.setBackgroundColor(seance.getVoies().get(0).getCotation().getCouleur());
-
         txTitre.setText(seance.getNom());
         txDateAj.setText(seance.getDateAjout().toString());
+
+        // Couleur devant chaque Séance
+        VoieDB voieDB = new VoieDB(context);
+        List<Voie> voiesFromSeanceId = voieDB.getAllVoiesFromSeanceId(seance.getId());
+        voieDB.close();
+        if (!voiesFromSeanceId.isEmpty()) {
+
+            int cotMoyenne = 0;
+            for (Voie v : voiesFromSeanceId) {
+                cotMoyenne += v.getCotation().getId();
+            }
+            Cotation cotation = AppManager.cotations.get(cotMoyenne / voiesFromSeanceId.size());
+            cotationRect.setBackgroundColor(cotation.getCouleur());
+        }
 
         return rowView;
     }

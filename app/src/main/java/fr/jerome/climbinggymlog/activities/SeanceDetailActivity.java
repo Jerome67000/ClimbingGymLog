@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
@@ -93,7 +94,6 @@ public class SeanceDetailActivity extends ActionBarActivity implements AddVoieDi
 
         seanceDetailAdapter.add(newVoie);
         seanceDetailAdapter.notifyDataSetChanged();
-
         resumeSeanceFragment.refreshView();
     }
 

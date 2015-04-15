@@ -67,7 +67,6 @@ public class ResumeSeanceFragment extends Fragment {
                 numCotMoyenne += v.getCotation().getId();
             }
 
-            //FIXME out of the box nb cotation
             cotMoyenne = AppManager.cotations.get((int) (numCotMoyenne / voies.size()));
 
             // Met à jour les TextView

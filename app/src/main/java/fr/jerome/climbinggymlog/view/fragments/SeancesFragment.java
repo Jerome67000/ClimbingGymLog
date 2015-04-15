@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.ListView;
 import com.shamanland.fab.FloatingActionButton;
 
 import fr.jerome.climbinggymlog.R;
+import fr.jerome.climbinggymlog.activities.SeanceDetailActivity;
 import fr.jerome.climbinggymlog.adapters.SeanceAdapter;
 import fr.jerome.climbinggymlog.data.SeanceDB;
 import fr.jerome.climbinggymlog.helpers.AppManager;
@@ -42,7 +44,8 @@ public class SeancesFragment extends Fragment implements AddSeanceDialog.AddSean
         fap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showAddSeanceDialog();            }
+                showAddSeanceDialog();
+            }
         });
 
         return rootView;

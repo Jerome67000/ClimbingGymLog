@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.NumberPicker;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import java.util.ArrayList;
@@ -22,6 +21,7 @@ import fr.jerome.climbinggymlog.models.Cotation;
 import fr.jerome.climbinggymlog.models.StyleVoie;
 import fr.jerome.climbinggymlog.models.TypeEsc;
 import fr.jerome.climbinggymlog.models.Voie;
+import fr.jerome.climbinggymlog.view.custom.MyNumberPicker;
 
 /**
  * Created by jerome on 17/02/15.
@@ -34,8 +34,8 @@ public class AddVoieDialog extends DialogFragment {
 
     private View dialogView;
     private NumberPicker cotationPicker;
-    private NumberPicker typeEscPicker;
-    private NumberPicker styleVoiePicker;
+    private MyNumberPicker typeEscPicker;
+    private MyNumberPicker styleVoiePicker;
 
     private int seanceId;
     private int nextVoieNumber;
@@ -152,7 +152,7 @@ public class AddVoieDialog extends DialogFragment {
         });
 
         /** Type escalade Picker */
-        typeEscPicker = (NumberPicker) dialogView.findViewById(R.id.type_escalade_picker);
+        typeEscPicker = (MyNumberPicker) dialogView.findViewById(R.id.type_escalade_picker);
         ArrayList<TypeEsc> typesEsc = (ArrayList<TypeEsc>) AppManager.typesEsc;
         String[] typeEscValues = new String[typesEsc.size()];
 
@@ -169,7 +169,7 @@ public class AddVoieDialog extends DialogFragment {
         typeEscPicker.setValue(1);
 
         /** Type escalade Picker */
-        styleVoiePicker = (NumberPicker) dialogView.findViewById(R.id.style_voie_picker);
+        styleVoiePicker = (MyNumberPicker) dialogView.findViewById(R.id.style_voie_picker);
         ArrayList<StyleVoie> stylesVoie = (ArrayList<StyleVoie>) AppManager.styleVoies;
         String[] styleVoieValues = new String[stylesVoie.size()];
 

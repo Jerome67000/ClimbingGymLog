@@ -10,10 +10,9 @@
         android:layout_height="wrap_content"
         android:id="@+id/cotation_picker"
         android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        style="@style/Base.TextAppearance.AppCompat.Small"/>
+        android:layout_alignParentLeft="true"/>
 
-    <NumberPicker
+    <fr.jerome.climbinggymlog.view.custom.MyNumberPicker
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/type_escalade_picker"
@@ -21,7 +20,7 @@
         android:layout_centerHorizontal="true"/>
 
 
-    <NumberPicker
+    <fr.jerome.climbinggymlog.view.custom.MyNumberPicker
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/style_voie_picker"

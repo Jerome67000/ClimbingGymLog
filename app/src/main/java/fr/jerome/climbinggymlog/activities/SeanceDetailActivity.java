@@ -37,8 +37,8 @@ public class SeanceDetailActivity extends ActionBarActivity implements AddVoieDi
         super.onCreate(savedInstanceState);
 
         /**
-         * ActionBar
-         **/
+        * ActionBar
+        **/
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             ActionBar actionBar = getSupportActionBar();
             if (actionBar != null) {

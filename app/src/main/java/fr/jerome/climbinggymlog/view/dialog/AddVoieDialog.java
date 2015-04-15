@@ -6,9 +6,11 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.NumberPicker;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import java.util.ArrayList;
@@ -38,6 +40,10 @@ public class AddVoieDialog extends DialogFragment {
     private int seanceId;
     private int nextVoieNumber;
     private Voie newVoie;
+    private String[] cotationValues;
+    private String[] cotationValuesWithPlus;
+    int currentPickerPosition = 10;
+    boolean isPlusCotation = false;
 
     public interface AddVoieDialogListener {
         void onFinishAddVoieDialog(Voie newVoie);
@@ -96,22 +102,54 @@ public class AddVoieDialog extends DialogFragment {
      */
     private void initPickers() {
 
+        final ToggleButton plusToggleButton = (ToggleButton) dialogView.findViewById(R.id.cotation_plus);
+        plusToggleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (plusToggleButton.isChecked()) {
+                    isPlusCotation = true;
+                    togglePlusCotationPicker();
+                }
+                else {
+                    isPlusCotation = false;
+                    togglePlusCotationPicker();
+                }
+            }
+        });
+
+
         /** Cotations Picker */
         cotationPicker = (NumberPicker) dialogView.findViewById(R.id.cotation_picker);
-        ArrayList<Cotation> cotations = (ArrayList<Cotation>) AppManager.cotations;
-        String[] cotationValues = new String[cotations.size()];
+        final ArrayList<Cotation> cotations = (ArrayList<Cotation>) AppManager.cotations;
+        int size = cotations.size()/2;
+        cotationValues = new String[size];
+        cotationValuesWithPlus = new String[size];
 
+        int indexNoPlus = 0;
+        int indexWithPlus = 0;
         for (Cotation c : cotations) {
-
-            int index = (int) (c.getId() - 1);
-            cotationValues[index] = c.getNom();
+            int indexCotation = (int) (c.getId() - 1);
+             if (indexCotation % 2 == 0) {
+                 cotationValues[indexNoPlus] = c.getNom();
+                 indexNoPlus++;
+             }
+            else {
+                 cotationValuesWithPlus[indexWithPlus] = c.getNom();
+                 indexWithPlus++;
+             }
         }
 
-        cotationPicker.setMaxValue(cotationValues.length - 1);
         cotationPicker.setMinValue(0);
-        cotationPicker.setDisplayedValues(cotationValues);
-        cotationPicker.setValue(30);
         cotationPicker.setWrapSelectorWheel(false);
+        togglePlusCotationPicker();
+
+        cotationPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                currentPickerPosition = cotationPicker.getValue();
+                Log.d("value picker", " " + currentPickerPosition);
+            }
+        });
 
         /** Type escalade Picker */
         typeEscPicker = (NumberPicker) dialogView.findViewById(R.id.type_escalade_picker);
@@ -149,13 +187,40 @@ public class AddVoieDialog extends DialogFragment {
     }
 
     /**
+     * Raffraichi l'affichage du CotationPicker avec les cotation "+" ou non
+     * exemple : si isPlusCoation = true alors "5c+" est affiché, sinon "5c" est affiché
+     */
+    private void togglePlusCotationPicker() {
+
+        if (isPlusCotation) {
+            cotationPicker.setMaxValue(cotationValuesWithPlus.length - 1);
+            cotationPicker.setDisplayedValues(cotationValuesWithPlus);
+        }
+        else {
+            cotationPicker.setMaxValue(cotationValues.length - 1);
+            cotationPicker.setDisplayedValues(cotationValues);
+        }
+        cotationPicker.setValue(currentPickerPosition);
+        cotationPicker.setWrapSelectorWheel(false);
+    }
+
+    /**
      * Récupère les info de la Dialog pour créer un objet Voie et l'inserer dans la DB
      */
     private void createNewVoie() {
 
         VoieDB voieDB = new VoieDB(dialogView.getContext());
 
-        Cotation cotation = AppManager.cotations.get(cotationPicker.getValue());
+        Cotation cotation;
+        if (isPlusCotation) {
+            int value = cotationPicker.getValue() * 2 + 1;
+            cotation = AppManager.cotations.get(value);
+        }
+        else {
+            int value = cotationPicker.getValue() * 2;
+            cotation = AppManager.cotations.get(value);
+        }
+
         TypeEsc typeEsc = AppManager.typesEsc.get(typeEscPicker.getValue());
         StyleVoie styleVoie = AppManager.styleVoies.get(styleVoiePicker.getValue());
 

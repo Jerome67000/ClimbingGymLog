@@ -10,6 +10,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.shamanland.fab.FloatingActionButton;
@@ -19,23 +21,32 @@ import java.util.ArrayList;
 import fr.jerome.climbinggymlog.R;
 import fr.jerome.climbinggymlog.adapters.SeanceDetailAdapter;
 import fr.jerome.climbinggymlog.data.VoieDB;
+import fr.jerome.climbinggymlog.models.Seance;
 import fr.jerome.climbinggymlog.models.Voie;
 import fr.jerome.climbinggymlog.view.dialog.AddSeanceDialog;
 import fr.jerome.climbinggymlog.view.dialog.AddVoieDialog;
+import fr.jerome.climbinggymlog.view.dialog.EditVoieDialog;
 import fr.jerome.climbinggymlog.view.fragments.ResumeSeanceFragment;
 
 /**
  * Created by jerome on 17/02/15.
  */
-public class SeanceDetailActivity extends ActionBarActivity implements AddVoieDialog.AddVoieDialogListener {
+public class SeanceDetailActivity   extends ActionBarActivity
+                                    implements  AddVoieDialog.AddVoieDialogListener,
+                                                EditVoieDialog.EditVoieDialogListener,
+                                                OnItemClickListener {
 
     private SeanceDetailAdapter seanceDetailAdapter;
     private int seanceId;
+    private int lastEditPosition;
     private ResumeSeanceFragment resumeSeanceFragment;
+    private FragmentManager fm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        fm = getSupportFragmentManager();
 
         /**
         * ActionBar
@@ -60,6 +71,7 @@ public class SeanceDetailActivity extends ActionBarActivity implements AddVoieDi
         seanceDetailAdapter = new SeanceDetailAdapter(this, R.layout.row_seance_adapter, voies);
         ListView listView = (ListView) findViewById(R.id.voies_listview);
         listView.setAdapter(seanceDetailAdapter);
+        listView.setOnItemClickListener(this);
 
         /** Ajout du fap nouvelle voie */
         FloatingActionButton fap = (FloatingActionButton) findViewById(R.id.fap_add_voie);
@@ -84,14 +96,12 @@ public class SeanceDetailActivity extends ActionBarActivity implements AddVoieDi
     }
 
     private void showAddVoieDialog() {
-        FragmentManager fm = getSupportFragmentManager();
         AddVoieDialog addVoieDialog = AddVoieDialog.newInstance(seanceId, seanceDetailAdapter.getCount());
         addVoieDialog.show(fm, AddVoieDialog.KEY_PREFIX);
     }
 
     @Override
     public void onFinishAddVoieDialog(Voie newVoie) {
-
         seanceDetailAdapter.add(newVoie);
         seanceDetailAdapter.notifyDataSetChanged();
         resumeSeanceFragment.refreshView();
@@ -103,5 +113,25 @@ public class SeanceDetailActivity extends ActionBarActivity implements AddVoieDi
         resumeSeanceFragment.setSeanceId(seanceId);
         ft.replace(R.id.fragment_resume_seance, resumeSeanceFragment);
         ft.commit();
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        lastEditPosition = position;
+        Voie voieToEdit = (Voie) seanceDetailAdapter.getItem(position);
+        EditVoieDialog editVoieDialog = EditVoieDialog.newInstance((int) voieToEdit.getId(), position);
+        editVoieDialog.show(fm, EditVoieDialog.KEY_PREFIX);
+    }
+
+    @Override
+    public void onFinishEditVoieDialog(Voie editedVoie) {
+
+        seanceDetailAdapter.clear();
+        VoieDB voieDB = new VoieDB(this);
+        seanceDetailAdapter.addAll(voieDB.getAllVoiesFromSeanceId(seanceId));
+        voieDB.close();
+
+        seanceDetailAdapter.notifyDataSetChanged();
+        resumeSeanceFragment.refreshView();
     }
 }

@@ -7,7 +7,7 @@ import android.widget.EditText;
 import android.widget.NumberPicker;
 
 /**
- * NumberPicker custom pour modifier la taille du texte affiché
+ * NumberPicker custom pour modifier la taille du texte affichÃ©
  * Valeur non accessible avec les attributs d'origine
  * Created by rcdsm06 on 15/04/2015.
  */

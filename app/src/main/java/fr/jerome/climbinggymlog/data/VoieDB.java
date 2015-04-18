@@ -94,7 +94,6 @@ public class VoieDB extends DBHandler {
 
         Voie voie = new Voie(c.getLong(0), c.getString(1), cot, typeEsc, styleVoie, isReussi, isAVue, c.getString(7), c.getLong(8));
         c.close();
-
         return voie;
     }
 

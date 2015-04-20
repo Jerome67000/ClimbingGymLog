@@ -71,6 +71,7 @@ public class SeanceDetailActivity   extends ActionBarActivity
         seanceDetailAdapter = new SeanceDetailAdapter(this, R.layout.row_seance_adapter, voies);
         ListView listView = (ListView) findViewById(R.id.voies_listview);
         listView.setAdapter(seanceDetailAdapter);
+        listView.setEmptyView(findViewById(R.id.no_data_voie));
         listView.setOnItemClickListener(this);
 
         /** Ajout du fap nouvelle voie */

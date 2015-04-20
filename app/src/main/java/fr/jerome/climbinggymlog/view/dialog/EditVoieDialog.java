@@ -38,18 +38,11 @@ public class EditVoieDialog extends DialogFragment {
     private MyNumberPicker styleVoiePicker;
 
     private Voie voieToEdit;
-<<<<<<< HEAD
     private int positionAAfficher;
     private String[] cotationValues;
     private String[] cotationValuesWithPlus;
     int currentPickerPosition;
-=======
-    private Voie voieEdited;
-    private int positionAAfficher;
-    private String[] cotationValues;
-    private String[] cotationValuesWithPlus;
-    int currentPickerPosition = 10;
->>>>>>> 5e0054f005709c46bd7e715bafed7c9689235e86
+
     boolean isPlusCotation = false;
     private VoieDB voieDB;
     private ToggleButton plusToggleButton;
@@ -115,7 +108,7 @@ public class EditVoieDialog extends DialogFragment {
 
         int valueStyleVoie = (int) voieToEdit.getStyle().getId()-1;
         int valueTypeEsc = (int) voieToEdit.getTypeEscalade().getId()-1;
-<<<<<<< HEAD
+
         styleVoiePicker.setValue(valueStyleVoie);
         typeEscPicker.setValue(valueTypeEsc);
 
@@ -132,16 +125,6 @@ public class EditVoieDialog extends DialogFragment {
         togglePlusCotationPicker();
         reussiToggleButton.setChecked(voieToEdit.isReussi());
         aVueToggleButton.setChecked(voieToEdit.isAVue());
-=======
-        cotationPicker.setValue(10);
-        styleVoiePicker.setValue(valueStyleVoie);
-        typeEscPicker.setValue(valueTypeEsc);
-
-        plusToggleButton.setChecked(voieToEdit.getCotation().isPlus());
-        reussiToggleButton.setChecked(voieToEdit.isReussi());
-        aVueToggleButton.setChecked(voieToEdit.isAVue());
-
->>>>>>> 5e0054f005709c46bd7e715bafed7c9689235e86
     }
 
     /**

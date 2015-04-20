@@ -37,6 +37,7 @@ public class SeancesFragment extends Fragment implements AddSeanceDialog.AddSean
         seanceAdapter = new SeanceAdapter(getActivity(), R.layout.row_seance_adapter, seanceDB.getAllSeances());
         ListView listView = (ListView) rootView.findViewById(R.id.seances_listview);
         listView.setAdapter(seanceAdapter);
+        listView.setEmptyView(rootView.findViewById(R.id.no_data_seance));
         seanceDB.close();
 
         /** Ajout du fap nouvelle séance */

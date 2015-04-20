@@ -27,6 +27,21 @@
             android:id="@+id/voies_listview"
             android:layout_gravity="start"/>
 
+        <!--A afficher tant qu'il n'y a pas de séance de créée-->
+        <LinearLayout android:id="@+id/no_data_voie"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center">
+
+            <TextView android:text="Ajouter votre\n        première voie"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/darker_gray"
+                style="@style/Base.TextAppearance.AppCompat.Large">
+            </TextView>
+        </LinearLayout>
+
+
         <com.shamanland.fab.FloatingActionButton
             android:id="@+id/fap_add_voie"
             android:layout_width="wrap_content"
@@ -34,4 +49,6 @@
             android:src="@drawable/fab_ic_add"
             android:layout_gravity="right|bottom"/>
     </FrameLayout>
+
+
 </LinearLayout>

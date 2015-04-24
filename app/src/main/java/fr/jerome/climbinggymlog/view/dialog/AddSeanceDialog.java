@@ -153,8 +153,6 @@ public class AddSeanceDialog extends DialogFragment {
 
         titreSeance.setHint("Séance #" + seanceNumber);
         salleSeance.setText(AppManager.nomSalleClient);
-
-        Log.d("nom salle", AppManager.nomSalleClient);
     }
 
     /**

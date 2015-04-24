@@ -26,7 +26,7 @@ public class Client extends Personne {
      */
     public Client(long id, String nom, String prenom, String numClient, Date dateAjout, long idSalle) {
 
-        super(id, nom, prenom, 0);
+        super(id, nom, prenom, 0, "email");
         this.numClient = numClient;
         this.dateAjout = dateAjout;
         this.idSalle = idSalle;
@@ -45,7 +45,7 @@ public class Client extends Personne {
      */
     public Client(String nom, String prenom, int age, String numClient, Date dateAjout, int idSalle) {
 
-        super(nom, prenom, age);
+        super(nom, prenom, age, "email");
         this.numClient = numClient;
         this.dateAjout = dateAjout;
         this.idSalle = idSalle;

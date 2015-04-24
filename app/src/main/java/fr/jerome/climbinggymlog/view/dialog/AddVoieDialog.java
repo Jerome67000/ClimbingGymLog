@@ -146,7 +146,6 @@ public class AddVoieDialog extends DialogFragment {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
                 currentPickerPosition = cotationPicker.getValue();
-                Log.d("value picker", " " + currentPickerPosition);
             }
         });
 

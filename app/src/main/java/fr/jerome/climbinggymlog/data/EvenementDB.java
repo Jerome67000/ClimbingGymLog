@@ -45,6 +45,12 @@ public class EvenementDB extends DBHandler {
         super(context);
     }
 
+    public int getLastEventId() {
+        Cursor c = database.rawQuery("SELECT max(_id) FROM " + TABLE_NAME, null);
+        c.moveToFirst();
+        return c.getInt(0);
+    }
+
     /**
      * @return  evenements : Une liste contenant toutes les seances
      */

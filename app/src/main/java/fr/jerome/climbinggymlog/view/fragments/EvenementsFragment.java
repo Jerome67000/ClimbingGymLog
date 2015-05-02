@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import fr.jerome.climbinggymlog.R;
 import fr.jerome.climbinggymlog.adapters.EvenementsAdapter;
 import fr.jerome.climbinggymlog.data.EvenementDB;
+import fr.jerome.climbinggymlog.helpers.AppManager;
 import fr.jerome.climbinggymlog.models.Evenement;
 
 /**
@@ -38,11 +39,14 @@ import fr.jerome.climbinggymlog.models.Evenement;
 public class EvenementsFragment extends Fragment {
 
     private EvenementsAdapter adapter;
+    private EvenementDB evenementDB;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
-        new GetEvenements().execute("http://clymbinggym.vacau.com/php/getEvenements.php");
+        evenementDB = new EvenementDB(getActivity());
+        new GetEvenements().execute("http://clymbinggym.vacau.com/php/getEvenements.php?"
+                                    + "salleid="  + AppManager.salleId
+                                    + "&lasteventid=" + evenementDB.getLastEventId());
         super.onCreate(savedInstanceState);
     }
 
@@ -51,22 +55,16 @@ public class EvenementsFragment extends Fragment {
 
         View rootView;
         rootView = inflater.inflate(R.layout.fragment_evenement, container, false);
-
-        EvenementDB evenementDB = new EvenementDB(getActivity());
-        ArrayList<Evenement> evenements = (ArrayList<Evenement>) evenementDB.getAllEvenements();
-
-        adapter = new EvenementsAdapter(getActivity(), R.layout.row_seance_adapter, evenements);
+        adapter = new EvenementsAdapter(getActivity(), R.layout.row_seance_adapter, evenementDB.getAllEvenements());
         ListView listView = (ListView) rootView.findViewById(R.id.events_listview);
         listView.setAdapter(adapter);
-
-        evenementDB.close();
 
         return rootView;
     }
 
     // AsyncTask to get the server response and refreshView the EditText in the UI thread
     private class GetEvenements extends AsyncTask<String, Void, ArrayList<String>> {
-        ArrayList<Evenement> newEvenements = new ArrayList<Evenement>();
+        ArrayList<Evenement> allWebEvents = new ArrayList<Evenement>();
         @Override
         protected ArrayList<String> doInBackground(String... url) {
             StringBuilder stringBuilder = new StringBuilder();
@@ -123,7 +121,7 @@ public class EvenementsFragment extends Fragment {
                     }
                     assert date != null;
                     Evenement evenement = new Evenement(id, titre, description, new java.sql.Date(date.getTime()), heure, salleId);
-                    newEvenements.add(evenement);
+                    allWebEvents.add(evenement);
                 }
 
             } catch (JSONException e) {
@@ -133,13 +131,14 @@ public class EvenementsFragment extends Fragment {
         }
         @Override protected void onPostExecute(ArrayList<String> s) {
 
-            // Ajout les nouveaux evenements à la bdd locale
-            EvenementDB evenementDB = new EvenementDB(getActivity());
-            for (Evenement e : newEvenements) {
-                evenementDB.insert(e);
+            // Ajouter seulement les nouveaux evenements à la bdd locale
+            int lastLocalEventId = evenementDB.getLastEventId();
+            for (Evenement e : allWebEvents) {
+                if (lastLocalEventId < e.getId())
+                    evenementDB.insert(e);
             }
 
-            // Refresh listview newEvenements
+            // Refresh listview
             adapter.clear();
             adapter.addAll(evenementDB.getAllEvenements());
             evenementDB.close();

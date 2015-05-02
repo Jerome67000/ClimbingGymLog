@@ -56,7 +56,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     public void onClick(View v) {
 
         if (v.getId() == R.id.login_button) {
-
             String nom = ((EditText) findViewById(R.id.login_nom)).getText().toString();
             String prenom = ((EditText) findViewById(R.id.login_prenom)).getText().toString();
             String numClient = ((EditText) findViewById(R.id.login_num_client)).getText().toString();
@@ -65,9 +64,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
             clientTmp = new Client(nom, prenom, 0, numClient, new Date(AppManager.sysTime), AppManager.salleId);
             clientTmp.setEmail(email);
 
-            Log.d("search bdd num", numClient);
-
-            new GetClients().execute("http://clymbinggym.vacau.com/php/getClients.php?" + ClientDB.NUM_CLIENT + "=" + numClient);
+            new GetClients().execute("http://clymbinggym.vacau.com/php/getClientFromNum.php?" + ClientDB.NUM_CLIENT + "=" + numClient);
         }
     }
 
@@ -110,28 +107,34 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 JSONObject jObject = new JSONObject(stringBuilder.toString());
                 JSONArray jArray = jObject.getJSONArray("Clients");
 
-                for (int i = 0; i < jArray.length(); i++) {
-                    JSONObject jClient = jArray.getJSONObject(i);
-                    int id = jClient.getInt(ClientDB.ID);
-                    String nom = jClient.getString(ClientDB.NOM);
-                    String prenom = jClient.getString(ClientDB.PRENOM);
-                    String numClient = jClient.getString(ClientDB.NUM_CLIENT);
-                    String email = jClient.getString(ClientDB.EMAIL);
-                    int salleId = jClient.getInt(ClientDB.SALLE_ID);
-                    String textDate = jClient.getString(ClientDB.DATE_AJ);
-                    DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-                    java.util.Date date = null;
-                    try {
-                        date = df.parse(textDate);
-                    } catch (ParseException e) {
-                        e.printStackTrace();
+                if(jArray.length() > 0) {
+                    for (int i = 0; i < jArray.length(); i++) {
+                        JSONObject jClient = jArray.getJSONObject(i);
+                        int id = jClient.getInt(ClientDB.ID);
+                        String nom = jClient.getString(ClientDB.NOM);
+                        String prenom = jClient.getString(ClientDB.PRENOM);
+                        String numClient = jClient.getString(ClientDB.NUM_CLIENT);
+                        String email = jClient.getString(ClientDB.EMAIL);
+                        int salleId = jClient.getInt(ClientDB.SALLE_ID);
+                        String textDate = jClient.getString(ClientDB.DATE_AJ);
+                        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                        java.util.Date date = null;
+                        try {
+                            date = df.parse(textDate);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        assert date != null;
+                        Client c = new Client(id, nom, prenom, numClient, new java.sql.Date(date.getTime()), salleId);
+                        c.setEmail(email);
+                        client = c;
                     }
-                    assert date != null;
-                    Client c = new Client(id, nom, prenom, numClient, new java.sql.Date(date.getTime()), salleId);
-                    c.setEmail(email);
-                    client = c;
                 }
-
+                else {
+                    client = new Client();
+                    client.setNumClient("-");
+                    client.setEmail("-");
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -140,11 +143,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         @Override protected void onPostExecute(ArrayList<String> s) {
 
             ClientDB clientDB = new ClientDB(self);
-
-            Log.d("client num", client.getNumClient());
-            Log.d("clientTmp num", clientTmp.getNumClient());
-            Log.d("client email", client.getEmail());
-            Log.d("clientTmp email", clientTmp.getEmail());
 
             if (client.getNumClient().equals(clientTmp.getNumClient())) {
                 if (client.getEmail().equals(clientTmp.getEmail())) {
@@ -170,10 +168,10 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 }
             }
             else {
-                new PutClient().execute("http://clymbinggym.vacau.com/php/putClient.php?"   + ClientDB.NOM + "=" + clientTmp.getNom() + "&"
-                                                                                            + ClientDB.PRENOM + "=" + clientTmp.getPrenom() + "&"
-                                                                                            + ClientDB.NUM_CLIENT + "=" + clientTmp.getNumClient() + "&"
-                                                                                            + ClientDB.EMAIL + "=" + clientTmp.getEmail() + "&"
+                new PutClient().execute("http://clymbinggym.vacau.com/php/putClient.php?"   + ClientDB.NOM + "=" + clientTmp.getNom().trim() + "&"
+                                                                                            + ClientDB.PRENOM + "=" + clientTmp.getPrenom().trim() + "&"
+                                                                                            + ClientDB.NUM_CLIENT + "=" + clientTmp.getNumClient().trim() + "&"
+                                                                                            + ClientDB.EMAIL + "=" + clientTmp.getEmail().trim() + "&"
                                                                                             + ClientDB.SALLE_ID +  "=" + AppManager.salleId + "&"
                                                                                             + ClientDB.DATE_AJ +  "=" + "2015-01-01");
             }

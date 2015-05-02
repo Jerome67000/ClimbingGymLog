@@ -141,7 +141,6 @@ public class EvenementsFragment extends Fragment {
             // Refresh listview
             adapter.clear();
             adapter.addAll(evenementDB.getAllEvenements());
-            evenementDB.close();
             adapter.notifyDataSetChanged();
         }
     }

@@ -8,7 +8,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ import fr.jerome.climbinggymlog.view.fragments.SeancesFragment;
 import fr.jerome.climbinggymlog.view.fragments.StatistiquesFragment;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends AppCompatActivity {
 
     private SlidingTabLayout slidingTabLayout;
     private ViewPager viewPager;
@@ -48,8 +49,10 @@ public class MainActivity extends ActionBarActivity {
         initSharedPref();
 
         /**
-         * ActionBar
+         * Toolbar
          **/
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             ActionBar actionBar = getSupportActionBar();
             if (actionBar != null) {

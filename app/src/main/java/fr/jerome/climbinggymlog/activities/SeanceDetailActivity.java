@@ -6,8 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -21,7 +20,6 @@ import java.util.ArrayList;
 import fr.jerome.climbinggymlog.R;
 import fr.jerome.climbinggymlog.adapters.SeanceDetailAdapter;
 import fr.jerome.climbinggymlog.data.VoieDB;
-import fr.jerome.climbinggymlog.models.Seance;
 import fr.jerome.climbinggymlog.models.Voie;
 import fr.jerome.climbinggymlog.view.dialog.AddSeanceDialog;
 import fr.jerome.climbinggymlog.view.dialog.AddVoieDialog;
@@ -31,7 +29,7 @@ import fr.jerome.climbinggymlog.view.fragments.ResumeSeanceFragment;
 /**
  * Created by jerome on 17/02/15.
  */
-public class SeanceDetailActivity   extends ActionBarActivity
+public class SeanceDetailActivity   extends AppCompatActivity
                                     implements  AddVoieDialog.AddVoieDialogListener,
                                                 EditVoieDialog.EditVoieDialogListener,
                                                 OnItemClickListener {

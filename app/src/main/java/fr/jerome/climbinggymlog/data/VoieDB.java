@@ -3,9 +3,20 @@ package fr.jerome.climbinggymlog.data;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.DatabaseUtils;
+import android.os.AsyncTask;
 import android.util.Log;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +35,7 @@ public class VoieDB extends DBHandler {
 
     public static final String ID = "_id";
     public static final String NOM = "nom";
-    public static final String COTATION = "cotation_id";
+    public static final String COTATION_ID = "cotation_id";
     public static final String ID_TYPE_ESCALADE = "type_escalade_id";
     public static final String ID_STYLE_VOIE = "style_voie_id";
     public static final String REUSSIE = "reussie";
@@ -36,7 +47,7 @@ public class VoieDB extends DBHandler {
     public static final String  CREATE_TABLE =  "CREATE TABLE " + TABLE_NAME + "(" +
                                 ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                                 NOM + " TEXT, " +
-                                                    COTATION + " INTEGER, " +
+                                COTATION_ID + " INTEGER, " +
                                 ID_TYPE_ESCALADE + " INTEGER, " +
                                 ID_STYLE_VOIE + " INTEGER, " +
                                 REUSSIE + " BOOL, " +
@@ -48,7 +59,6 @@ public class VoieDB extends DBHandler {
     public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
 
     public VoieDB(Context context) {
-
         super(context);
     }
 
@@ -60,7 +70,7 @@ public class VoieDB extends DBHandler {
         ContentValues value = new ContentValues();
 
         value.put(NOM, voie.getNom());
-        value.put(COTATION, voie.getCotation().getId());
+        value.put(COTATION_ID, voie.getCotation().getId());
         value.put(ID_TYPE_ESCALADE, voie.getTypeEscalade().getId());
         value.put(ID_STYLE_VOIE, voie.getStyle().getId());
         value.put(REUSSIE, voie.isReussi());
@@ -105,7 +115,7 @@ public class VoieDB extends DBHandler {
         ContentValues value = new ContentValues();
 
         value.put(NOM, voie.getNom());
-        value.put(COTATION, voie.getCotation().getId());
+        value.put(COTATION_ID, voie.getCotation().getId());
         value.put(ID_TYPE_ESCALADE, voie.getTypeEscalade().getId());
         value.put(ID_STYLE_VOIE, voie.getStyle().getId());
         value.put(REUSSIE, voie.isReussi());
@@ -154,5 +164,66 @@ public class VoieDB extends DBHandler {
         }
         c.close();
         return voies;
+    }
+
+    public void putVoieOnWebDB(Voie newVoie) {
+
+        int isReussi = newVoie.isReussi() ? 1 : 0;
+        int isAVue = newVoie.isAVue() ? 1 : 0;
+        String nomVoie = newVoie.getNom().replace('#','n');
+
+        String url = "http://clymbinggym.vacau.com/php/putVoie.php?"
+                + NOM + "=" + nomVoie + "&"
+                + COTATION_ID + "=" + newVoie.getCotation().getId() + "&"
+                + ID_TYPE_ESCALADE + "=" + newVoie.getTypeEscalade().getId() + "&"
+                + ID_STYLE_VOIE + "=" + newVoie.getStyle().getId() + "&"
+                + REUSSIE + "=" + isReussi + "&"
+                + A_VUE + "=" + isAVue + "&"
+                + NOTE + "=" + newVoie.getNote() + "&"
+                + ID_SEANCE_VOIE + "=" + newVoie.getIdSeance() + "&"
+                + PHOTO_NOM + "=" + "-";
+
+        url = url.replaceAll(" ", "%20");
+        new PutVoie().execute(url);
+    }
+
+
+    // AsyncTask pour insérer une nouvelle séance dans la BDD en ligne
+    private class PutVoie extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... url) {
+            StringBuilder stringBuilder = new StringBuilder();
+            InputStream inputStream = null;
+            try {
+                HttpResponse httpResponse = new DefaultHttpClient().execute(new HttpGet(url[0]));
+                // Http message
+                HttpEntity httpEntity = httpResponse.getEntity();
+                inputStream = httpEntity.getContent();
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                BufferedReader reader = new BufferedReader(inputStreamReader);
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    stringBuilder.append(line);
+                }
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+                Log.e("error", e.getMessage());
+            }
+            finally {
+                if (inputStream != null)
+                    try {
+                        inputStream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+            }
+            return stringBuilder.toString();
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            Log.i("putVoieOnWebDB()", "Voie ajoutée à la BDD en ligne : id " + s);
+        }
     }
 }

@@ -122,8 +122,6 @@ public class AddSeanceDialog extends DialogFragment {
         int dateSelected = ((NumberPicker) dialogView.findViewById(R.id.date_seance_picker)).getValue();
         long date = 0;
         switch(dateSelected) {
-
-            // FIXME Problème décalage date
             case 0 : date = 0; break;
             case 1 : date = 86400000; break;
             case 2 : date = 86400000*2; break;
@@ -132,6 +130,7 @@ public class AddSeanceDialog extends DialogFragment {
         seanceDB = new SeanceDB(dialogView.getContext());
         newSeance = new Seance(titre, new Date(AppManager.sysTime - date), new Date(AppManager.sysTime), salle, note, AppManager.client);
         seanceDB.insert(newSeance);
+        seanceDB.putSeanceOnWebDB(newSeance);
         seanceDB.close();
     }
 

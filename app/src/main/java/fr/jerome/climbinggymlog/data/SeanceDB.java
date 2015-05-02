@@ -2,16 +2,32 @@ package fr.jerome.climbinggymlog.data;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
+import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.jerome.climbinggymlog.activities.LoginActivity;
+import fr.jerome.climbinggymlog.activities.MainActivity;
 import fr.jerome.climbinggymlog.helpers.AppManager;
 import fr.jerome.climbinggymlog.models.Seance;
 
@@ -133,5 +149,59 @@ public class SeanceDB extends DBHandler {
         }
         c.close();
         return seances;
+    }
+
+    public void putSeanceOnWebDB(Seance seance) {
+
+        String nomSeance = seance.getNom().replace('#','n');
+
+        String url = "http://clymbinggym.vacau.com/php/putSeance.php?"
+                + NOM + "=" + nomSeance + "&"
+                + DATE + "=" + seance.getDateSeance() + "&"
+                + NOM_SALLE + "=" + seance.getNomSalle() + "&"
+                + NOTE + "=" + seance.getNote() + "&"
+                + CLIENT_ID + "=" + AppManager.client.getId();
+
+        url = url.replaceAll(" ", "%20");
+        new PutSeance().execute(url);
+    }
+
+    // AsyncTask pour insérer une nouvelle séance dans la BDD en ligne
+    private class PutSeance extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... url) {
+            StringBuilder stringBuilder = new StringBuilder();
+            InputStream inputStream = null;
+            try {
+                HttpResponse httpResponse = new DefaultHttpClient().execute(new HttpGet(url[0]));
+                // Http message
+                HttpEntity httpEntity = httpResponse.getEntity();
+                inputStream = httpEntity.getContent();
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                BufferedReader reader = new BufferedReader(inputStreamReader);
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    stringBuilder.append(line);
+                }
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+                Log.e("error", e.getMessage());
+            }
+            finally {
+                if (inputStream != null)
+                    try {
+                        inputStream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+            }
+            return stringBuilder.toString();
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            Log.i("putSeanceOnWebDB()", "Séance ajoutée à la BDD en ligne : id " + s);
+        }
     }
 }

@@ -1,0 +1,42 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory
+        android:key="pref_key_interface"
+        android:title="@string/title_activity_preferences" >
+
+        <Preference
+            android:key="pref_key_interface_def_val"
+            android:title="Paramétrer les valeurs initiales" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="pref_key_notifications"
+        android:title="Notifications" >
+        <Preference
+            android:key="pref_key_notifications_new_event"
+            android:title="Nouvel événement" />
+        <Preference
+            android:key="pref_key_notifications_event_imm"
+            android:title="Evénement imminent" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="pref_key_compte"
+        android:title="Compte" >
+        <Preference
+            android:key="pref_key_compte_modifier"
+            android:title="Modifier" />
+        <Preference
+            android:key="pref_key_compte_deco"
+            android:title="Se déconnecter" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="pref_key_infoleg"
+        android:title="Informations légales" >
+        <Preference
+            android:key="pref_key_infoleg_licence"
+            android:title="Licences open source" />
+    </PreferenceCategory>
+</PreferenceScreen>

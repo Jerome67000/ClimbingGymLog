@@ -10,7 +10,8 @@
         android:id="@+id/toolbar"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:minHeight="?attr/actionBarSize"/>
+        android:minHeight="?attr/actionBarSize"
+        app:theme="@style/ThemeOverlay.AppCompat.ActionBar"/>
 
     <fr.jerome.climbinggymlog.view.googletools.SlidingTabLayout
         android:id="@+id/tab"

@@ -31,8 +31,12 @@ import java.util.ArrayList;
 
 import fr.jerome.climbinggymlog.R;
 import fr.jerome.climbinggymlog.data.ClientDB;
+import fr.jerome.climbinggymlog.data.SeanceDB;
+import fr.jerome.climbinggymlog.data.VoieDB;
 import fr.jerome.climbinggymlog.helpers.AppManager;
 import fr.jerome.climbinggymlog.models.Client;
+import fr.jerome.climbinggymlog.models.Seance;
+import fr.jerome.climbinggymlog.models.Voie;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -69,7 +73,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    // AsyncTask pour obtenir le compte du client s'il est déjà créé
     private class GetClients extends AsyncTask<String, Void, ArrayList<String>> {
         @Override
         protected ArrayList<String> doInBackground(String... url) {
@@ -152,6 +155,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     AppManager.setClient(client);
                     clientDB.insert(client);
 
+                    // Récupération des séances et des voies existantes
+                    new GetSeances().execute("http://clymbinggym.vacau.com/php/getSeancesFromClient.php?clientid=" + client.getId());
+                    new GetVoies().execute("http://clymbinggym.vacau.com/php/getVoiesFromClientId.php?clientid=" + client.getId());
+
                     // Sauvegarde des SharedPref pour SHOW_LOG_ACT et le num client
                     SharedPreferences sharedPreferences = getSharedPreferences(MainActivity.SHARED_PREF_NAME, 0);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -170,11 +177,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
             else {
                 new PutClient().execute("http://clymbinggym.vacau.com/php/putClient.php?"   + ClientDB.NOM + "=" + clientTmp.getNom().trim() + "&"
-                                                                                            + ClientDB.PRENOM + "=" + clientTmp.getPrenom().trim() + "&"
-                                                                                            + ClientDB.NUM_CLIENT + "=" + clientTmp.getNumClient().trim() + "&"
-                                                                                            + ClientDB.EMAIL + "=" + clientTmp.getEmail().trim() + "&"
-                                                                                            + ClientDB.SALLE_ID +  "=" + AppManager.salleId + "&"
-                                                                                            + ClientDB.DATE_AJ +  "=" + "2015-01-01");
+                        + ClientDB.PRENOM + "=" + clientTmp.getPrenom().trim() + "&"
+                        + ClientDB.NUM_CLIENT + "=" + clientTmp.getNumClient().trim() + "&"
+                        + ClientDB.EMAIL + "=" + clientTmp.getEmail().trim() + "&"
+                        + ClientDB.SALLE_ID +  "=" + AppManager.salleId + "&"
+                        + ClientDB.DATE_AJ +  "=" + "2015-01-01");
             }
         }
     }
@@ -233,6 +240,155 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             // Définit le résultat de l'activity et fin de l'activity
             self.setResult(CLIENT_FINDED);
             self.finish();
+        }
+    }
+
+    // AsyncTask pour obtenir les seances d'un utilisateur existant
+    private class GetSeances extends AsyncTask<String, Void, ArrayList<String>> {
+
+        ArrayList<Seance> seances = new ArrayList<>();
+        @Override
+        protected ArrayList<String> doInBackground(String... url) {
+            StringBuilder stringBuilder = new StringBuilder();
+            InputStream inputStream = null;
+
+            // Get the Request answer into a StringBuilder
+            try {
+                HttpResponse httpResponse = new DefaultHttpClient().execute(new HttpGet(url[0]));
+                // Http message
+                HttpEntity httpEntity = httpResponse.getEntity();
+                inputStream = httpEntity.getContent();
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                BufferedReader reader = new BufferedReader(inputStreamReader);
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    stringBuilder.append(line);
+                }
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+                Log.e("error", e.getMessage());
+            }
+            finally {
+                if (inputStream != null) {
+                    try {
+                        inputStream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            // Parse Json in a ArrayList of Evenements objects
+            try {
+                JSONObject jObject = new JSONObject(stringBuilder.toString());
+                JSONArray jArray = jObject.getJSONArray("Seances");
+
+                if(jArray.length() > 0) {
+                    for (int i = 0; i < jArray.length(); i++) {
+                        JSONObject jSeances = jArray.getJSONObject(i);
+                        int id = jSeances.getInt(SeanceDB.ID);
+                        String nom = jSeances.getString(SeanceDB.NOM);
+                        String textDate = jSeances.getString(SeanceDB.DATE);
+                        String nomSalle = jSeances.getString(SeanceDB.NOM_SALLE);
+                        String note = jSeances.getString(SeanceDB.NOTE);
+
+                        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                        java.util.Date date = null;
+                        try {
+                            date = df.parse(textDate);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        assert date != null;
+                        seances.add(new Seance(id, nom, new java.sql.Date(date.getTime()), nomSalle, note, client));
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        // Insertion des séances existantes dans la BDD locale
+        @Override protected void onPostExecute(ArrayList<String> s) {
+            SeanceDB seanceDB = new SeanceDB(self);
+            for (Seance seance : seances) {
+                seanceDB.insert(seance);
+            }
+        }
+    }
+
+    // AsyncTask pour obtenir les voies d'un utilisateur existant
+    private class GetVoies extends AsyncTask<String, Void, ArrayList<String>> {
+
+        ArrayList<Voie> voies = new ArrayList<>();
+        @Override
+        protected ArrayList<String> doInBackground(String... url) {
+            StringBuilder stringBuilder = new StringBuilder();
+            InputStream inputStream = null;
+
+            // Get the Request answer into a StringBuilder
+            try {
+                HttpResponse httpResponse = new DefaultHttpClient().execute(new HttpGet(url[0]));
+                // Http message
+                HttpEntity httpEntity = httpResponse.getEntity();
+                inputStream = httpEntity.getContent();
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                BufferedReader reader = new BufferedReader(inputStreamReader);
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    stringBuilder.append(line);
+                }
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+                Log.e("error", e.getMessage());
+            }
+            finally {
+                if (inputStream != null) {
+                    try {
+                        inputStream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            // Parse Json in a ArrayList of Evenements objects
+            try {
+                JSONObject jObject = new JSONObject(stringBuilder.toString());
+                JSONArray jArray = jObject.getJSONArray("Voies");
+
+                if(jArray.length() > 0) {
+                    for (int i = 0; i < jArray.length(); i++) {
+                        JSONObject jVoies = jArray.getJSONObject(i);
+                        int id = jVoies.getInt(VoieDB.ID);
+                        String nom = jVoies.getString(VoieDB.NOM);
+                        int cotationId = jVoies.getInt(VoieDB.COTATION_ID);
+                        int typeEscId = jVoies.getInt(VoieDB.ID_TYPE_ESCALADE);
+                        int styleVoieId = jVoies.getInt(VoieDB.ID_STYLE_VOIE);
+                        boolean reussi = jVoies.getInt(VoieDB.REUSSIE) != 0;
+                        boolean aVue = jVoies.getInt(VoieDB.A_VUE) != 0 ;
+                        String note = jVoies.getString(VoieDB.NOTE);
+                        int seanceId = jVoies.getInt(VoieDB.ID_SEANCE_VOIE);
+
+                        voies.add(new Voie(id, nom, AppManager.cotations.get(cotationId-1), AppManager.typesEsc.get(typeEscId-1), AppManager.styleVoies.get(styleVoieId-1), reussi, aVue, note, seanceId));
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        // Insertion des séances existantes dans la BDD locale
+        @Override protected void onPostExecute(ArrayList<String> s) {
+            VoieDB voieDB = new VoieDB(self);
+            for (Voie voie : voies) {
+                voieDB.insert(voie);
+                Log.d("voies inséré en local", voie.toString());
+            }
         }
     }
 }

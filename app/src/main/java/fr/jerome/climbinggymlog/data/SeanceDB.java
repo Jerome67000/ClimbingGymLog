@@ -78,7 +78,6 @@ public class SeanceDB extends DBHandler {
 
         value.put(NOM, seance.getNom());
         value.put(DATE, seance.getDateSeance().toString());
-        value.put(DATE_AJ, seance.getDateAjout().toString());
         value.put(NOM_SALLE, seance.getNomSalle());
         value.put(NOTE, seance.getNote());
         value.put(CLIENT_ID, seance.getClient().getId());
@@ -143,7 +142,7 @@ public class SeanceDB extends DBHandler {
             }
 
             assert date != null;
-            Seance seance = new Seance(c.getLong(0), c.getString(1), new java.sql.Date(date.getTime()), new java.sql.Date(date.getTime()), c.getString(4), c.getString(5), AppManager.client);
+            Seance seance = new Seance(c.getLong(0), c.getString(1), new java.sql.Date(date.getTime()), c.getString(4), c.getString(5), AppManager.client);
             seances.add(seance);
             c.moveToNext();
         }

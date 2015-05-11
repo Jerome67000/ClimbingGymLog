@@ -128,7 +128,7 @@ public class AddSeanceDialog extends DialogFragment {
         }
 
         seanceDB = new SeanceDB(dialogView.getContext());
-        newSeance = new Seance(titre, new Date(AppManager.sysTime - date), new Date(AppManager.sysTime), salle, note, AppManager.client);
+        newSeance = new Seance(titre, new Date(AppManager.sysTime - date), salle, note, AppManager.client);
         seanceDB.insert(newSeance);
         seanceDB.putSeanceOnWebDB(newSeance);
         seanceDB.close();

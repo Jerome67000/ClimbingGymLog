@@ -11,29 +11,26 @@ public class Seance {
     private long id = 0;
     private String nom;
     private Date dateSeance;
-    private Date dateAjout;
     private String nomSalle;
     private String note;
     private Client client;
     private ArrayList<Voie> voies;
 
-    public Seance(long id, String nom, Date dateSeance, Date dateAjout, String nomSalle, String note, Client client) {
+    public Seance(long id, String nom, Date dateSeance, String nomSalle, String note, Client client) {
 
         this.id = id;
         this.nom = nom;
         this.dateSeance = dateSeance;
-        this.dateAjout = dateAjout;
         this.nomSalle = nomSalle;
         this.note = note;
         this.client = client;
         this.voies = new ArrayList<Voie>();
     }
 
-    public Seance(String nom, Date dateSeance, Date dateAjout, String nomSalle, String note, Client client) {
+    public Seance(String nom, Date dateSeance, String nomSalle, String note, Client client) {
 
         this.nom = nom;
         this.dateSeance = dateSeance;
-        this.dateAjout = dateAjout;
         this.nomSalle = nomSalle;
         this.note = note;
         this.client = client;
@@ -65,11 +62,6 @@ public class Seance {
         this.nom = nom;
     }
 
-    public Date getDateAjout() {
-
-        return dateAjout;
-    }
-
     public Date getDateSeance() {
 
         return dateSeance;
@@ -78,11 +70,6 @@ public class Seance {
     public void setDateSeance(Date dateSeance) {
 
         this.dateSeance = dateSeance;
-    }
-
-    public void setDateAjout(Date dateAjout) {
-
-        this.dateAjout = dateAjout;
     }
 
     public String getNomSalle() {
@@ -132,7 +119,6 @@ public class Seance {
                 "id=" + id +
                 ", nom='" + nom + '\'' +
                 ", dateSeance=" + dateSeance +
-                ", dateAjout=" + dateAjout +
                 ", nomSalle='" + nomSalle + '\'' +
                 ", note='" + note + '\'' +
                 ", client=" + client +

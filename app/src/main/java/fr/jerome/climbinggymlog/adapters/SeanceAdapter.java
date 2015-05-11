@@ -52,7 +52,7 @@ public class SeanceAdapter extends ArrayAdapter implements AdapterView.OnItemCli
         TextView txDateAj = (TextView) rowView.findViewById(R.id.date_seance);
         View cotationRect = rowView.findViewById(R.id.cotation_color_rect);
         txTitre.setText(seance.getNom());
-        txDateAj.setText(seance.getDateAjout().toString());
+        txDateAj.setText(seance.getDateSeance().toString());
 
         // Couleur devant chaque Séance
         VoieDB voieDB = new VoieDB(context);

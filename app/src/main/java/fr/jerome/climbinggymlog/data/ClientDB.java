@@ -49,6 +49,7 @@ public class ClientDB extends DBHandler {
 
         ContentValues value = new ContentValues();
 
+        value.put(ID, client.getId());
         value.put(NOM, client.getNom());
         value.put(PRENOM, client.getPrenom());
         value.put(NUM_CLIENT, client.getNumClient());
@@ -56,9 +57,6 @@ public class ClientDB extends DBHandler {
         value.put(SALLE_ID, client.getIdSalle());
         value.put(EMAIL, client.getEmail());
 
-        // récupération de l'id pour le setter dans l'objet
-        long insertId = database.insert(TABLE_NAME, null, value);
-        client.setId(insertId);
         Log.d("SQL", "Ajout du client " + client.getNom() + " id : " + client.getId() + " à la table Client");
     }
 

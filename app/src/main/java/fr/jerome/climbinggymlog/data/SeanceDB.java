@@ -80,7 +80,7 @@ public class SeanceDB extends DBHandler {
         value.put(DATE, seance.getDateSeance().toString());
         value.put(NOM_SALLE, seance.getNomSalle());
         value.put(NOTE, seance.getNote());
-        value.put(CLIENT_ID, seance.getClient().getId());
+        value.put(CLIENT_ID, AppManager.client.getId());
 
         // récupération de l'id pour le setter à l'objet
         long insertId = database.insert(TABLE_NAME, null, value);

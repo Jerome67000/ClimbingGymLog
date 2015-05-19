@@ -3,6 +3,8 @@ package fr.jerome.climbinggymlog.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.sql.Date;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import fr.jerome.climbinggymlog.R;
@@ -54,41 +58,46 @@ public class SeanceAdapter extends ArrayAdapter implements AdapterView.OnItemCli
         View cotationRect = rowView.findViewById(R.id.cotation_color_rect);
         txTitre.setText(seance.getNom());
 
-        // Affichage amélioré de la date de séance
-        Date dateSeance = seance.getDateSeance();
-//        String dateTx = null;
-//        long oneDayInMilli = 1000 * 60 * 60 * 24;
-//        Date oneYearsAgo = new Date(AppManager.sysTime - (oneDayInMilli * 365));
-//        Date sixMonthsAgo = new Date(AppManager.sysTime - (oneDayInMilli * 30 * 6));
-//        Date oneMonthsAgo = new Date(AppManager.sysTime - (oneDayInMilli * 30));
-//        Date twoWeekAgo = new Date(AppManager.sysTime - (oneDayInMilli * 15));
-//        Date oneWeekAgo = new Date(AppManager.sysTime - (oneDayInMilli * 7));
-//        if (dateSeance.before(oneYearsAgo))
-//            dateTx = "Il y a plus d'un an";
-//        else if (dateSeance.before(sixMonthsAgo))
-//            dateTx = "Il y a plus de 6 mois";
-//        else if (dateSeance.before(oneMonthsAgo))
-//            dateTx = "Il y a plus d'un mois";
-//        else if (dateSeance.before(twoWeekAgo))
-//            dateTx = "Il y a 2 semaines";
-//        else if (dateSeance.before(oneWeekAgo))
-//            dateTx = "Il y a 1 semaine";
-//        else if (dateSeance.before(new Date(AppManager.sysTime - oneDayInMilli * 5)))
-//            dateTx = "Il y a 6 jours";
-//        else if (dateSeance.before(new Date(AppManager.sysTime - oneDayInMilli * 4)))
-//            dateTx = "Il y a 5 jours";
-//        else if (dateSeance.before(new Date(AppManager.sysTime - oneDayInMilli * 3)))
-//            dateTx = "Il y a 4 jours";
-//        else if (dateSeance.before(new Date(AppManager.sysTime - oneDayInMilli * 2)))
-//            dateTx = "Il y a 3 jours";
-//        else if (dateSeance.before(new Date(AppManager.sysTime - oneDayInMilli)))
-//            dateTx = "Avant-hier";
-//        else if (dateSeance.before(new Date(AppManager.sysTime)))
-//            dateTx = "Hier";
-//        else if (dateSeance.equals(new Date(AppManager.sysTime)))
-//            dateTx = "Aujourd'hui";
 
-        txDateAj.setText(dateSeance.toString());
+        // Affichage amélioré de la date de séance
+        Calendar tomorrow = new GregorianCalendar();
+        tomorrow.add(Calendar.DAY_OF_MONTH, 1);
+        tomorrow.set(Calendar.HOUR_OF_DAY, 0);
+        tomorrow.set(Calendar.MINUTE, 0);
+        tomorrow.set(Calendar.SECOND, 0);
+        tomorrow.set(Calendar.MILLISECOND, 0);
+
+        final long oneDayInMillis = 1000 * 60 * 60 * 24;
+        final long tomorrowTimeInMillis = tomorrow.getTimeInMillis();
+        final long dateSeanceInMillis = seance.getDateSeance().getTime();
+
+        String dateTx = null;
+        if (dateSeanceInMillis < tomorrowTimeInMillis)
+            dateTx = "Aujourd'hui";
+        if (dateSeanceInMillis < tomorrowTimeInMillis - oneDayInMillis)
+            dateTx = "Hier";
+        if (dateSeanceInMillis < tomorrowTimeInMillis - oneDayInMillis * 2)
+            dateTx = "Avant-hier";
+        if (dateSeanceInMillis < tomorrowTimeInMillis - oneDayInMillis * 3)
+            dateTx = "Il y a 3 jours";
+        if (dateSeanceInMillis < tomorrowTimeInMillis - oneDayInMillis * 4)
+            dateTx = "Il y a 4 jours";
+        if (dateSeanceInMillis < tomorrowTimeInMillis - oneDayInMillis * 5)
+            dateTx = "Il y a 5 jours";
+        if (dateSeanceInMillis < tomorrowTimeInMillis - oneDayInMillis * 6)
+            dateTx = "Il y a 6 jours";
+        if (dateSeanceInMillis < tomorrowTimeInMillis - oneDayInMillis * 7)
+            dateTx = "Il y a 1 semaine";
+        if (dateSeanceInMillis < tomorrowTimeInMillis - oneDayInMillis * 14)
+            dateTx = "Il y a 2 semaines";
+        if (dateSeanceInMillis < tomorrowTimeInMillis - oneDayInMillis * 30)
+            dateTx = "Il y a plus d'un mois";
+        if (dateSeanceInMillis < tomorrowTimeInMillis - oneDayInMillis * 30 * 6)
+            dateTx = "Il y a plus de 6 mois";
+        if (dateSeanceInMillis < tomorrowTimeInMillis - oneDayInMillis * 365)
+            dateTx = "Il y a 1 an";
+
+        txDateAj.setText(dateTx);
 
         // Couleur devant chaque Séance
         VoieDB voieDB = new VoieDB(context);

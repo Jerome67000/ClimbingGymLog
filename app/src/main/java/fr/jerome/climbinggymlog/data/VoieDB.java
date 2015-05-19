@@ -8,8 +8,15 @@ import android.util.Log;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -22,6 +29,7 @@ import java.util.List;
 
 import fr.jerome.climbinggymlog.helpers.AppManager;
 import fr.jerome.climbinggymlog.models.Cotation;
+import fr.jerome.climbinggymlog.models.Seance;
 import fr.jerome.climbinggymlog.models.StyleVoie;
 import fr.jerome.climbinggymlog.models.TypeEsc;
 import fr.jerome.climbinggymlog.models.Voie;
@@ -166,64 +174,47 @@ public class VoieDB extends DBHandler {
         return voies;
     }
 
-    public void putVoieOnWebDB(Voie newVoie) {
+    public void putVoieOnWebDB(Voie voie) {
 
-        int isReussi = newVoie.isReussi() ? 1 : 0;
-        int isAVue = newVoie.isAVue() ? 1 : 0;
-        String nomVoie = newVoie.getNom().replace('#','n');
+        String nomVoie = voie.getNom().replace('#','n');
 
-        String url = "http://clymbinggym.vacau.com/php/putVoie.php?"
-                + NOM + "=" + nomVoie + "&"
-                + COTATION_ID + "=" + newVoie.getCotation().getId() + "&"
-                + ID_TYPE_ESCALADE + "=" + newVoie.getTypeEscalade().getId() + "&"
-                + ID_STYLE_VOIE + "=" + newVoie.getStyle().getId() + "&"
-                + REUSSIE + "=" + isReussi + "&"
-                + A_VUE + "=" + isAVue + "&"
-                + NOTE + "=" + newVoie.getNote() + "&"
-                + ID_SEANCE_VOIE + "=" + newVoie.getIdSeance() + "&"
-                + PHOTO_NOM + "=" + "-";
+        List<NameValuePair> values = new ArrayList<NameValuePair>();
+        values.add(new BasicNameValuePair(NOM, nomVoie));
+        values.add(new BasicNameValuePair(COTATION_ID, String.valueOf(voie.getCotation().getId())));
+        values.add(new BasicNameValuePair(ID_TYPE_ESCALADE, String.valueOf(voie.getTypeEscalade().getId())));
+        values.add(new BasicNameValuePair(ID_STYLE_VOIE, String.valueOf(voie.getStyle().getId())));
+        values.add(new BasicNameValuePair(REUSSIE, voie.isReussi() ? "1" : "0"));
+        values.add(new BasicNameValuePair(A_VUE, voie.isAVue() ? "1" : "0"));
+        values.add(new BasicNameValuePair(NOTE, voie.getNote()));
+        values.add(new BasicNameValuePair(ID_SEANCE_VOIE, String.valueOf(voie.getIdSeance())));
+        values.add(new BasicNameValuePair(PHOTO_NOM, "-"));
 
-        url = url.replaceAll(" ", "%20");
-        new PutVoie().execute(url);
+        new PutVoie().execute(values);
     }
 
-
     // AsyncTask pour insérer une nouvelle séance dans la BDD en ligne
-    private class PutVoie extends AsyncTask<String, Void, String> {
+    private class PutVoie extends AsyncTask<List<NameValuePair>, Void, String> {
         @Override
-        protected String doInBackground(String... url) {
-            StringBuilder stringBuilder = new StringBuilder();
-            InputStream inputStream = null;
+        protected String doInBackground(List<NameValuePair>...values) {
+            String rep = null;
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpPost httpPost = new HttpPost("http://clymbinggym.vacau.com/php/putVoie.php");
             try {
-                HttpResponse httpResponse = new DefaultHttpClient().execute(new HttpGet(url[0]));
-                // Http message
-                HttpEntity httpEntity = httpResponse.getEntity();
-                inputStream = httpEntity.getContent();
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-                BufferedReader reader = new BufferedReader(inputStreamReader);
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    stringBuilder.append(line);
-                }
-            }
-            catch (IOException e) {
+                httpPost.setEntity(new UrlEncodedFormEntity(values[0]));
+                HttpResponse response = httpClient.execute(httpPost);
+                rep = EntityUtils.toString(response.getEntity());
+            } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
-                Log.e("error", e.getMessage());
+            } catch (ClientProtocolException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            finally {
-                if (inputStream != null)
-                    try {
-                        inputStream.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-            }
-            return stringBuilder.toString();
+            return rep;
         }
-
         @Override
-        protected void onPostExecute(String s) {
-            Log.i("putVoieOnWebDB()", "Voie ajoutée à la BDD en ligne : id " + s);
+        protected void onPostExecute(String rep) {
+            Log.i("putVoieOnWebDB()", rep);
         }
     }
 }

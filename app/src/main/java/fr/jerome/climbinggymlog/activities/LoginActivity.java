@@ -13,8 +13,15 @@ import android.widget.Toast;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,11 +30,13 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 import fr.jerome.climbinggymlog.R;
 import fr.jerome.climbinggymlog.data.ClientDB;
@@ -156,7 +165,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     clientDB.insert(client);
 
                     // Récupération des séances et des voies existantes
-                    new GetSeances().execute("http://clymbinggym.vacau.com/php/getSeancesFromClient.php?clientid=" + client.getId());
+                    new GetSeances().execute("http://clymbinggym.vacau.com/php/getSeancesFromClientId.php?clientid=" + client.getId());
                     new GetVoies().execute("http://clymbinggym.vacau.com/php/getVoiesFromClientId.php?clientid=" + client.getId());
 
                     // Sauvegarde des SharedPref pour SHOW_LOG_ACT et le num client
@@ -175,56 +184,46 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     setResult(CLIENT_NOT_FIND);
                 }
             }
-            else {
-                new PutClient().execute("http://clymbinggym.vacau.com/php/putClient.php?"   + ClientDB.NOM + "=" + clientTmp.getNom().trim() + "&"
-                        + ClientDB.PRENOM + "=" + clientTmp.getPrenom().trim() + "&"
-                        + ClientDB.NUM_CLIENT + "=" + clientTmp.getNumClient().trim() + "&"
-                        + ClientDB.EMAIL + "=" + clientTmp.getEmail().trim() + "&"
-                        + ClientDB.SALLE_ID +  "=" + AppManager.salleId + "&"
-                        + ClientDB.DATE_AJ +  "=" + "2015-01-01");
+            else { // Création d'un nouveau client
+
+                List<NameValuePair> values = new ArrayList<NameValuePair>();
+                values.add(new BasicNameValuePair(ClientDB.NOM, clientTmp.getNom().trim()));
+                values.add(new BasicNameValuePair(ClientDB.PRENOM, clientTmp.getPrenom().trim()));
+                values.add(new BasicNameValuePair(ClientDB.NUM_CLIENT, clientTmp.getNumClient().trim()));
+                values.add(new BasicNameValuePair(ClientDB.EMAIL,  clientTmp.getEmail().trim()));
+                values.add(new BasicNameValuePair(ClientDB.SALLE_ID, String.valueOf(AppManager.salleId)));
+
+                new PutClient().execute(values);
             }
         }
     }
 
     // AsyncTask pour insérer le nouveau client dans la BDD en ligne
-    private class PutClient extends AsyncTask<String, Void, String> {
-
+    private class PutClient extends AsyncTask<List<NameValuePair>, Void, String> {
         @Override
-        protected String doInBackground(String... url) {
-            StringBuilder stringBuilder = new StringBuilder();
-            InputStream inputStream = null;
-
+        protected String doInBackground(List<NameValuePair>...values) {
+            String rep = null;
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpPost httpPost = new HttpPost("http://clymbinggym.vacau.com/php/putClient.php");
             try {
-                HttpResponse httpResponse = new DefaultHttpClient().execute(new HttpGet(url[0]));
-                // Http message
-                HttpEntity httpEntity = httpResponse.getEntity();
-                inputStream = httpEntity.getContent();
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-                BufferedReader reader = new BufferedReader(inputStreamReader);
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    stringBuilder.append(line);
-                }
-            }
-            catch (IOException e) {
+                httpPost.setEntity(new UrlEncodedFormEntity(values[0]));
+                HttpResponse response = httpClient.execute(httpPost);
+                rep = EntityUtils.toString(response.getEntity());
+            } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
-                Log.e("error", e.getMessage());
+            } catch (ClientProtocolException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            finally {
-                if (inputStream != null)
-                    try {
-                        inputStream.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-            }
-            return stringBuilder.toString();
+            return rep;
         }
 
         @Override
-        protected void onPostExecute(String s) {
-            Toast.makeText(self, "Votre compte vient d'etre créé avec le numéro " + s, Toast.LENGTH_LONG).show();
-            clientTmp.setId(Integer.valueOf(s));
+        protected void onPostExecute(String rep) {
+            Log.i("putClientOnWebDB()", rep);
+            Toast.makeText(self, "Votre compte vient d'etre créé", Toast.LENGTH_LONG).show();
+            clientTmp.setId(Integer.valueOf(rep));
 
             // Set du client pour la session en cours et insertion dans la BDD pour les prochains lancement
             AppManager.setClient(clientTmp);

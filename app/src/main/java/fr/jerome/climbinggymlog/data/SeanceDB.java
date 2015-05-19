@@ -11,8 +11,15 @@ import android.widget.Toast;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -80,7 +87,7 @@ public class SeanceDB extends DBHandler {
         value.put(DATE, seance.getDateSeance().toString());
         value.put(NOM_SALLE, seance.getNomSalle());
         value.put(NOTE, seance.getNote());
-        value.put(CLIENT_ID, AppManager.client.getId());
+        value.put(CLIENT_ID, 1);
 
         // récupération de l'id pour le setter à l'objet
         long insertId = database.insert(TABLE_NAME, null, value);
@@ -154,53 +161,40 @@ public class SeanceDB extends DBHandler {
 
         String nomSeance = seance.getNom().replace('#','n');
 
-        String url = "http://clymbinggym.vacau.com/php/putSeance.php?"
-                + NOM + "=" + nomSeance + "&"
-                + DATE + "=" + seance.getDateSeance() + "&"
-                + NOM_SALLE + "=" + seance.getNomSalle() + "&"
-                + NOTE + "=" + seance.getNote() + "&"
-                + CLIENT_ID + "=" + AppManager.client.getId();
+        List<NameValuePair> values = new ArrayList<NameValuePair>();
+        values.add(new BasicNameValuePair(NOM, nomSeance));
+        values.add(new BasicNameValuePair(DATE, seance.getDateSeance().toString()));
+        values.add(new BasicNameValuePair(NOM_SALLE, seance.getNomSalle()));
+        values.add(new BasicNameValuePair(NOTE, seance.getNote()));
+        values.add(new BasicNameValuePair(CLIENT_ID, "1"));
 
-        url = url.replaceAll(" ", "%20");
-        new PutSeance().execute(url);
+        new PutSeance().execute(values);
     }
 
     // AsyncTask pour insérer une nouvelle séance dans la BDD en ligne
-    private class PutSeance extends AsyncTask<String, Void, String> {
+    private class PutSeance extends AsyncTask<List<NameValuePair>, Void, String> {
         @Override
-        protected String doInBackground(String... url) {
-            StringBuilder stringBuilder = new StringBuilder();
-            InputStream inputStream = null;
+        protected String doInBackground(List<NameValuePair>...values) {
+            String rep = null;
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpPost httpPost = new HttpPost("http://clymbinggym.vacau.com/php/putSeance.php");
             try {
-                HttpResponse httpResponse = new DefaultHttpClient().execute(new HttpGet(url[0]));
-                // Http message
-                HttpEntity httpEntity = httpResponse.getEntity();
-                inputStream = httpEntity.getContent();
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-                BufferedReader reader = new BufferedReader(inputStreamReader);
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    stringBuilder.append(line);
-                }
-            }
-            catch (IOException e) {
+                httpPost.setEntity(new UrlEncodedFormEntity(values[0]));
+                HttpResponse response = httpClient.execute(httpPost);
+                rep = EntityUtils.toString(response.getEntity());
+            } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
-                Log.e("error", e.getMessage());
+            } catch (ClientProtocolException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            finally {
-                if (inputStream != null)
-                    try {
-                        inputStream.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-            }
-            return stringBuilder.toString();
+            return rep;
         }
 
         @Override
-        protected void onPostExecute(String s) {
-            Log.i("putSeanceOnWebDB()", "Séance ajoutée à la BDD en ligne : id " + s);
+        protected void onPostExecute(String rep) {
+            Log.i("putSeanceOnWebDB()", rep);
         }
     }
 }

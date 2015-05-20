@@ -1,1 +1,29 @@
-{"Clients":[{"_id":"2","nom":"Test","prenom":"Test","num":"9999","email":"test@gmail.com","salle_id":"1","date_aj":"2015-04-24"},{"_id":"1","nom":"GULLY","prenom":"Jérôme","num":"1234","email":"je@gmail.com","salle_id":"1","date_aj":"2015-04-24"},{"_id":"72","nom":"aa","prenom":"aa","num":"000","email":"tmp","salle_id":"1","date_aj":"2015-05-16"},{"_id":"73","nom":"Yyyyy","prenom":"Yyyy","num":"1111","email":"hh","salle_id":"1","date_aj":"2015-05-19"},{"_id":"74","nom":"Taaaa","prenom":"Riiii","num":"666","email":"666@gmail.com","salle_id":"1","date_aj":"2015-05-19"}]}
+<?php
+	// Connexion BDD
+	include "pdo.php";
+
+	// Requete
+	$numClient = $_GET['num'];
+	if(empty($numClient))
+		$query = "SELECT * FROM Clients";
+	else
+		$query = "SELECT * FROM Clients WHERE num=$numClient";
+
+	// Affichage du JSON
+	$first = true ;
+	echo "{\"Clients\":[" ;
+	foreach ($pdo->query($query) as $r) {
+		if(!$first) echo(",") ;
+		echo "{" ;
+		echo "\"_id\":\"" . $r['_id'] . "\",";
+		echo "\"nom\":\"" . $r['nom'] ."\",";
+		echo "\"prenom\":\"" . $r['prenom'] ."\",";
+		echo "\"num\":\"" . $r['num'] ."\",";
+		echo "\"email\":\"" . $r['email'] ."\",";
+		echo "\"salle_id\":\"" . $r['salle_id'] ."\",";
+		echo "\"date_aj\":\"" . $r['date_aj'] ."\"";
+		echo "}" ;
+		$first = false;
+	}
+	echo "]}";
+?>

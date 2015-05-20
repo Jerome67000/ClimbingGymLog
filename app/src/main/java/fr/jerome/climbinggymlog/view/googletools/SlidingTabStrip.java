@@ -27,15 +27,13 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
+import fr.jerome.climbinggymlog.R;
 import fr.jerome.climbinggymlog.view.googletools.SlidingTabLayout;
 
 public class SlidingTabStrip extends LinearLayout {
 
-    //FIXME Ajouter liserai bleu en bas des tabs
     private static final int DEFAULT_BOTTOM_BORDER_THICKNESS_DIPS = 1;
-    private static final int DEFAULT_BOTTOM_BORDER_COLOR_ALPHA = 0xFF33B5E5;
     private static final int SELECTED_INDICATOR_THICKNESS_DIPS = 8;
-    private static final int DEFAULT_SELECTED_INDICATOR_COLOR = DEFAULT_BOTTOM_BORDER_COLOR_ALPHA;
 
     private static final int DEFAULT_DIVIDER_THICKNESS_DIPS = 1;
     private static final byte DEFAULT_DIVIDER_COLOR_ALPHA = 0x20;
@@ -46,8 +44,6 @@ public class SlidingTabStrip extends LinearLayout {
 
     private final int mSelectedIndicatorThickness;
     private final Paint mSelectedIndicatorPaint;
-
-//    private final int mDefaultBottomBorderColor;
 
     private final Paint mDividerPaint;
     private final float mDividerHeight;
@@ -65,6 +61,10 @@ public class SlidingTabStrip extends LinearLayout {
     SlidingTabStrip(Context context, AttributeSet attrs) {
         super(context, attrs);
         setWillNotDraw(false);
+
+        // Main color des tabs
+        int DEFAULT_SELECTED_INDICATOR_COLOR = getResources().getColor(R.color.main_color);
+        int DEFAULT_BOTTOM_BORDER_COLOR_ALPHA = DEFAULT_SELECTED_INDICATOR_COLOR;
 
         final float density = getResources().getDisplayMetrics().density;
 

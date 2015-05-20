@@ -4,8 +4,8 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Set AppCompat’s color theming attrs -->
-        <item name="colorPrimary">@color/primary_material_light</item>
-        <item name="colorPrimaryDark">#ff1d6480</item>
+        <item name="colorPrimary">@color/main_color</item>
+        <item name="colorPrimaryDark">@color/status_bar_color</item>
         <item name="colorAccent">@color/accent_material_light</item>
 
         <item name="floatingActionButtonStyle">@style/AppTheme.Fab</item>

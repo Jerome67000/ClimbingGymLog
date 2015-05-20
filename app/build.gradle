@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
+
     compileSdkVersion 22
     buildToolsVersion "22.0.1"
 
@@ -11,10 +12,37 @@ android {
         versionCode 1
         versionName "1.0 beta"
     }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            applicationIdSuffix ".debug"
+        }
+    }
+
+    productFlavors {
+        beta {
+            // Salle params
+            applicationId 'fr.climbinggymlog.beta'
+            resValue "integer", "salle_id", "1"
+            resValue "string", "app_name", "Climbing Gym log beta"
+
+            // Color params
+            resValue "color", "main_color", "#ff33b5e5"
+            resValue "color", "status_bar_color", "#006299"
+        }
+        rocEnStock {
+            // Salle params
+            applicationId 'fr.climbinggymlog.rocenstock'
+            resValue "integer", "salle_id", "2"
+            resValue "string", "app_name", "Roc Climbing Stats"
+
+            // Color params
+            resValue "color", "main_color", "#ffa500"
+            resValue "color", "status_bar_color", "#b27300"
         }
     }
 }

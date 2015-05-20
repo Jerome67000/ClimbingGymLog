@@ -1,0 +1,3 @@
+{"Evenements":[<br><table border='1' cellpadding='2' bgcolor='#FFFFDF' bordercolor='#E8B900' align='center'><tr><td><font face='Arial' size='1' color='#000000'><b>PHP Error Message</b></font></td></tr></table><br />
+<b>Warning</b>:  Invalid argument supplied for foreach() in <b>/home/a3055233/public_html/php/getEvenements.php</b> on line <b>13</b><br />
+<br><table border='1' cellpadding='2' bgcolor='#FFFFDF' bordercolor='#E8B900' align='center'><tr><td><div align='center'><a href='http://www.000webhost.com/'><font face='Arial' size='1' color='#000000'>Free Web Hosting</font></a></div></td></tr></table>]}

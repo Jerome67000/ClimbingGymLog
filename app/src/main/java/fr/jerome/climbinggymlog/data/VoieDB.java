@@ -132,6 +132,8 @@ public class VoieDB extends DBHandler {
 
         database.update(TABLE_NAME, value, ID + "=" + voie.getId(), null);
 
+        updateVoieOnWebDB(voie);
+
         Log.d("SQL", "update de la voie " + voie.toString());
     }
 
@@ -174,11 +176,12 @@ public class VoieDB extends DBHandler {
         return voies;
     }
 
-    public void putVoieOnWebDB(Voie voie) {
+    private List<NameValuePair> prepareValues(Voie voie) {
 
         String nomVoie = voie.getNom().replace('#','n');
 
         List<NameValuePair> values = new ArrayList<NameValuePair>();
+        values.add(new BasicNameValuePair("local_id", "0"));
         values.add(new BasicNameValuePair(NOM, nomVoie));
         values.add(new BasicNameValuePair(COTATION_ID, String.valueOf(voie.getCotation().getId())));
         values.add(new BasicNameValuePair(ID_TYPE_ESCALADE, String.valueOf(voie.getTypeEscalade().getId())));
@@ -189,16 +192,28 @@ public class VoieDB extends DBHandler {
         values.add(new BasicNameValuePair(ID_SEANCE_VOIE, String.valueOf(voie.getIdSeance())));
         values.add(new BasicNameValuePair(PHOTO_NOM, "-"));
 
+        return values;
+    }
+
+    public void putVoieOnWebDB(Voie voie) {
+        List<NameValuePair> values = prepareValues(voie);
+        values.add(new BasicNameValuePair("URL", "http://clymbinggym.vacau.com/php/putVoie.php"));
         new PutVoie().execute(values);
     }
 
-    // AsyncTask pour insérer une nouvelle séance dans la BDD en ligne
+    public void updateVoieOnWebDB(Voie voie) {
+        List<NameValuePair> values = prepareValues(voie);
+        values.add(new BasicNameValuePair("URL", "http://clymbinggym.vacau.com/php/updateVoie.php"));
+        new PutVoie().execute(values);
+    }
+
+    // AsyncTask pour insérer ou mettre à jour une nouvelle voie dans la BDD en ligne
     private class PutVoie extends AsyncTask<List<NameValuePair>, Void, String> {
         @Override
         protected String doInBackground(List<NameValuePair>...values) {
             String rep = null;
             HttpClient httpClient = new DefaultHttpClient();
-            HttpPost httpPost = new HttpPost("http://clymbinggym.vacau.com/php/putVoie.php");
+            HttpPost httpPost = new HttpPost(values[0].get(10).getValue());
             try {
                 httpPost.setEntity(new UrlEncodedFormEntity(values[0]));
                 HttpResponse response = httpClient.execute(httpPost);

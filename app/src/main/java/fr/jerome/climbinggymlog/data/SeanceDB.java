@@ -27,6 +27,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.sql.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -36,6 +37,7 @@ import java.util.List;
 import fr.jerome.climbinggymlog.activities.LoginActivity;
 import fr.jerome.climbinggymlog.activities.MainActivity;
 import fr.jerome.climbinggymlog.helpers.AppManager;
+import fr.jerome.climbinggymlog.models.Client;
 import fr.jerome.climbinggymlog.models.Seance;
 
 /**
@@ -104,6 +106,28 @@ public class SeanceDB extends DBHandler {
 
         long id = seance.getId();
         return database.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE _id=?", new String[]{String.valueOf(id)});
+    }
+
+    public Seance select(long id) {
+
+        Cursor c = database.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + ID + "=?", new String[]{String.valueOf(id)});
+
+        Log.d("cursor", DatabaseUtils.dumpCursorToString(c));
+        c.moveToFirst();
+        String textDate = c.getString(2);
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        java.util.Date date = null;
+        try {
+            date = df.parse(textDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        assert date != null;
+        Seance s = new Seance(c.getLong(0), c.getString(1), new java.sql.Date(date.getTime()), c.getString(4), c.getString(5), AppManager.client);
+//        Seance s = new Seance(1, "aaa", new Date(AppManager.sysTime), "eee", "ee", AppManager.client);
+
+        return s;
     }
 
     /**

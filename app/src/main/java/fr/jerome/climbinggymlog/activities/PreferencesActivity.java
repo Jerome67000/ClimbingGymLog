@@ -1,5 +1,6 @@
 package fr.jerome.climbinggymlog.activities;
 
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
@@ -37,8 +38,9 @@ public class PreferencesActivity extends PreferenceActivity {
         root.addView(toolbarContainer);
 
         toolBar = (Toolbar) toolbarContainer.findViewById(R.id.toolbar_pref);
+        toolBar.setTitleTextColor(Color.WHITE);
         toolBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.main_color)));
-        toolBar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
+        toolBar.setNavigationIcon(R.drawable.ic_arrow_left);
         toolBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

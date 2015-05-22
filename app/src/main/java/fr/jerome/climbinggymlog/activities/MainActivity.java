@@ -2,6 +2,7 @@ package fr.jerome.climbinggymlog.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -54,8 +55,10 @@ public class MainActivity extends AppCompatActivity {
         /**
          * Toolbar
          **/
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        Toolbar toolBar = (Toolbar) findViewById(R.id.toolbar_main);
+        toolBar.setTitleTextColor(Color.WHITE);
+        setSupportActionBar(toolBar);
+        toolBar.setNavigationIcon(R.drawable.ic_launcher);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             ActionBar actionBar = getSupportActionBar();
             if (actionBar != null) {

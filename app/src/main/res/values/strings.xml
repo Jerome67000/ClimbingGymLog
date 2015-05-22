@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="action_settings">Paramètres</string>
+    <string name="action_mod_seance">Modifier</string>
+    <string name="action_remove_seance">Supprimer</string>
+    <string name="action_share_seance">Partager</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_preferences">Préférences</string>
 </resources>

@@ -222,6 +222,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         protected void onPostExecute(String rep) {
             Log.i("putClientOnWebDB()", rep);
             Toast.makeText(self, "Votre compte vient d'etre créé", Toast.LENGTH_LONG).show();
+            Log.d("client id retour Web", rep);
             clientTmp.setId(Integer.valueOf(rep));
 
             // Set du client pour la session en cours et insertion dans la BDD pour les prochains lancement
@@ -299,7 +300,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             e.printStackTrace();
                         }
                         assert date != null;
-                        seances.add(new Seance(id, nom, new java.sql.Date(date.getTime()), nomSalle, note, client));
+                        seances.add(new Seance(id, nom, new java.sql.Date(date.getTime()), nomSalle, note, client.getId()));
                     }
                 }
             } catch (JSONException e) {
@@ -371,7 +372,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         String note = jVoies.getString(VoieDB.NOTE);
                         int seanceId = jVoies.getInt(VoieDB.ID_SEANCE_VOIE);
 
-                        voies.add(new Voie(id, nom, AppManager.cotations.get(cotationId-1), AppManager.typesEsc.get(typeEscId-1), AppManager.styleVoies.get(styleVoieId-1), reussi, aVue, note, seanceId));
+                        voies.add(new Voie(id, nom, AppManager.cotations.get(cotationId-1), AppManager.typesEsc.get(typeEscId-1), AppManager.styleVoies.get(styleVoieId-1), reussi, aVue, note, seanceId, AppManager.client.getId()));
                     }
                 }
             } catch (JSONException e) {

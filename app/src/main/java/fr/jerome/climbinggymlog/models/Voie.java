@@ -7,7 +7,7 @@ import android.graphics.Bitmap;
  */
 public class Voie {
 
-    private long id = 0;
+    private int id;
     private String nom;
     private Cotation cotation;
     private TypeEsc typeEscalade;
@@ -15,14 +15,15 @@ public class Voie {
     private boolean reussi;
     private boolean aVue;
     private String note;
-    private long idSeance;
+    private int seanceId;
+    private int clientId;
     private Bitmap photo;
 
     public Voie() {
 
     }
 
-    public Voie(long id, String nom, Cotation cotation, TypeEsc typeEscalade, StyleVoie style, boolean reussi, boolean aVue, String note, long idSeance) {
+    public Voie(int id, String nom, Cotation cotation, TypeEsc typeEscalade, StyleVoie style, boolean reussi, boolean aVue, String note, int seanceId, int clientId) {
 
         this.id = id;
         this.nom = nom;
@@ -32,10 +33,11 @@ public class Voie {
         this.reussi = reussi;
         this.aVue = aVue;
         this.note = note;
-        this.idSeance = idSeance;
+        this.seanceId = seanceId;
+        this.clientId = clientId;
     }
 
-    public Voie(String nom, Cotation cotation, TypeEsc typeEscalade, StyleVoie style, boolean reussi, boolean aVue, String note, long idSeance) {
+    public Voie(String nom, Cotation cotation, TypeEsc typeEscalade, StyleVoie style, boolean reussi, boolean aVue, String note, int seanceId, int clientId) {
 
         this.nom = nom;
         this.cotation = cotation;
@@ -44,106 +46,95 @@ public class Voie {
         this.reussi = reussi;
         this.aVue = aVue;
         this.note = note;
-        this.idSeance = idSeance;
+        this.seanceId = seanceId;
+        this.clientId = clientId;
     }
 
-    public long getId() {
-
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
-
+    public void setId(int id) {
         this.id = id;
     }
 
-    public long getIdSeance() {
-
-        return idSeance;
+    public int getSeanceId() {
+        return seanceId;
     }
 
-    public void setIdSeance(long idSeance) {
-
-        this.idSeance = idSeance;
+    public void setSeanceId(int seanceId) {
+        this.seanceId = seanceId;
     }
 
     public String getNom() {
-
         return nom;
     }
 
     public void setNom(String nom) {
-
         this.nom = nom;
     }
 
     public Cotation getCotation() {
-
         return cotation;
     }
 
     public void setCotation(Cotation cotation) {
-
         this.cotation = cotation;
     }
 
     public TypeEsc getTypeEscalade() {
-
         return typeEscalade;
     }
 
     public void setTypeEscalade(TypeEsc typeEscalade) {
-
         this.typeEscalade = typeEscalade;
     }
 
     public StyleVoie getStyle() {
-
         return style;
     }
 
     public void setStyle(StyleVoie style) {
-
         this.style = style;
     }
 
     public boolean isReussi() {
-
         return reussi;
     }
 
     public void setReussi(boolean reussi) {
-
         this.reussi = reussi;
     }
 
     public boolean isAVue() {
-
         return aVue;
     }
 
     public void setaVue(boolean aVue) {
-
         this.aVue = aVue;
     }
 
     public String getNote() {
-
         return note;
     }
 
     public void setNote(String note) {
-
         this.note = note;
     }
 
     public Bitmap getPhoto() {
-
         return photo;
     }
 
-    public void setPhoto(Bitmap photo) {
+    public long getClientId() {
+        return clientId;
+    }
 
+    public void setClientId(int clientId) {
+        this.clientId = clientId;
+    }
+
+    public void setPhoto(Bitmap photo) {
         this.photo = photo;
     }
 
@@ -159,7 +150,7 @@ public class Voie {
                 ", reussi=" + reussi +
                 ", aVue=" + aVue +
                 ", note='" + note + '\'' +
-                ", idSeance=" + idSeance +
+                ", seanceId=" + seanceId +
                 ", photo=" + photo +
                 '}';
     }

@@ -228,7 +228,7 @@ public class AddVoieDialog extends DialogFragment {
         String titre = cotation.getNom() + " #" + nextVoieNumber + " " + styleVoie.getStyle();
         String note = ((EditText) dialogView.findViewById(R.id.note_new_voie)).getText().toString();
 
-        newVoie = new Voie(titre, cotation, typeEsc, styleVoie, tgVoieReussi.isChecked(), tgVoieAVue.isChecked(), note, seanceId);
+        newVoie = new Voie(titre, cotation, typeEsc, styleVoie, tgVoieReussi.isChecked(), tgVoieAVue.isChecked(), note, seanceId, AppManager.client.getId());
         voieDB.insert(newVoie);
         voieDB.putVoieOnWebDB(newVoie);
         voieDB.close();

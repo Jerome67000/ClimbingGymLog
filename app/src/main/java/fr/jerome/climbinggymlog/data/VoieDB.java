@@ -6,30 +6,23 @@ import android.database.Cursor;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
 import fr.jerome.climbinggymlog.helpers.AppManager;
 import fr.jerome.climbinggymlog.models.Cotation;
-import fr.jerome.climbinggymlog.models.Seance;
 import fr.jerome.climbinggymlog.models.StyleVoie;
 import fr.jerome.climbinggymlog.models.TypeEsc;
 import fr.jerome.climbinggymlog.models.Voie;
@@ -50,6 +43,7 @@ public class VoieDB extends DBHandler {
     public static final String A_VUE = "a_vue";
     public static final String NOTE = "note";
     public static final String ID_SEANCE_VOIE = "seance_id";
+    public static final String ID_CLIENT = "client_id";
     public static final String PHOTO_NOM = "photo_nom";
 
     public static final String  CREATE_TABLE =  "CREATE TABLE " + TABLE_NAME + "(" +
@@ -61,7 +55,8 @@ public class VoieDB extends DBHandler {
                                 REUSSIE + " BOOL, " +
                                 A_VUE + " BOOL, " +
                                 NOTE + " TEXT, " +
-                                ID_SEANCE_VOIE + " INTEGER" +
+                                ID_SEANCE_VOIE + " INTEGER," +
+                                ID_CLIENT + " INTEGER," +
                                 PHOTO_NOM + " TEXT);";
 
     public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
@@ -84,11 +79,12 @@ public class VoieDB extends DBHandler {
         value.put(REUSSIE, voie.isReussi());
         value.put(A_VUE, voie.isAVue());
         value.put(NOTE, voie.getNote());
-        value.put(ID_SEANCE_VOIE, voie.getIdSeance());
+        value.put(ID_SEANCE_VOIE, voie.getSeanceId());
+        value.put(ID_CLIENT, AppManager.client.getId());
 
         // récupération de l'id pour le setter dans l'objet
         long insertId =  database.insert(TABLE_NAME, null, value);
-        voie.setId(insertId);
+        voie.setId((int) insertId);
         Log.d("SQL", "Ajout de la voie " + voie.getNom() + " id : " + voie.getId() + " à la table Voie");
 
         return voie;
@@ -110,7 +106,7 @@ public class VoieDB extends DBHandler {
         TypeEsc typeEsc = AppManager.typesEsc.get(c.getInt(3) - 1);
         StyleVoie styleVoie = AppManager.styleVoies.get(c.getInt(4) - 1);
 
-        Voie voie = new Voie(c.getLong(0), c.getString(1), cot, typeEsc, styleVoie, isReussi, isAVue, c.getString(7), c.getLong(8));
+        Voie voie = new Voie(c.getInt(0), c.getString(1), cot, typeEsc, styleVoie, isReussi, isAVue, c.getString(7), c.getInt(8), AppManager.client.getId());
         c.close();
         return voie;
     }
@@ -136,7 +132,6 @@ public class VoieDB extends DBHandler {
 
         Log.d("SQL", "update de la voie " + voie.toString());
     }
-
 
     /**
      * @param voie séance à supprimer
@@ -168,7 +163,7 @@ public class VoieDB extends DBHandler {
             TypeEsc typeEsc = AppManager.typesEsc.get(c.getInt(3) - 1);
             StyleVoie styleVoie = AppManager.styleVoies.get(c.getInt(4) - 1);
 
-            Voie voie = new Voie(c.getLong(0), c.getString(1), cot, typeEsc, styleVoie, isReussi, isAVue, c.getString(7), c.getLong(8));
+            Voie voie = new Voie(c.getInt(0), c.getString(1), cot, typeEsc, styleVoie, isReussi, isAVue, c.getString(7), c.getInt(8), AppManager.client.getId());
             voies.add(voie);
             c.moveToNext();
         }
@@ -176,12 +171,12 @@ public class VoieDB extends DBHandler {
         return voies;
     }
 
-    private List<NameValuePair> prepareValues(Voie voie) {
+    private List<NameValuePair> prepareValuesForPutOnWeb(Voie voie) {
 
         String nomVoie = voie.getNom().replace('#','n');
 
         List<NameValuePair> values = new ArrayList<NameValuePair>();
-        values.add(new BasicNameValuePair("local_id", "0"));
+        values.add(new BasicNameValuePair(ID, String.valueOf(voie.getId())));
         values.add(new BasicNameValuePair(NOM, nomVoie));
         values.add(new BasicNameValuePair(COTATION_ID, String.valueOf(voie.getCotation().getId())));
         values.add(new BasicNameValuePair(ID_TYPE_ESCALADE, String.valueOf(voie.getTypeEscalade().getId())));
@@ -189,31 +184,32 @@ public class VoieDB extends DBHandler {
         values.add(new BasicNameValuePair(REUSSIE, voie.isReussi() ? "1" : "0"));
         values.add(new BasicNameValuePair(A_VUE, voie.isAVue() ? "1" : "0"));
         values.add(new BasicNameValuePair(NOTE, voie.getNote()));
-        values.add(new BasicNameValuePair(ID_SEANCE_VOIE, String.valueOf(voie.getIdSeance())));
+        values.add(new BasicNameValuePair(ID_SEANCE_VOIE, String.valueOf(voie.getSeanceId())));
+        values.add(new BasicNameValuePair(ID_CLIENT, String.valueOf(AppManager.client.getId())));
         values.add(new BasicNameValuePair(PHOTO_NOM, "-"));
 
         return values;
     }
 
     public void putVoieOnWebDB(Voie voie) {
-        List<NameValuePair> values = prepareValues(voie);
+        List<NameValuePair> values = prepareValuesForPutOnWeb(voie);
         values.add(new BasicNameValuePair("URL", "http://clymbinggym.vacau.com/php/putVoie.php"));
         new PutVoie().execute(values);
     }
 
     public void updateVoieOnWebDB(Voie voie) {
-        List<NameValuePair> values = prepareValues(voie);
+        List<NameValuePair> values = prepareValuesForPutOnWeb(voie);
         values.add(new BasicNameValuePair("URL", "http://clymbinggym.vacau.com/php/updateVoie.php"));
         new PutVoie().execute(values);
     }
 
     // AsyncTask pour insérer ou mettre à jour une nouvelle voie dans la BDD en ligne
     private class PutVoie extends AsyncTask<List<NameValuePair>, Void, String> {
+        String rep;
         @Override
         protected String doInBackground(List<NameValuePair>...values) {
-            String rep = null;
             HttpClient httpClient = new DefaultHttpClient();
-            HttpPost httpPost = new HttpPost(values[0].get(10).getValue());
+            HttpPost httpPost = new HttpPost(values[0].get(11).getValue());
             try {
                 httpPost.setEntity(new UrlEncodedFormEntity(values[0]));
                 HttpResponse response = httpClient.execute(httpPost);

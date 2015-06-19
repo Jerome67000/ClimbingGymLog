@@ -57,6 +57,8 @@ public class ClientDB extends DBHandler {
         value.put(SALLE_ID, client.getIdSalle());
         value.put(EMAIL, client.getEmail());
 
+        database.insert(TABLE_NAME, null, value);
+
         Log.d("SQL", "Ajout du client " + client.getNom() + " id : " + client.getId() + " à la table Client");
     }
 
@@ -87,7 +89,7 @@ public class ClientDB extends DBHandler {
         }
 
         assert date != null;
-        Client client = new Client(c.getLong(0), c.getString(1), c.getString(2), c.getString(3), new java.sql.Date(date.getTime()), c.getLong(5));
+        Client client = new Client(c.getInt(0), c.getString(1), c.getString(2), c.getString(3), new java.sql.Date(date.getTime()), c.getLong(5));
 
         return client;
     }
@@ -113,7 +115,7 @@ public class ClientDB extends DBHandler {
         }
 
         assert date != null;
-        Client client = new Client(c.getLong(0), c.getString(1), c.getString(2), c.getString(3), new java.sql.Date(date.getTime()), c.getLong(5));
+        Client client = new Client(c.getInt(0), c.getString(1), c.getString(2), c.getString(3), new java.sql.Date(date.getTime()), c.getLong(5));
         client.setEmail(c.getString(4));
 
         return client;

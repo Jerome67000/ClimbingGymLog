@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.NumberPicker;
@@ -259,7 +258,7 @@ public class EditVoieDialog extends DialogFragment {
         String titre = cotation.getNom() + " #" + positionAAfficher + " " + styleVoie.getStyle();
         note = (EditText) dialogView.findViewById(R.id.note_new_voie);
 
-        Voie voieEdited = new Voie(voieToEdit.getId(), titre, cotation, typeEsc, styleVoie, reussiToggleButton.isChecked(), aVueToggleButton.isChecked(), note.getText().toString(), voieToEdit.getIdSeance());
+        Voie voieEdited = new Voie(voieToEdit.getId(), titre, cotation, typeEsc, styleVoie, reussiToggleButton.isChecked(), aVueToggleButton.isChecked(), note.getText().toString(), voieToEdit.getSeanceId(), AppManager.client.getId());
 
         voieDB.update(voieEdited);
         voieDB.close();

@@ -24,7 +24,7 @@ public class Client extends Personne {
      * @param dateAjout du client dans la DB
      * @param idSalle du client (salle associée au client)
      */
-    public Client(long id, String nom, String prenom, String numClient, Date dateAjout, long idSalle) {
+    public Client(int id, String nom, String prenom, String numClient, Date dateAjout, long idSalle) {
 
         super(id, nom, prenom, 0, "email");
         this.numClient = numClient;

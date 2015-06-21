@@ -32,9 +32,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.sql.Date;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,6 +40,8 @@ import fr.jerome.climbinggymlog.data.ClientDB;
 import fr.jerome.climbinggymlog.data.SeanceDB;
 import fr.jerome.climbinggymlog.data.VoieDB;
 import fr.jerome.climbinggymlog.helpers.AppManager;
+import fr.jerome.climbinggymlog.helpers.JSONParser;
+import fr.jerome.climbinggymlog.helpers.SharedPrefHelper;
 import fr.jerome.climbinggymlog.models.Client;
 import fr.jerome.climbinggymlog.models.Seance;
 import fr.jerome.climbinggymlog.models.Voie;
@@ -53,9 +52,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public static final int CLIENT_FINDED = 1;
     public static final int CLIENT_NOT_FIND = 2;
 
-    Client client;
+    // Client client;
     Activity self = this;
-    private Client clientTmp;
+    private Client tempClient;
+//    private Client client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,23 +68,35 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
 
-        if (v.getId() == R.id.login_button) {
-            String nom = ((EditText) findViewById(R.id.login_nom)).getText().toString();
-            String prenom = ((EditText) findViewById(R.id.login_prenom)).getText().toString();
-            String numClient = ((EditText) findViewById(R.id.login_num_client)).getText().toString();
-            String email = ((EditText) findViewById(R.id.login_email)).getText().toString();
-
-            clientTmp = new Client(nom, prenom, 0, numClient, new Date(AppManager.sysTime), AppManager.salleId);
-            clientTmp.setEmail(email);
-
-            new GetClients().execute("http://clymbinggym.vacau.com/php/getClientFromNum.php?" + ClientDB.NUM_CLIENT + "=" + numClient);
-        }
+        if (v.getId() == R.id.login_button)
+            onLoginButtonClick();
     }
 
-    private class GetClients extends AsyncTask<String, Void, ArrayList<String>> {
+    private void onLoginButtonClick() {
+
+        createTempClientFromUserInput();
+        searchExistingClientOnWebDB();
+    }
+
+    private void createTempClientFromUserInput() {
+
+        String nom = ((EditText) findViewById(R.id.login_nom)).getText().toString();
+        String prenom = ((EditText) findViewById(R.id.login_prenom)).getText().toString();
+        String numClient = ((EditText) findViewById(R.id.login_num_client)).getText().toString();
+        String email = ((EditText) findViewById(R.id.login_email)).getText().toString();
+
+        tempClient = new Client(nom, prenom, 0, numClient, new Date(AppManager.sysTime), AppManager.salleId);
+        tempClient.setEmail(email);
+    }
+
+    private void searchExistingClientOnWebDB() {
+        new GetClientsFromWebDB().execute("http://clymbinggym.vacau.com/php/getClientFromNum.php?" + ClientDB.NUM_CLIENT + "=" + tempClient.getNumClient());
+    }
+
+    private class GetClientsFromWebDB extends AsyncTask<String, Void, Client> {
         @Override
-        protected ArrayList<String> doInBackground(String... url) {
-            StringBuilder stringBuilder = new StringBuilder();
+        protected Client doInBackground(String... url) {
+            StringBuilder clientDataFromWebDB = new StringBuilder();
             InputStream inputStream = null;
 
             // Get the Request answer into a StringBuilder
@@ -97,7 +109,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 BufferedReader reader = new BufferedReader(inputStreamReader);
                 String line;
                 while ((line = reader.readLine()) != null) {
-                    stringBuilder.append(line);
+                    clientDataFromWebDB.append(line);
                 }
             }
             catch (IOException e) {
@@ -114,86 +126,60 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 }
             }
 
-            // Parse Json in a ArrayList of Evenements objects
-            try {
-                JSONObject jObject = new JSONObject(stringBuilder.toString());
-                JSONArray jArray = jObject.getJSONArray("Clients");
-
-                if(jArray.length() > 0) {
-                    for (int i = 0; i < jArray.length(); i++) {
-                        JSONObject jClient = jArray.getJSONObject(i);
-                        int id = jClient.getInt(ClientDB.ID);
-                        String nom = jClient.getString(ClientDB.NOM);
-                        String prenom = jClient.getString(ClientDB.PRENOM);
-                        String numClient = jClient.getString(ClientDB.NUM_CLIENT);
-                        String email = jClient.getString(ClientDB.EMAIL);
-                        int salleId = jClient.getInt(ClientDB.SALLE_ID);
-                        String textDate = jClient.getString(ClientDB.DATE_AJ);
-                        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-                        java.util.Date date = null;
-                        try {
-                            date = df.parse(textDate);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        assert date != null;
-                        Client c = new Client(id, nom, prenom, numClient, new java.sql.Date(date.getTime()), salleId);
-                        c.setEmail(email);
-                        client = c;
-                    }
-                }
-                else {
-                    client = new Client();
-                    client.setNumClient("-");
-                    client.setEmail("-");
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            return null;
+            // Parse Json in a ArrayList of Clients objects
+            Client client = JSONParser.parseClient(clientDataFromWebDB);
+            return client;
         }
-        @Override protected void onPostExecute(ArrayList<String> s) {
+
+        @Override protected void onPostExecute(Client client) {
 
             ClientDB clientDB = new ClientDB(self);
 
-            if (client.getNumClient().equals(clientTmp.getNumClient())) {
-                if (client.getEmail().equals(clientTmp.getEmail())) {
-                    // Insertion du client en bdd web en bdd locale
-                    Toast.makeText(self, "Compte existant, chargement des données", Toast.LENGTH_LONG).show();
+            if (clientAlreadyExisting(client)) {
+
+                if (client.getEmail().equals(tempClient.getEmail())) {
+                    Toast.makeText(self, "Compte existant, chargement des données", Toast.LENGTH_SHORT).show();
                     AppManager.setClient(client);
                     clientDB.insert(client);
 
                     // Récupération des séances et des voies existantes
-                    new GetSeances().execute("http://clymbinggym.vacau.com/php/getSeancesFromClientId.php?clientid=" + client.getId());
-                    new GetVoies().execute("http://clymbinggym.vacau.com/php/getVoiesFromClientId.php?clientid=" + client.getId());
+                    new GetSeancesFromWebDB().execute("http://clymbinggym.vacau.com/php/getSeancesFromClientId.php?clientid=" + client.getId());
+                    new GetVoiesFromWebDB().execute("http://clymbinggym.vacau.com/php/getVoiesFromClientId.php?clientid=" + client.getId());
 
-                    // Sauvegarde des SharedPref pour SHOW_LOG_ACT et le num client
-                    SharedPreferences sharedPreferences = getSharedPreferences(MainActivity.SHARED_PREF_NAME, 0);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString(MainActivity.PREFKEY_NUM_CLIENT, clientTmp.getNumClient());
-                    editor.putBoolean(MainActivity.PREFKEY_SHOW_LOG_ACT, false);
-                    editor.commit();
+                    SharedPrefHelper.saveClientNum(getBaseContext(), tempClient.getNumClient());
 
-                    // Définit le résultat de l'activity et fin de l'activity
-                    setResult(CLIENT_FINDED);
-                    finish();
+                    closeLoginActivityWithStatus(CLIENT_FINDED);
                 }
                 else {
                     Toast.makeText(self, "Numéro de client déjà associé à une autre addresse email, vérifier vos entrées", Toast.LENGTH_LONG).show();
                     setResult(CLIENT_NOT_FIND);
                 }
+
             }
             else { // Création d'un nouveau client
 
                 List<NameValuePair> values = new ArrayList<NameValuePair>();
-                values.add(new BasicNameValuePair(ClientDB.NOM, clientTmp.getNom().trim()));
-                values.add(new BasicNameValuePair(ClientDB.PRENOM, clientTmp.getPrenom().trim()));
-                values.add(new BasicNameValuePair(ClientDB.NUM_CLIENT, clientTmp.getNumClient().trim()));
-                values.add(new BasicNameValuePair(ClientDB.EMAIL,  clientTmp.getEmail().trim()));
+                values.add(new BasicNameValuePair(ClientDB.NOM, tempClient.getNom().trim()));
+                values.add(new BasicNameValuePair(ClientDB.PRENOM, tempClient.getPrenom().trim()));
+                values.add(new BasicNameValuePair(ClientDB.NUM_CLIENT, tempClient.getNumClient().trim()));
+                values.add(new BasicNameValuePair(ClientDB.EMAIL,  tempClient.getEmail().trim()));
                 values.add(new BasicNameValuePair(ClientDB.SALLE_ID, String.valueOf(AppManager.salleId)));
 
                 new PutClient().execute(values);
             }
+
+        }
+
+        private boolean clientAlreadyExisting(Client client) {
+
+            if (client.getNumClient().equals(tempClient.getNumClient()))
+                return true;
+            return false;
+        }
+
+        private void closeLoginActivityWithStatus(int status) {
+            setResult(status);
+            finish();
         }
     }
 
@@ -223,17 +209,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             Log.i("putClientOnWebDB()", rep);
             Toast.makeText(self, "Votre compte vient d'etre créé", Toast.LENGTH_LONG).show();
             Log.d("client id retour Web", rep);
-            clientTmp.setId(Integer.valueOf(rep));
+            tempClient.setId(Integer.valueOf(rep));
 
             // Set du client pour la session en cours et insertion dans la BDD pour les prochains lancement
-            AppManager.setClient(clientTmp);
-            new ClientDB(self).insert(clientTmp);
+            AppManager.setClient(tempClient);
+            new ClientDB(self).insert(tempClient);
 
             // Sauvegarde des SharedPref pour SHOW_LOG_ACT et le num client
             SharedPreferences sharedPreferences = getSharedPreferences(MainActivity.SHARED_PREF_NAME, 0);
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putBoolean(MainActivity.PREFKEY_SHOW_LOG_ACT, false);
-            editor.putString(MainActivity.PREFKEY_NUM_CLIENT, clientTmp.getNumClient());
+            editor.putString(MainActivity.PREFKEY_NUM_CLIENT, tempClient.getNumClient());
             editor.commit();
 
             // Définit le résultat de l'activity et fin de l'activity
@@ -243,12 +229,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     // AsyncTask pour obtenir les seances d'un utilisateur existant
-    private class GetSeances extends AsyncTask<String, Void, ArrayList<String>> {
-
+    private class GetSeancesFromWebDB extends AsyncTask<String, Void, ArrayList<Seance>> {
         ArrayList<Seance> seances = new ArrayList<>();
         @Override
-        protected ArrayList<String> doInBackground(String... url) {
-            StringBuilder stringBuilder = new StringBuilder();
+        protected ArrayList<Seance> doInBackground(String... url) {
+            StringBuilder seancesDataFromWeb = new StringBuilder();
             InputStream inputStream = null;
 
             // Get the Request answer into a StringBuilder
@@ -261,7 +246,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 BufferedReader reader = new BufferedReader(inputStreamReader);
                 String line;
                 while ((line = reader.readLine()) != null) {
-                    stringBuilder.append(line);
+                    seancesDataFromWeb.append(line);
                 }
             }
             catch (IOException e) {
@@ -278,39 +263,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 }
             }
 
-            // Parse Json in a ArrayList of Evenements objects
-            try {
-                JSONObject jObject = new JSONObject(stringBuilder.toString());
-                JSONArray jArray = jObject.getJSONArray("Seances");
-
-                if(jArray.length() > 0) {
-                    for (int i = 0; i < jArray.length(); i++) {
-                        JSONObject jSeances = jArray.getJSONObject(i);
-                        int id = jSeances.getInt(SeanceDB.ID);
-                        String nom = jSeances.getString(SeanceDB.NOM);
-                        String textDate = jSeances.getString(SeanceDB.DATE);
-                        String nomSalle = jSeances.getString(SeanceDB.NOM_SALLE);
-                        String note = jSeances.getString(SeanceDB.NOTE);
-
-                        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-                        java.util.Date date = null;
-                        try {
-                            date = df.parse(textDate);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        assert date != null;
-                        seances.add(new Seance(id, nom, new java.sql.Date(date.getTime()), nomSalle, note, client.getId()));
-                    }
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            return null;
+            seances = JSONParser.parseSeances(seancesDataFromWeb);
+            return seances;
         }
 
         // Insertion des séances existantes dans la BDD locale
-        @Override protected void onPostExecute(ArrayList<String> s) {
+        @Override protected void onPostExecute(ArrayList<Seance> seances) {
             SeanceDB seanceDB = new SeanceDB(self);
             for (Seance seance : seances) {
                 seanceDB.insert(seance);
@@ -319,12 +277,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     // AsyncTask pour obtenir les voies d'un utilisateur existant
-    private class GetVoies extends AsyncTask<String, Void, ArrayList<String>> {
+    private class GetVoiesFromWebDB extends AsyncTask<String, Void, ArrayList<Voie>> {
 
         ArrayList<Voie> voies = new ArrayList<>();
         @Override
-        protected ArrayList<String> doInBackground(String... url) {
-            StringBuilder stringBuilder = new StringBuilder();
+        protected ArrayList<Voie> doInBackground(String... url) {
+            StringBuilder voiesDataFromWebDB = new StringBuilder();
             InputStream inputStream = null;
 
             // Get the Request answer into a StringBuilder
@@ -337,7 +295,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 BufferedReader reader = new BufferedReader(inputStreamReader);
                 String line;
                 while ((line = reader.readLine()) != null) {
-                    stringBuilder.append(line);
+                    voiesDataFromWebDB.append(line);
                 }
             }
             catch (IOException e) {
@@ -354,35 +312,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 }
             }
 
-            // Parse Json in a ArrayList of Evenements objects
-            try {
-                JSONObject jObject = new JSONObject(stringBuilder.toString());
-                JSONArray jArray = jObject.getJSONArray("Voies");
-
-                if(jArray.length() > 0) {
-                    for (int i = 0; i < jArray.length(); i++) {
-                        JSONObject jVoies = jArray.getJSONObject(i);
-                        int id = jVoies.getInt(VoieDB.ID);
-                        String nom = jVoies.getString(VoieDB.NOM);
-                        int cotationId = jVoies.getInt(VoieDB.COTATION_ID);
-                        int typeEscId = jVoies.getInt(VoieDB.ID_TYPE_ESCALADE);
-                        int styleVoieId = jVoies.getInt(VoieDB.ID_STYLE_VOIE);
-                        boolean reussi = jVoies.getInt(VoieDB.REUSSIE) != 0;
-                        boolean aVue = jVoies.getInt(VoieDB.A_VUE) != 0 ;
-                        String note = jVoies.getString(VoieDB.NOTE);
-                        int seanceId = jVoies.getInt(VoieDB.ID_SEANCE_VOIE);
-
-                        voies.add(new Voie(id, nom, AppManager.cotations.get(cotationId-1), AppManager.typesEsc.get(typeEscId-1), AppManager.styleVoies.get(styleVoieId-1), reussi, aVue, note, seanceId, AppManager.client.getId()));
-                    }
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            return null;
+            // Parse Json in a ArrayList of voies objects
+            voies = JSONParser.parseVoies(voiesDataFromWebDB);
+            return voies;
         }
 
         // Insertion des séances existantes dans la BDD locale
-        @Override protected void onPostExecute(ArrayList<String> s) {
+        @Override protected void onPostExecute(ArrayList<Voie> voies) {
             VoieDB voieDB = new VoieDB(self);
             for (Voie voie : voies) {
                 voieDB.insert(voie);

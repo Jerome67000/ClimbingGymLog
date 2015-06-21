@@ -124,7 +124,7 @@ public class SeanceDB extends DBHandler {
 
         assert date != null;
         Seance s = new Seance(c.getInt(0), c.getString(1), new java.sql.Date(date.getTime()), c.getString(4), c.getString(5), AppManager.client.getId());
-//        Seance s = new Seance(1, "aaa", new Date(AppManager.sysTime), "eee", "ee", AppManager.client);
+//        Seance s = new Seance(1, "aaa", new Date(AppManager.sysTime), "saveClientNum", "ee", AppManager.client);
 
         return s;
     }

@@ -37,6 +37,6 @@
         android:title="Informations légales" >
         <Preference
             android:key="pref_key_infoleg_licence"
-            android:title="Licences open source" />
+            android:title="Licences librairies tierces" />
     </PreferenceCategory>
 </PreferenceScreen>

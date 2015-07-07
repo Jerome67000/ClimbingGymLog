@@ -7,12 +7,6 @@
         <item name="colorPrimary">@color/main_color</item>
         <item name="colorPrimaryDark">@color/status_bar_color</item>
         <item name="colorAccent">@color/accent_material_light</item>
-        <item name="floatingActionButtonStyle">@style/AppTheme.Fab</item>
-    </style>
-
-    <!-- FAP button theme -->
-    <style name="AppTheme.Fab" parent="FloatingActionButton">
-        <item name="floatingActionButtonColor">@drawable/fap_button</item>
     </style>
 </resources>
 

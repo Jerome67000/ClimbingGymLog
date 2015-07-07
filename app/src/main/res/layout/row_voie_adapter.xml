@@ -29,7 +29,7 @@
         android:id="@+id/voie_reussi_rect"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:background="@drawable/voie_reussi_rect"
+        android:background="@drawable/voie_non_reussi_rect"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"/>

@@ -2,6 +2,7 @@ package fr.jerome.climbinggymlog.adapters;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +40,7 @@ public class SeanceDetailAdapter extends ArrayAdapter {
         txTitre.setText(voie.getNom());
         View reussiRect = rowView.findViewById(R.id.voie_reussi_rect);
         if (voie.isReussi())
-            reussiRect.setBackgroundColor(Color.GREEN);
+            reussiRect.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.voie_reussi_rect));
         View cotationRect = rowView.findViewById(R.id.cotation_color_rect);
         cotationRect.setBackgroundColor(voie.getCotation().getCouleur());
 

@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
     </FrameLayout>
-
+s
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -48,13 +48,19 @@
             </TextView>
         </LinearLayout>
 
-
-        <com.shamanland.fab.FloatingActionButton
+        <android.support.design.widget.FloatingActionButton
             android:id="@+id/fap_add_voie"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="right|bottom"
             android:src="@drawable/fab_ic_add"
-            android:layout_gravity="right|bottom"/>
+            app:elevation="@dimen/fab_elevation"
+            app:borderWidth="0dp"
+            app:backgroundTint="@color/main_color"
+            app:rippleColor="@android:color/white"
+            android:layout_marginBottom="@dimen/fab_margin_bottom"
+            android:layout_marginRight="@dimen/fab_margin_right"  />
+
     </FrameLayout>
 
 

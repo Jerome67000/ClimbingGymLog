@@ -7,7 +7,7 @@ android {
 
     defaultConfig {
         applicationId "fr.jerome.climbinggymlog"
-        minSdkVersion 11
+        minSdkVersion 14
         targetSdkVersion 22
         versionCode 1
         versionName "1.0 beta"
@@ -55,7 +55,6 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:22.2.0'
     compile 'com.android.support:design:22.2.0'
-    compile 'com.shamanland:fab:0.0.6'
     compile 'com.github.PhilJay:MPAndroidChart:v2.1.0'
     compile('de.psdev.licensesdialog:licensesdialog:1.7.0')
 }

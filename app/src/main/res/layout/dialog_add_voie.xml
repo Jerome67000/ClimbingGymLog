@@ -12,7 +12,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"/>
 
-    <fr.jerome.climbinggymlog.view.custom.MyNumberPicker
+    <fr.jerome.climbinggymlog.view.custom.TypeEscaladePicker
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/type_escalade_picker"
@@ -20,7 +20,7 @@
         android:layout_centerHorizontal="true"/>
 
 
-    <fr.jerome.climbinggymlog.view.custom.MyNumberPicker
+    <fr.jerome.climbinggymlog.view.custom.StyleVoiePicker
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/style_voie_picker"

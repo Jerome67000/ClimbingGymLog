@@ -11,9 +11,9 @@ import android.widget.NumberPicker;
  * Valeur non accessible avec les attributs d'origine
  * Created by rcdsm06 on 15/04/2015.
  */
-public class MyNumberPicker extends NumberPicker {
+public class PickerWithCustonFontSize extends NumberPicker {
 
-    public MyNumberPicker(Context context, AttributeSet attrs) {
+    public PickerWithCustonFontSize(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 

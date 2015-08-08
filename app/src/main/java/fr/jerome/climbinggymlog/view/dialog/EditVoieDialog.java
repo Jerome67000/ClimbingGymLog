@@ -20,7 +20,7 @@ import fr.jerome.climbinggymlog.models.Cotation;
 import fr.jerome.climbinggymlog.models.StyleVoie;
 import fr.jerome.climbinggymlog.models.TypeEsc;
 import fr.jerome.climbinggymlog.models.Voie;
-import fr.jerome.climbinggymlog.view.custom.MyNumberPicker;
+import fr.jerome.climbinggymlog.view.custom.PickerWithCustonFontSize;
 
 /**
  * Created by rcdsm06 on 16/04/2015.
@@ -33,8 +33,8 @@ public class EditVoieDialog extends DialogFragment {
 
     private View dialogView;
     private NumberPicker cotationPicker;
-    private MyNumberPicker typeEscPicker;
-    private MyNumberPicker styleVoiePicker;
+    private PickerWithCustonFontSize typeEscPicker;
+    private PickerWithCustonFontSize styleVoiePicker;
 
     private Voie voieToEdit;
     private int positionAAfficher;
@@ -188,7 +188,7 @@ public class EditVoieDialog extends DialogFragment {
         });
 
         /** Type escalade Picker */
-        typeEscPicker = (MyNumberPicker) dialogView.findViewById(R.id.type_escalade_picker);
+        typeEscPicker = (PickerWithCustonFontSize) dialogView.findViewById(R.id.type_escalade_picker);
         ArrayList<TypeEsc> typesEsc = (ArrayList<TypeEsc>) AppManager.typesEsc;
         String[] typeEscValues = new String[typesEsc.size()];
 
@@ -203,7 +203,7 @@ public class EditVoieDialog extends DialogFragment {
         typeEscPicker.setWrapSelectorWheel(false);
 
         /** Type escalade Picker */
-        styleVoiePicker = (MyNumberPicker) dialogView.findViewById(R.id.style_voie_picker);
+        styleVoiePicker = (PickerWithCustonFontSize) dialogView.findViewById(R.id.style_voie_picker);
         ArrayList<StyleVoie> stylesVoie = (ArrayList<StyleVoie>) AppManager.styleVoies;
         String[] styleVoieValues = new String[stylesVoie.size()];
 

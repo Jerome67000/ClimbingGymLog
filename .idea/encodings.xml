@@ -3,7 +3,7 @@
   <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false">
     <file url="file://$PROJECT_DIR$/app/src/main/java/fr/jerome/climbinggymlog/models/Seance.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/fr/jerome/climbinggymlog/models/Voie.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/fr/jerome/climbinggymlog/view/custom/MyNumberPicker.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/fr/jerome/climbinggymlog/view/custom/PickerWithCustonFontSize.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/fr/jerome/climbinggymlog/view/dialog/EditVoieDialog.java" charset="UTF-8" />
     <file url="PROJECT" charset="UTF-8" />
   </component>

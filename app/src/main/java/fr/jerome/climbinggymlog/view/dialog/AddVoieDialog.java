@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.NumberPicker;
@@ -21,7 +20,9 @@ import fr.jerome.climbinggymlog.models.Cotation;
 import fr.jerome.climbinggymlog.models.StyleVoie;
 import fr.jerome.climbinggymlog.models.TypeEsc;
 import fr.jerome.climbinggymlog.models.Voie;
-import fr.jerome.climbinggymlog.view.custom.MyNumberPicker;
+import fr.jerome.climbinggymlog.view.custom.PickerWithCustonFontSize;
+import fr.jerome.climbinggymlog.view.custom.StyleVoiePicker;
+import fr.jerome.climbinggymlog.view.custom.TypeEscaladePicker;
 
 /**
  * Created by jerome on 17/02/15.
@@ -34,8 +35,8 @@ public class AddVoieDialog extends DialogFragment {
 
     private View dialogView;
     private NumberPicker cotationPicker;
-    private MyNumberPicker typeEscPicker;
-    private MyNumberPicker styleVoiePicker;
+    private TypeEscaladePicker typeEscPicker;
+    private PickerWithCustonFontSize styleVoiePicker;
 
     private int seanceId;
     private int nextVoieNumber;
@@ -112,7 +113,6 @@ public class AddVoieDialog extends DialogFragment {
                     isPlusCotation = false;
 
                 togglePlusCotationPicker();
-
             }
         });
 
@@ -150,38 +150,10 @@ public class AddVoieDialog extends DialogFragment {
         });
 
         /** Type escalade Picker */
-        typeEscPicker = (MyNumberPicker) dialogView.findViewById(R.id.type_escalade_picker);
-        ArrayList<TypeEsc> typesEsc = (ArrayList<TypeEsc>) AppManager.typesEsc;
-        String[] typeEscValues = new String[typesEsc.size()];
+        typeEscPicker = (TypeEscaladePicker) dialogView.findViewById(R.id.type_escalade_picker);
 
-        for (TypeEsc t : typesEsc) {
-
-            int index = (int) (t.getId() - 1);
-            typeEscValues[index] = t.getType();
-        }
-
-        typeEscPicker.setMaxValue(typeEscValues.length - 1);
-        typeEscPicker.setMinValue(0);
-        typeEscPicker.setDisplayedValues(typeEscValues);
-        typeEscPicker.setWrapSelectorWheel(false);
-        typeEscPicker.setValue(1);
-
-        /** Type escalade Picker */
-        styleVoiePicker = (MyNumberPicker) dialogView.findViewById(R.id.style_voie_picker);
-        ArrayList<StyleVoie> stylesVoie = (ArrayList<StyleVoie>) AppManager.styleVoies;
-        String[] styleVoieValues = new String[stylesVoie.size()];
-
-        for (StyleVoie s : stylesVoie) {
-
-            int index = (int) (s.getId() - 1);
-            styleVoieValues[index] = s.getStyle();
-        }
-
-        styleVoiePicker.setMaxValue(styleVoieValues.length - 1);
-        styleVoiePicker.setMinValue(0);
-        styleVoiePicker.setDisplayedValues(styleVoieValues);
-        styleVoiePicker.setWrapSelectorWheel(false);
-        styleVoiePicker.setValue(1);
+        /** Style voie Picker */
+        styleVoiePicker = (StyleVoiePicker) dialogView.findViewById(R.id.style_voie_picker);
     }
 
     /**
@@ -219,16 +191,16 @@ public class AddVoieDialog extends DialogFragment {
             cotation = AppManager.cotations.get(value);
         }
 
-        TypeEsc typeEsc = AppManager.typesEsc.get(typeEscPicker.getValue());
-        StyleVoie styleVoie = AppManager.styleVoies.get(styleVoiePicker.getValue());
+        TypeEsc typeEscValue = AppManager.typesEsc.get(typeEscPicker.getValue());
+        StyleVoie styleVoieValue = AppManager.styleVoies.get(styleVoiePicker.getValue());
 
         ToggleButton tgVoieReussi = (ToggleButton) dialogView.findViewById(R.id.voie_reussi);
         ToggleButton tgVoieAVue= (ToggleButton) dialogView.findViewById(R.id.voie_a_vue);
 
-        String titre = cotation.getNom() + " #" + nextVoieNumber + " " + styleVoie.getStyle();
+        String titre = cotation.getNom() + " #" + nextVoieNumber + " " + styleVoieValue.getStyle();
         String note = ((EditText) dialogView.findViewById(R.id.note_new_voie)).getText().toString();
 
-        newVoie = new Voie(titre, cotation, typeEsc, styleVoie, tgVoieReussi.isChecked(), tgVoieAVue.isChecked(), note, seanceId, AppManager.client.getId());
+        newVoie = new Voie(titre, cotation, typeEscValue, styleVoieValue, tgVoieReussi.isChecked(), tgVoieAVue.isChecked(), note, seanceId, AppManager.client.getId());
         voieDB.insert(newVoie);
         voieDB.putVoieOnWebDB(newVoie);
         voieDB.close();

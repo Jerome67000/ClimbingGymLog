@@ -33,9 +33,4 @@ public class TypeEscaladePicker extends PickerWithCustonFontSize {
         this.setWrapSelectorWheel(false);
         this.setValue(1);
     }
-
-    public void setValue(int value) {
-
-    }
-
 }

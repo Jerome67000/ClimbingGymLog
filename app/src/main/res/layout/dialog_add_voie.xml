@@ -5,7 +5,7 @@
                 android:padding="24dp">
 
     <!--Picker pour la sélection de la cotation et style de voie-->
-    <NumberPicker
+    <fr.jerome.climbinggymlog.view.custom.CotationPicker
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/cotation_picker"

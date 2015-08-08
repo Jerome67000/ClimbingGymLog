@@ -20,6 +20,7 @@ import fr.jerome.climbinggymlog.models.Cotation;
 import fr.jerome.climbinggymlog.models.StyleVoie;
 import fr.jerome.climbinggymlog.models.TypeEsc;
 import fr.jerome.climbinggymlog.models.Voie;
+import fr.jerome.climbinggymlog.view.custom.CotationPicker;
 import fr.jerome.climbinggymlog.view.custom.PickerWithCustonFontSize;
 import fr.jerome.climbinggymlog.view.custom.StyleVoiePicker;
 import fr.jerome.climbinggymlog.view.custom.TypeEscaladePicker;
@@ -34,17 +35,13 @@ public class AddVoieDialog extends DialogFragment {
     public static final String ARG_NBVOIES_KEY = KEY_PREFIX + "nbvoies-key";
 
     private View dialogView;
-    private NumberPicker cotationPicker;
+    private CotationPicker cotationPicker;
     private TypeEscaladePicker typeEscPicker;
     private PickerWithCustonFontSize styleVoiePicker;
 
     private int seanceId;
     private int nextVoieNumber;
     private Voie newVoie;
-    private String[] cotationValues;
-    private String[] cotationValuesWithPlus;
-    int currentPickerPosition = 10;
-    boolean isPlusCotation = false;
 
     public interface AddVoieDialogListener {
         void onFinishAddVoieDialog(Voie newVoie);
@@ -103,75 +100,25 @@ public class AddVoieDialog extends DialogFragment {
      */
     private void initPickers() {
 
-        final ToggleButton plusToggleButton = (ToggleButton) dialogView.findViewById(R.id.cotation_plus);
-        plusToggleButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (plusToggleButton.isChecked())
-                    isPlusCotation = true;
-                else
-                    isPlusCotation = false;
-
-                togglePlusCotationPicker();
-            }
-        });
 
 
         /** Cotations Picker */
-        cotationPicker = (NumberPicker) dialogView.findViewById(R.id.cotation_picker);
-        final ArrayList<Cotation> cotations = (ArrayList<Cotation>) AppManager.cotations;
-        int size = cotations.size()/2;
-        cotationValues = new String[size];
-        cotationValuesWithPlus = new String[size];
-
-        int indexNoPlus = 0;
-        int indexWithPlus = 0;
-        for (Cotation c : cotations) {
-            int indexCotation = (int) (c.getId() - 1);
-             if (indexCotation % 2 == 0) {
-                 cotationValues[indexNoPlus] = c.getNom();
-                 indexNoPlus++;
-             }
-            else {
-                 cotationValuesWithPlus[indexWithPlus] = c.getNom();
-                 indexWithPlus++;
-             }
-        }
-
-        cotationPicker.setMinValue(0);
-        cotationPicker.setWrapSelectorWheel(false);
-        togglePlusCotationPicker();
-
-        cotationPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-            @Override
-            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                currentPickerPosition = cotationPicker.getValue();
-            }
-        });
+        cotationPicker = (CotationPicker) dialogView.findViewById(R.id.cotation_picker);
 
         /** Type escalade Picker */
         typeEscPicker = (TypeEscaladePicker) dialogView.findViewById(R.id.type_escalade_picker);
 
         /** Style voie Picker */
         styleVoiePicker = (StyleVoiePicker) dialogView.findViewById(R.id.style_voie_picker);
-    }
 
-    /**
-     * Raffraichi l'affichage du CotationPicker avec les cotation "+" ou non
-     * exemple : si isPlusCoation = true alors "5c+" est affiché, sinon "5c" est affiché
-     */
-    private void togglePlusCotationPicker() {
 
-        if (isPlusCotation) {
-            cotationPicker.setMaxValue(cotationValuesWithPlus.length - 1);
-            cotationPicker.setDisplayedValues(cotationValuesWithPlus);
-        }
-        else {
-            cotationPicker.setMaxValue(cotationValues.length - 1);
-            cotationPicker.setDisplayedValues(cotationValues);
-        }
-        cotationPicker.setValue(currentPickerPosition);
-        cotationPicker.setWrapSelectorWheel(false);
+        final ToggleButton plusToggleButton = (ToggleButton) dialogView.findViewById(R.id.cotation_plus);
+        plusToggleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cotationPicker.setPlus(plusToggleButton.isChecked());
+            }
+        });
     }
 
     /**
@@ -182,7 +129,7 @@ public class AddVoieDialog extends DialogFragment {
         VoieDB voieDB = new VoieDB(dialogView.getContext());
 
         Cotation cotation;
-        if (isPlusCotation) {
+        if (cotationPicker.isPlus()) {
             int value = cotationPicker.getValue() * 2 + 1;
             cotation = AppManager.cotations.get(value);
         }
